@@ -1,2 +1,2 @@
 # mjxgui
-An embeddable WYSIWYG LaTeX text editor
+An embeddable WYSIWYG text editor widget with LaTeX support
