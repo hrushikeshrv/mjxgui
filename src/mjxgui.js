@@ -7,7 +7,7 @@ class GUISymbol {
         this.latex = latex;
     }
     draw() {
-        throw new Error('The draw function has not been implemented for the base GUISymbol class yet.')
+        throw new Error('The draw function for this GUISymbol has not been implemented yet.')
     }
 
     generateLatex() {
@@ -26,19 +26,54 @@ class PM extends GUISymbol {
 }
 
 class Block {
-    children = [];
-    latex = '';
+    constructor() {
+        this.children = [];
+        this.latex = '';
+    }
 
-    getLatex = function() {}
+    getLatex() {
+        if (this.children.length === 0) {
+            return this.latex;
+        }
+        else {
+            let l = '';
+            for (let exp of this.children) {
+                l += exp.generateLatex();
+            }
+        }
+    }
+
+    draw() {
+        throw new Error('The draw function for this Block has not been implemented yet.')
+    }
+
+    isEmpty() {
+        return (this.latex === '' && this.children.length === 0)
+    }
 }
 
 class Expression {
-    blocks = [];
-    id = undefined;
-    width = undefined;
-    height = undefined;
+    constructor(name, height, width, blocks) {
+        this.name = name;
+        this.height = height;
+        this.width = width;
+        this.blocks = blocks;
+    }
 
-    draw = function() {}
-    isEmpty = function() {}
-    generateLatex = function() {}
+    draw() {
+        throw new Error('The draw function for this Expression has not been implemented yet.')
+    }
+
+    isEmpty() {
+        for (let block of this.blocks) {
+            if (!block.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    generateLatex() {
+        throw new Error('The generateLatex function for this Expression has not been implemented yet.')
+    }
 }
