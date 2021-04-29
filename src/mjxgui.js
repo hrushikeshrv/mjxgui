@@ -2,11 +2,27 @@ class Cursor {
 
 }
 
-class Symbol {
-    latex = '';
+class GUISymbol {
+    constructor(latex) {
+        this.latex = latex;
+    }
+    draw() {
+        throw new Error('The draw function has not been implemented for the base GUISymbol class yet.')
+    }
 
-    draw = function() {}
-    getLatex = function() {}
+    generateLatex() {
+        return `\\${this.latex}`;
+    }
+}
+
+class PM extends GUISymbol {
+    constructor() {
+        super('pm');
+    }
+
+    draw() {
+
+    }
 }
 
 class Block {
