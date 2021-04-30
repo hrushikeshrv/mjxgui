@@ -24,7 +24,42 @@ class Cursor {
     seekF() {}
 
     // Move the cursor to the previous block in blockList
-    seekB() {}
+    seekB() {
+        // If we are in a block then we check which block of the Expression (first, second, etc.) we are in.
+        // If we are not in the first block of any Expression, we just move to the block to the left in the same Expression.
+        // Otherwise we move into the space between the current Expression and the previous Expression.
+        // If we are already in the space between two Expressions (i.e. we are not in any block), we move to the last block in the Expression to the left.
+        if (this.isInBlock()) {
+            let currentIndex = -1;
+            let cb = blockList[this.currentBlock];
+            let neighbours = expressionList[this.currentExpression].blocks
+            for (let i = 0; i < neighbours.length; i++) {
+                if (neighbours[i] === cb) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+            if (currentIndex > 0) {
+                cb = neighbours[currentIndex - 1];
+                for (let i = 0; i < blockList.length; i++) {
+                    if (blockList[i] === cb) {
+                        this.currentBlock = i;
+                        return;
+                    }
+                }
+            }
+            else {
+                this.currentExpression -= 0.5;
+                this.currentBlock = null;
+            }
+        }
+        else {
+            if (this.currentExpression < 0) return;
+
+            this.currentExpression = Math.floor(this.currentExpression);
+            this.updateBlock(-1);
+        }
+    }
 
     // Update this.currentBlock everytime we delete an Expression/Symbol or move to a new Expression/Symbol
     updateBlock(position = -1) {
@@ -62,7 +97,6 @@ class Cursor {
                 expressionList.splice(parseInt(this.currentExpression), 1);
                 this.currentExpression = parseInt(this.currentExpression);
                 this.updateBlock(-1);
-                this.seekB();
             }
         }
         // The block we are in will only contain text, because the cursor can only be at the "leaves" of the block "tree"
@@ -72,19 +106,21 @@ class Cursor {
         let cb = blockList[this.currentBlock];
         if (!cb.isEmpty()) {
             cb.latex = cb.latex.slice(0, -1);
-            this.seekB();
         }
         else {
             if (expressionList[this.currentExpression].isEmpty()) {
                 expressionList.splice(this.currentExpression, 1);
                 this.currentExpression--;
                 this.updateBlock(0);
-                this.seekB();
             }
         }
     }
 
-    keyDown() {}
+    keyDown(evt) {
+        if (evt.key === 'ArrowLeft') {this.seekB()}
+        else if (evt.key === 'ArrowRight') {this.seekF()}
+        else if (evt.key === 'Backspace') {this.backspace()}
+    }
 
     // Generate latex for all expressions in expressionList and quit the widget
     write() {}
