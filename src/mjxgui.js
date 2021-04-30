@@ -18,12 +18,13 @@ class Cursor {
         return this.currentBlock !== null;
     }
 
+    // Draw the cursor on the canvas
     draw() {}
 
-    // Move the cursor to the next block in blockList
+    // Move the cursor one step forwards
     seekF() {}
 
-    // Move the cursor to the previous block in blockList
+    // Move the cursor one step to the back
     seekB() {
         // If we are in a block then we check which block of the Expression (first, second, etc.) we are in.
         // If we are not in the first block of any Expression, we just move to the block to the left in the same Expression.
@@ -89,17 +90,16 @@ class Cursor {
         if (blockList.length === 0) {
             return;
         }
-        // If the current block is null, we are in between two indices of the expressionList
+        // If we are not in any Block, we are in between two indices of the expressionList
         // We remove the previous element in expressionList if it is empty, otherwise we do nothing
         if (this.currentBlock === null) {
             if (this.currentExpression < 1) return;
             if (expressionList[parseInt(this.currentExpression)].isEmpty()) {
                 expressionList.splice(parseInt(this.currentExpression), 1);
-                this.currentExpression = parseInt(this.currentExpression);
-                this.updateBlock(-1);
+                this.currentExpression--;
             }
         }
-        // The block we are in will only contain text, because the cursor can only be at the "leaves" of the block "tree"
+        // The block we are in will only contain text, because the cursor can only be at the "leaves" of the block "tree" (since Blocks can be nested)
         // If the block we are in is not empty we delete the last character from the block's latex
         // Otherwise we check if the expression we are in is empty.
         // If yes we delete the entire expression, else we do nothing
@@ -110,12 +110,13 @@ class Cursor {
         else {
             if (expressionList[this.currentExpression].isEmpty()) {
                 expressionList.splice(this.currentExpression, 1);
-                this.currentExpression--;
-                this.updateBlock(0);
+                this.currentExpression -= 0.5;
+                this.currentBlock = null;
             }
         }
     }
 
+    // Handle key presses
     keyDown(evt) {
         if (evt.key === 'ArrowLeft') {this.seekB()}
         else if (evt.key === 'ArrowRight') {this.seekF()}
