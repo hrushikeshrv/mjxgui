@@ -1,3 +1,5 @@
+// Controller module - listens for keypresses and triggers the appropriate expression and
+// rendering methods
 MJXGUI = MJXGUI || {}
 MJXGUI.seekList = [];
 MJXGUI.supportedKeys = {}
