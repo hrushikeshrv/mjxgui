@@ -2,9 +2,9 @@
 // Exposes its API for the controller module to use
 
 /**
-*    @Class
-*    Thin wrapper around the Component class that collects all the components together in an Expression
- *    that can be easily rendered and converted to LaTeX.
+ * @Class
+ * Thin wrapper around the Component class that collects all the components together in an Expression
+ * that can be easily rendered and converted to LaTeX.
 **/
 class Expression {
     constructor(nestingDepth = 0) {
@@ -58,6 +58,18 @@ class Block {
         }
         return latex;
     }
+
+    addChild(component, position = this.children.length) {
+        // Setter method to add some component to this block at position. Component can be any child class of Component.
+        // Defaults to adding the component at the end.
+        this.children.splice(position, 0, component);
+    }
+
+    removeChild(position = this.children.length-1) {
+        // Remove some component from this block.
+        // Defaults to removing the last component.
+        this.children.splice(position, 1);
+    }
 }
 
 /**
@@ -80,7 +92,7 @@ class Component {
  * A component with only text and no symbol, function of other LaTeX data. Safe to assume that
  * it only has one block with a string inside.
  */
-class TextBlock extends Component {
+class TextComponent extends Component {
     constructor() {
         super([new Block()]);
     }
