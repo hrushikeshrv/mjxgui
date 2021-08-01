@@ -2,12 +2,301 @@
     box-sizing: border-box;
 }
 
+:root {
+    --background-light-3: rgb(255, 255, 255);
+    --background-light-2: rgb(250, 250, 250);
+    --background-light-1: rgb(245, 245, 245);
+    --background: rgb(240, 240, 240);
+    --background-dark-1: rgb(220, 220, 220);
+    --background-dark-half: rgb(210, 210, 210);
+    --background-dark-2: rgb(200, 200, 200);
+    --background-dark-3: rgb(190, 190, 190);
+    --background-dark-4: rgb(164, 164, 164);
+    --default-font-color: black;
+    --muted-font-color: rgb(98, 98, 98);
+
+    --primary-light-4: rgb(255, 243, 229);
+    --primary-light-3: rgb(255, 220, 184);
+    --primary-light-2: rgb(255, 193, 128);
+    --primary-light-1: rgb(255, 169, 77);
+    --primary-color: rgb(255, 147, 28);
+    --primary-dark-1: rgb(224, 116, 0);
+    --primary-dark-2: rgb(179, 92, 0);
+    --primary-dark-3: rgb(107, 55, 0);
+    --primary-dark-4: rgb(51, 26, 0);
+
+    --accent-light-4: rgb(247, 231, 253);
+    --accent-light-3: rgb(238, 207, 252);
+    --accent-light-2: rgb(222, 160, 248);
+    --accent-light-1: rgb(197, 88, 243);
+    --accent-color: rgb(181, 44, 240);
+    --accent-dark-1: rgb(155, 15, 215);
+    --accent-dark-2: rgb(120, 12, 167);
+    --accent-dark-3: rgb(72, 7, 100);
+    --accent-dark-4: rgb(34, 3, 48);
+
+    --success-light-4: rgb(214, 255, 226);
+    --success-light-3: rgb(189, 255, 209);
+    --success-light-2: rgb(143, 255, 176);
+    --success-light-1: rgb(92, 255, 141);
+    --success-green: rgb(55, 255, 115);
+    --success-dark-1: rgb(10, 255, 84);
+    --success-dark-2: rgb(0, 209, 63);
+    --success-dark-3: rgb(0, 77, 23);
+    --success-dark-4: rgb(0, 51, 15);
+
+    --error-light-4: rgb(255, 199, 208);
+    --error-light-3: rgb(255, 158, 174);
+    --error-light-2: rgb(255, 102, 128);
+    --error-light-1: rgb(255, 56, 89);
+    --error-red: rgb(255, 13, 53);
+    --error-dark-1: rgb(219, 0, 37);
+    --error-dark-2: rgb(163, 0, 27);
+    --error-dark-3: rgb(107, 0, 18);
+    --error-dark-4: rgb(46, 0, 8);
+
+    --warning-light-4: rgb(255, 255, 212);
+    --warning-light-3: rgb(255, 255, 179);
+    --warning-light-2: rgb(255, 255, 135);
+    --warning-light-1: rgb(245, 245, 108);
+    --warning-yellow: rgb(240, 240, 10);
+    --warning-dark-1: rgb(204, 204, 8);
+    --warning-dark-2: rgb(179, 179, 7);
+    --warning-dark-3: rgb(128, 128, 5);
+    --warning-dark-4: rgb(77, 77, 3);
+}
+
 html {
     padding: 0;
     margin: 0;
 }
 
 body {
+    background-color: var(--background);
+}
+
+.flexbox-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flexbox-column {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.column-full {
+    width: 100%;
+}
+
+.column-half {
+    width: 50%;
+}
+
+.column-third {
+    width: 33.3333%;
+}
+
+.column-twothird {
+    width: 66.6666%;
+}
+
+@media (max-width: 900px) {
+    .column-half, .column-full, .column-third, .column-twothird {
+        width: 100%;
+    }
+}
+
+.ajc {
+    align-items: center;
+    justify-content: center;
+}
+
+.aic {
+    align-items: center;
+}
+
+.jcc {
+    justify-content: center;
+}
+
+.jcsb {
+    justify-content: space-between;
+}
+
+.jcse {
+    justify-content: space-evenly;
+}
+
+.aibl {
+    align-items: baseline;
+}
+
+.aifs {
+    align-items: flex-start;
+}
+
+.aife {
+    align-items: flex-end;
+}
+
+.jcfs {
+    justify-content: flex-start;
+}
+
+.jcfe {
+    justify-content: flex-end;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.pad-5 {
+    padding: 5px;
+}
+
+.pad-10 {
+    padding: 10px;
+}
+
+.pad-20 {
+    padding: 20px;
+}
+
+.pad-30 {
     padding: 30px;
-    background-color: rgb(32, 33, 36);
+}
+
+.pad-40 {
+    padding: 40px;
+}
+
+.pad-50 {
+    padding: 50px;
+}
+
+.no-pad-50 {
+    padding: 50px;
+}
+
+@media (max-width: 900px) {
+    .no-pad-50 {
+        padding: 10px;
+    }
+}
+
+.mar-5 {
+    margin: 5px;
+}
+
+.mar-10 {
+    margin: 10px;
+}
+
+.mar-20 {
+    margin: 20px;
+}
+
+.mar-30 {
+    margin: 30px;
+}
+
+.mar-40 {
+    margin: 40px;
+}
+
+.mar-50 {
+    margin: 50px;
+}
+
+.space-lr {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mbt-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-50 {
+    margin-top: 50px
+}
+
+.mb-5 {
+    margin-bottom: 5px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-50 {
+    margin-bottom: 50px
+}
+
+.pl-10 {
+    padding-left: 10px;
+}
+
+.pr-10 {
+    padding-right: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/*
+    TODO - Remove these styles and let users customize
+        the look of the tabs themselves
+*/
+
+.tab-container {
+    font-family: monospace;
+    font-size: 1.5rem;
+    background-color: var(--background);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color ease 0.3s;
+    user-select: none;
+}
+
+.tab-container:hover {
+    background-color: var(--background-dark-2);
+}
+
+.tab .mjxgui-greek-letter, .tab .mjxgui-operator {
+    background-color: var(--background);
+    font-size: 2rem;
+    padding: 1px 8px;
+    border-radius: 5px;
+    transition: background-color ease 0.25s;
+    cursor: pointer;
+}
+
+.tab .mjxgui-greek-letter:hover, .tab .mjxgui-operator:hover {
+    background-color: var(--background-dark-1);
 }

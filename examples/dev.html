@@ -22,15 +22,90 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-    <script src="../src/mjxgui.js"></script>
+<!--    <script src="../src/mjxgui.js"></script>-->
+    <script src="../src/modules/controller.js"></script>
+    <script src="../src/modules/renderer.js"></script>
+    <script src="../src/modules/expression-backend.js"></script>
+    <script src="../src/modules/ui.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>MJXGUI Demo</title>
 </head>
 <body>
     <div id="mjxgui">
-
+        <div id="mjxgui-tab-container" class="flexbox-row jcse pad-10">
+            <div class="tab-container pad-10" data-tab="1">Greek Letters</div>
+            <div class="tab-container pad-10" data-tab="2">Operators & Symbols</div>
+            <div class="tab-container pad-10" data-tab="3">Functions</div>
+        </div>
+        <div class="flexbox-row pad-10 tab" data-tab="1">
+            <div class="flexbox-row column-full jcse">
+                <span class="mjxgui-btn mjxgui-greek-letter">&Alpha;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Beta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Gamma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Delta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Epsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Zeta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Eta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Theta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Iota;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Kappa;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Lambda;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Mu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Nu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Xi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Omicron;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Pi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Rho;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Sigma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Tau;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Upsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Phi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Chi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Psi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&Omega;</span>
+            </div>
+            <div class="flexbox-row column-full jcse">
+                <span class="mjxgui-btn mjxgui-greek-letter">&alpha;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&beta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&gamma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&delta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&epsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&zeta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&eta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&theta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&iota;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&kappa;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&lambda;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&mu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&nu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&xi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&omicron;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&pi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&rho;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&sigma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&tau;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&upsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&phi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&chi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&psi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter">&omega;</span>
+            </div>
+        </div>
+        <div class="flexbox-row pad-10 tab hidden" data-tab="2">
+            <div class="flexbox-row column-full jcse">
+                <span class="mjxgui-btn mjxgui-operator">&times;</span>
+                <span class="mjxgui-btn mjxgui-operator">&div;</span>
+                <span class="mjxgui-btn mjxgui-operator">&centerdot;</span>
+                <span class="mjxgui-btn mjxgui-operator">&plusmn;</span>
+                <span class="mjxgui-btn mjxgui-operator">&mnplus;</span>
+                <span class="mjxgui-btn mjxgui-operator">&starf;</span>
+                <span class="mjxgui-btn mjxgui-operator">&sext;</span>
+                <span class="mjxgui-btn mjxgui-operator">&bigcup;</span>
+                <span class="mjxgui-btn mjxgui-operator">&bigcap;</span>
+            </div>
+        </div>
+        <div class="flexbox-row pad-10 tab hidden" data-tab="3"></div>
     </div>
-    <div id="keys" class="pad-30" style="color: white; font-family: monospace; font-size: 3rem;"></div>
     <script src="example.js"></script>
 </body>
 </html>
