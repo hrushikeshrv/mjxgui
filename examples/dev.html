@@ -14,7 +14,7 @@
             options: {
                 menuOptions: {
                     settings: {
-                        zoom: 'Click',
+                        zoom: 'NoZoom',
                         zscale: '250%',
                     }
                 }
@@ -38,7 +38,7 @@
             <div class="tab-container pad-10" data-tab="3">Functions</div>
         </div>
         <div class="flexbox-row pad-10 tab" data-tab="1">
-            <div class="flexbox-row column-full jcse">
+            <div class="flexbox-row column-full">
                 <span class="mjxgui-btn mjxgui-greek-letter">&Alpha;</span>
                 <span class="mjxgui-btn mjxgui-greek-letter">&Beta;</span>
                 <span class="mjxgui-btn mjxgui-greek-letter">&Gamma;</span>
@@ -64,7 +64,7 @@
                 <span class="mjxgui-btn mjxgui-greek-letter">&Psi;</span>
                 <span class="mjxgui-btn mjxgui-greek-letter">&Omega;</span>
             </div>
-            <div class="flexbox-row column-full jcse">
+            <div class="flexbox-row column-full">
                 <span class="mjxgui-btn mjxgui-greek-letter">&alpha;</span>
                 <span class="mjxgui-btn mjxgui-greek-letter">&beta;</span>
                 <span class="mjxgui-btn mjxgui-greek-letter">&gamma;</span>
@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="flexbox-row pad-10 tab hidden" data-tab="2">
-            <div class="flexbox-row column-full jcse">
+            <div class="flexbox-row column-full">
                 <span class="mjxgui-btn mjxgui-operator">&times;</span>
                 <span class="mjxgui-btn mjxgui-operator">&div;</span>
                 <span class="mjxgui-btn mjxgui-operator">&centerdot;</span>
@@ -102,9 +102,29 @@
                 <span class="mjxgui-btn mjxgui-operator">&sext;</span>
                 <span class="mjxgui-btn mjxgui-operator">&bigcup;</span>
                 <span class="mjxgui-btn mjxgui-operator">&bigcap;</span>
+                <span class="mjxgui-btn mjxgui-operator">&lt;</span>
+                <span class="mjxgui-btn mjxgui-operator">&gt;</span>
+                <span class="mjxgui-btn mjxgui-operator">&LessSlantEqual;</span>
+                <span class="mjxgui-btn mjxgui-operator">&GreaterEqual;</span>
+                <span class="mjxgui-btn mjxgui-operator">&equals;</span>
             </div>
         </div>
-        <div class="flexbox-row pad-10 tab hidden" data-tab="3"></div>
+        <div class="flexbox-row pad-10 tab hidden" data-tab="3">
+            <div class="flexbox-row column-full">
+                <span class="mjxgui-btn mjxgui-function">&Sqrt;</span>
+                <span class="mjxgui-btn mjxgui-function">&Sigma;</span>
+                <span class="mjxgui-btn mjxgui-function">&int;</span>
+                <span class="mjxgui-btn mjxgui-function">&DifferentialD;/&DifferentialD;x</span>
+                <span class="mjxgui-btn mjxgui-function">$ \lim_{x\to0}{} $</span>
+                <span class="mjxgui-btn mjxgui-function">$ \sqrt[n]{x} $</span>
+            </div>
+        </div>
+        <div id="mjxgui-display" class="mar-30 pad-10 flexbox-column">
+
+        </div>
+        <div id="mjxgui-latex-out" class="mar-30 pad-10 mt-50 flexbox-column">
+
+        </div>
     </div>
     <script src="example.js"></script>
 </body>

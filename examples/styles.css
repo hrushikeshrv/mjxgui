@@ -288,15 +288,38 @@ body {
     background-color: var(--background-dark-2);
 }
 
-.tab .mjxgui-greek-letter, .tab .mjxgui-operator {
+.tab .mjxgui-btn {
     background-color: var(--background);
     font-size: 2rem;
     padding: 1px 8px;
     border-radius: 5px;
     transition: background-color ease 0.25s;
     cursor: pointer;
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
 }
 
-.tab .mjxgui-greek-letter:hover, .tab .mjxgui-operator:hover {
+.tab .mjxgui-btn:hover {
     background-color: var(--background-dark-1);
+}
+
+#mjxgui-display {
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+#mjxgui-latex-out {
+    position: relative;
+    border: 2px solid lightblue;
+    border-radius: 6px;
+}
+
+#mjxgui-latex-out::before {
+    content: 'LaTeX Output';
+    position: absolute;
+    top: -30px;
+    left: 5px;
+    font-family: monospace;
+    font-size: 1.1rem;
 }

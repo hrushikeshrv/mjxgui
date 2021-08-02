@@ -2,7 +2,7 @@
 // Exposes its API for the controller module to use
 
 /**
- * @Class
+ * @class
  * Thin wrapper around the Component class that collects all the components together in an Expression
  * that can be easily rendered and converted to LaTeX.
 **/
@@ -35,8 +35,13 @@ class Expression {
 }
 
 /**
- * @Class
- * Represents a block. A fundamental unit of the Expression.
+ * @class
+ * Represents a block. A fundamental unit of the Expression. 
+ * 
+ * All data is ultimately stored in
+ * a Block. A Component or any child class of Component has a fixed number of Blocks in it, and a Block can
+ * have a variable number of 'children'. An element in a Block's children array can either be a string
+ * or another Component, allowing for nesting of Components.
  */
 class Block {
     constructor() {
@@ -73,9 +78,11 @@ class Block {
 }
 
 /**
- * @Class
- * Abstract base class representing a Component of the equation. Inherited by the TextBlock, all *Symbol,
- * and all *Function classes.
+ * @class
+ * Abstract base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
+ * and all *Function classes. All child classes of Component override the toLatex method
+ * to customize the LaTeX generated. You can define your own child classes to add support for 
+ * LaTeX syntax not yet supported.
  */
 class Component {
     constructor(blocks = []) {
@@ -88,9 +95,9 @@ class Component {
 }
 
 /**
- * @Class
+ * @class
  * A component with only text and no symbol, function of other LaTeX data. Safe to assume that
- * it only has one block with a string inside.
+ * it only has one block with a string inside. Equivalent to a single block.
  */
 class TextComponent extends Component {
     constructor() {
