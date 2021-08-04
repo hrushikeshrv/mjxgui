@@ -1,6 +1,10 @@
 // Listens for keypresses and modifies the Expression accordingly
 
 let expression = new Expression();
+const characters = new Set();
+for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
+    characters.add(char);
+}
 
 /**
  * @class
@@ -23,7 +27,7 @@ class Cursor {
         if (this.block === null) {
             // Safe to assume we are not in any block and are between two components in the 
             // Expression or at the start or end of the Expression.
-            const _ = new TextComponent();
+            const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
             this.expression.add(_, Math.ceil(this.position));
             
@@ -96,6 +100,13 @@ class Cursor {
     }
 
     toLatex() {
-        return this.expression.toLatex();
+        // Insert a "cursor" character (\framebox{|}) where the cursor is and generate 
+        // LaTeX for the entire expression
+        let caret = new TextComponent(this.block);
+        caret.blocks[0].addChild('\\framebox{|}');
+        this.addComponent(caret);
+        let latex = this.expression.toLatex();
+        this.removeComponent();
+        return latex;
     }
 }
