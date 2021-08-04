@@ -62,7 +62,33 @@ class Cursor {
     }
 
     removeComponent() {
-        
+        if (this.block === null) return;
+        if (this.component.parent === null) {
+            //Find the component in the expression and remove it, change the cursor object's
+            // component and block pointers
+            for (let i = 0; i < this.expression.components.length; i++) {
+                if (this.expression.components[i] === this.component) {
+                    this.expression.remove(i);
+                    break;
+                }
+            }
+            this.position--;
+            this.component = this.expression.components[this.position];
+            this.block = this.component.blocks[0];
+            this.child = 0;
+        }
+        else {
+            let parentBlock = this.component.parent;
+            for (let i = 0; i <  parentBlock.children.length; i++) {
+                if (parentBlock.children[i] === this.component) {
+                    parentBlock.removeChild(i);
+                    this.child = i-1;
+                    break;
+                }
+            }
+            this.component = parentBlock.children[this.child];
+            this.block = parentBlock;
+        }
     }
 
     keyPress(event) {

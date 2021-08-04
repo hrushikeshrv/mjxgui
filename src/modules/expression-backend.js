@@ -44,8 +44,12 @@ class Expression {
  * or another Component, allowing for nesting of Components.
  */
 class Block {
-    constructor() {
+    constructor(parent) {
+        /**
+         * @param parent: The component to which this block belongs
+         */
         this.children = [];
+        this.parent = parent;
     }
 
     toLatex() {
@@ -85,8 +89,13 @@ class Block {
  * LaTeX syntax not yet supported.
  */
 class Component {
-    constructor(blocks = []) {
+    constructor(blocks = [], parent = null) {
+        /**
+         * @param blocks: The blocks contained by the component
+         * @param parent: The block the component is inside (if any), null if no parent
+         */
         this.blocks = blocks;
+        this.parent = parent;
     }
 
     toLatex() {
@@ -100,8 +109,8 @@ class Component {
  * it only has one block with a string inside. Equivalent to a single block.
  */
 class TextComponent extends Component {
-    constructor() {
-        super([new Block()]);
+    constructor(parent) {
+        super([new Block(this)], parent);
     }
 
     toLatex() {
