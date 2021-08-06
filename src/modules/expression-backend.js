@@ -110,7 +110,9 @@ class Component {
  */
 class TextComponent extends Component {
     constructor(parent) {
-        super([new Block(this)], parent);
+        let b1 = new Block();
+        super([b1], parent);
+        b1.parent = this;
     }
 
     toLatex() {

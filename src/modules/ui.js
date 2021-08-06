@@ -14,4 +14,13 @@ window.onload = function() {
             })
         })
     })
+
+    const display = document.querySelector('#mjxgui-display');
+    document.addEventListener('keydown', function(evt) {
+        MathJax.typesetClear([display]);
+        mjxguiCursor.keyPress(evt);
+        display.innerHTML = mjxguiCursor.toLatex();
+        console.log(mjxguiCursor.toLatex());
+        MathJax.typesetPromise([display]).then(() => {});
+    });
 }

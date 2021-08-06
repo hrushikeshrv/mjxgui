@@ -16,14 +16,14 @@ class Cursor {
         this.block = null;
         this.component = null;
         this.child = 0;
-        this.position = 0;
+        this.position = -0.5;
         this.cacheText = '';
     }
 
     addText(text) {
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
-
+        console.log(`Position was ${this.position}`);
         if (this.block === null) {
             // Safe to assume we are not in any block and are between two components in the 
             // Expression or at the start or end of the Expression.
@@ -32,9 +32,9 @@ class Cursor {
             this.expression.add(_, Math.ceil(this.position));
             
             this.child = 0;
-            this.block = _.blocks[0];
-            this.component = _;
-            this.position = Math.ceil(this.position);
+            // this.block = _.blocks[0];
+            // this.component = _;
+            this.position++;
         }
         else {
             // We are in some Block in some Component of the Expression. 
@@ -42,6 +42,7 @@ class Cursor {
             this.block.addChild(text, this.child);
             this.child++;
         }
+        console.log(`Position became ${this.position}`);
     }
 
     addComponent(component) {
@@ -96,7 +97,17 @@ class Cursor {
     }
 
     keyPress(event) {
-
+        if (characters.has(event.key)) {
+            this.addText(event.key);
+        }
+        else if (event.key === 'ArrowLeft') {
+            if (this.position === -0.5) return;
+            this.position--;
+        }
+        else if (event.key === 'ArrowRight') {
+            if (this.position + 0.5 > this.expression.components.length) return;
+            this.position++;
+        }
     }
 
     toLatex() {
@@ -104,9 +115,19 @@ class Cursor {
         // LaTeX for the entire expression
         let caret = new TextComponent(this.block);
         caret.blocks[0].addChild('\\framebox{|}');
+
+        let oldPos = this.position;
+        this.position = Math.floor(this.position) + 1;
+
         this.addComponent(caret);
-        let latex = this.expression.toLatex();
+        let latex = '$$ ' + this.expression.toLatex() + '$$';
         this.removeComponent();
+
+        this.block = null;
+        this.component = null;
+        this.position = oldPos;
         return latex;
     }
 }
+
+let mjxguiCursor = new Cursor(expression);
