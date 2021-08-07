@@ -23,7 +23,7 @@ class Cursor {
     addText(text) {
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
-        console.log(`Position was ${this.position}`);
+        // console.log(`Position was ${this.position}`);
         if (this.block === null) {
             // Safe to assume we are not in any block and are between two components in the 
             // Expression or at the start or end of the Expression.
@@ -42,7 +42,7 @@ class Cursor {
             this.block.addChild(text, this.child);
             this.child++;
         }
-        console.log(`Position became ${this.position}`);
+        // console.log(`Position became ${this.position}`);
     }
 
     addComponent(component) {
@@ -60,10 +60,6 @@ class Cursor {
         this.child = 0;
         this.block = component.blocks[0];
         this.component = component;
-    }
-
-    backspace() {
-
     }
 
     removeComponent() {
@@ -97,24 +93,62 @@ class Cursor {
     }
 
     keyPress(event) {
+        console.log(`Position was ${this.position}`);
         if (characters.has(event.key)) {
             this.addText(event.key);
         }
+
+        // ! TODO This implementation of the left and right arrow key is not correct.
+        //      It does not take into account the cursor being inside a block or the cursor moving into
+        //      previous or next blocks.
         else if (event.key === 'ArrowLeft') {
-            if (this.position === -0.5) return;
-            this.position--;
+            this.seekLeft();
+            if (this.position === -0.5) {
+                return;
+            }
+            else if (this.position === 0) {
+                this.position = -0.5;
+            }
+            else {
+                this.position--;
+            }
         }
         else if (event.key === 'ArrowRight') {
-            if (this.position + 0.5 > this.expression.components.length) return;
-            this.position++;
+            this.seekRight();
+            if (this.position + 1 === this.expression.components.length) {
+                this.position += 0.5;
+            }
+            else if (this.position + 1 > this.expression.components.length) {
+                return;
+            }
+            else {
+                this.position++;
+            }
         }
+        else if (event.key === 'Backspace') {
+            this.backspace();
+        }
+        console.log(`Position became ${this.position}`);
+    }
+
+    seekRight() {
+
+    }
+
+    seekLeft() {
+
+    }
+
+    backspace() {
+
     }
 
     toLatex() {
         // Insert a "cursor" character (\framebox{|}) where the cursor is and generate 
         // LaTeX for the entire expression
         let caret = new TextComponent(this.block);
-        caret.blocks[0].addChild('\\framebox{|}');
+        // caret.blocks[0].addChild('\\framebox{|}');
+        caret.blocks[0].addChild('|');
 
         let oldPos = this.position;
         this.position = Math.floor(this.position) + 1;

@@ -20,7 +20,7 @@ window.onload = function() {
         MathJax.typesetClear([display]);
         mjxguiCursor.keyPress(evt);
         display.innerHTML = mjxguiCursor.toLatex();
-        console.log(mjxguiCursor.toLatex());
+        // console.log(mjxguiCursor.toLatex());
         MathJax.typesetPromise([display]).then(() => {});
     });
 }
