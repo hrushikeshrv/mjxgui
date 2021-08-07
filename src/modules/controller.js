@@ -136,19 +136,58 @@ class Cursor {
     }
 
     seekLeft() {
-
+        if (this.position <= -0.5) return;
+        else if (this.block === null) {
+            this.position -= 0.5;
+            if (this.expression.components[this.position] instanceof TextComponent) {
+                // If the component to the left of the cursor is a TextComponent, we skip it and
+                // move one more position to the left and into the space between two components
+                this.position -= 0.5;
+                this.block = null;
+                this.child = 0;
+                this.component = null;
+            }
+            else {
+                this.component = this.expression.components[this.position];
+                this.block = this.component.blocks[this.component.blocks.length-1];
+                this.child = this.block.children.length-1;
+            }
+        }
+        else {
+            if (this.child === 0) {
+                // If we are in the first child, we want to move to a different block.
+                // Detect the position of the block in the component.
+                // If the block is the first block of the component, we move into the space between two components
+                // Else, we just move to the block before the current one in the same component.
+                let pos = this.component.blocks.indexOf(this.block);
+                if (pos === 0) {
+                    this.component = null;
+                    this.block = null;
+                    this.child = 0;
+                    this.position -= 0.5;
+                }
+                else {
+                    this.block = this.component.blocks[pos-1];
+                    this.child = this.block.children.length-1;
+                }
+            }
+            else {
+                this.child--;
+            }
+        }
     }
 
     backspace() {
-
+        // NOTE - If we are in the space between two components and the component to the left
+        // is a TextComponent, delete the TextComponent directly.
     }
 
     toLatex() {
         // Insert a "cursor" character (\framebox{|}) where the cursor is and generate 
         // LaTeX for the entire expression
         let caret = new TextComponent(this.block);
-        // caret.blocks[0].addChild('\\framebox{|}');
-        caret.blocks[0].addChild('|');
+        caret.blocks[0].addChild('\\framebox{|}');
+        // caret.blocks[0].addChild('|');
 
         let oldPos = this.position;
         this.position = Math.floor(this.position) + 1;
