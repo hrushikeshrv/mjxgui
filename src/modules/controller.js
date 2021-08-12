@@ -73,9 +73,9 @@ class Cursor {
                     break;
                 }
             }
-            this.position--;
-            this.component = this.expression.components[this.position];
-            this.block = this.component.blocks[0];
+            this.position -= 0.5;
+            this.component = null;
+            this.block = null;
             this.child = 0;
         }
         else {
@@ -93,46 +93,62 @@ class Cursor {
     }
 
     keyPress(event) {
-        console.log(`Position was ${this.position}`);
         if (characters.has(event.key)) {
             this.addText(event.key);
         }
-
-        // ! TODO This implementation of the left and right arrow key is not correct.
-        //      It does not take into account the cursor being inside a block or the cursor moving into
-        //      previous or next blocks.
         else if (event.key === 'ArrowLeft') {
             this.seekLeft();
-            if (this.position === -0.5) {
-                return;
-            }
-            else if (this.position === 0) {
-                this.position = -0.5;
-            }
-            else {
-                this.position--;
-            }
         }
         else if (event.key === 'ArrowRight') {
             this.seekRight();
-            if (this.position + 1 === this.expression.components.length) {
-                this.position += 0.5;
-            }
-            else if (this.position + 1 > this.expression.components.length) {
-                return;
-            }
-            else {
-                this.position++;
-            }
         }
         else if (event.key === 'Backspace') {
             this.backspace();
         }
-        console.log(`Position became ${this.position}`);
     }
 
     seekRight() {
-
+        let maxPos = this.expression.components.length - 0.5;
+        if (this.position >= maxPos) return;
+        else if (this.block === null) {
+            this.position += 0.5;
+            if (this.expression.components[this.position] instanceof TextComponent) {
+                // If the component to the right of the cursor is a TextComponent, we skip it and
+                // move one more position to the right and into the space between two componenets
+                this.position += 0.5;
+                this.block = null;
+                this.child = 0;
+                this.component = null;
+            }
+            else {
+                this.component = this.expression.components[this.position];
+                this.block = this.component.blocks[0];
+                this.child = 0;
+            }
+        }
+        else {
+            if (this.child === this.block.children.length-1) {
+                // If we are in the last child, we want to move to a different block.
+                // Detect the position of the block in the component.
+                // If the block is the last block of the component, we move into the space between
+                // Else, we just move to the block after the current one
+                let pos = this.component.blocks.indexOf(this.block);
+                if (pos === this.component.blocks.length-1) {
+                    this.position += 0.5;
+                    this.block = null;
+                    this.child = 0;
+                    this.component = null;
+                }
+                else {
+                    this.block = this.component.blocks[pos+1];
+                    this.child = 0;
+                }
+            }
+            else {
+                this.child++;
+            }
+        }
+        
     }
 
     seekLeft() {
@@ -186,8 +202,8 @@ class Cursor {
         // Insert a "cursor" character (\framebox{|}) where the cursor is and generate 
         // LaTeX for the entire expression
         let caret = new TextComponent(this.block);
-        caret.blocks[0].addChild('\\framebox{|}');
-        // caret.blocks[0].addChild('|');
+        // caret.blocks[0].addChild('\\framebox{|}');
+        caret.blocks[0].addChild('|');
 
         let oldPos = this.position;
         this.position = Math.floor(this.position) + 1;
