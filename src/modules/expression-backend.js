@@ -119,3 +119,19 @@ class TextComponent extends Component {
         return this.blocks[0].toLatex();
     }
 }
+
+
+/**
+ * @class
+ * The capital greek letter alpha
+ */
+class MJXGUISymbol extends Component {
+    constructor(parent, latexData) {
+        super([], parent);
+        this.latexData = latexData;
+    }
+
+    toLatex() {
+        return this.latexData;
+    }
+}

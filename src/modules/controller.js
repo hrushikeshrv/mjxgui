@@ -11,19 +11,19 @@ for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
  * 
  */
 class Cursor {
-    constructor(expression) {
+    constructor(expression, display) {
         this.expression = expression;
         this.block = null;
         this.component = null;
         this.child = 0;
         this.position = -0.5;
         this.cacheText = '';
+        this.display = display;
     }
 
     addText(text) {
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
-        // console.log(`Position was ${this.position}`);
         if (this.block === null) {
             // Safe to assume we are not in any block and are between two components in the 
             // Expression or at the start or end of the Expression.
@@ -42,7 +42,6 @@ class Cursor {
             this.block.addChild(text, this.child);
             this.child++;
         }
-        // console.log(`Position became ${this.position}`);
     }
 
     addComponent(component) {
@@ -58,7 +57,7 @@ class Cursor {
             this.block.addChild(component, this.child);
         }
         this.child = 0;
-        this.block = component.blocks[0];
+        this.block = component.blocks[0] || null;
         this.component = component;
     }
 
@@ -83,7 +82,7 @@ class Cursor {
             for (let i = 0; i <  parentBlock.children.length; i++) {
                 if (parentBlock.children[i] === this.component) {
                     parentBlock.removeChild(i);
-                    this.child = i-1;
+                    this.child = i;
                     break;
                 }
             }
@@ -217,6 +216,15 @@ class Cursor {
         this.position = oldPos;
         return latex;
     }
+
+    updateDisplay() {
+        if (this.display instanceof String || typeof this.display === 'string') {
+            this.display = document.getElementById(this.display);
+        }
+        MathJax.typesetClear([this.display]);
+        this.display.innerHTML = mjxguiCursor.toLatex();
+        MathJax.typesetPromise([this.display]).then(() => {});
+    }
 }
 
-let mjxguiCursor = new Cursor(expression);
+let mjxguiCursor = new Cursor(expression, 'mjxgui-display');
