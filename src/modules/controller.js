@@ -2,7 +2,7 @@
 
 let expression = new Expression();
 const characters = new Set();
-for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
+for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/\\?.,<>-=_+`~') {
     characters.add(char);
 }
 
@@ -17,7 +17,7 @@ class Cursor {
         this.component = null;
         this.child = 0;
         this.position = -0.5;
-        this.cacheText = '';
+        this.latex = '';
         this.display = display;
     }
 
@@ -73,7 +73,7 @@ class Cursor {
             // If we are not in a block then we check if the component to the left is a TextComponent
             // If it is, we remove it, else we do nothing.
             let prevComponent = this.expression.components[Math.floor(this.position)];
-            if (prevComponent instanceof TextComponent) {
+            if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
                 this.position = Math.floor(this.position);
                 this.component = prevComponent;
                 this.block = prevComponent.blocks[0];
@@ -215,11 +215,30 @@ class Cursor {
     backspace() {
         // NOTE - If we are in the space between two components and the component to the left
         // is a TextComponent, delete the TextComponent directly.
+        if (this.expression.components.length === 0) return;
+        if (this.block === null) {
+            let prevComponent = this.expression.components[Math.floor(this.position)];
+            if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
+                this.removeComponent();
+            }
+            else {
+                this.component = prevComponent;
+                this.block = this.component.blocks[this.component.blocks.length-1];
+                this.child = this.block.children.length-1;
+                this.position = Math.floor(this.position);
+            }
+        }
+        // TODO - This implementation of backspace() is probably not correct and will break in nested functions
+        else {
+            this.block.removeChild(this.child);
+            this.child--;
+            if (this.child < 0) this.child = 0;
+        }
     }
 
     toLatex() {
-        // Insert a "cursor" character (\framebox{|}) where the cursor is and generate 
-        // LaTeX for the entire expression
+        // TODO - Change the caret to add a framebox around the current component and a pipe symbol at the current
+        //      child instead of just a pipe symbol
         let caret = new TextComponent(this.block);
         // caret.blocks[0].addChild('\\framebox{|}');
         caret.blocks[0].addChild('|');
@@ -234,6 +253,7 @@ class Cursor {
         this.block = null;
         this.component = null;
         this.position = oldPos;
+        this.latex = latex;
         return latex;
     }
 
