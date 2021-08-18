@@ -28,7 +28,7 @@ class Expression {
         // Generate LaTeX code from the components in this Expression
         let latex = '';
         for (let c of this.components) {
-            latex += c.toLatex();
+            latex += c.toLatex() + ' ';
         }
         return latex;
     }

@@ -52,18 +52,36 @@ class Cursor {
         if (this.block === null) {
             this.expression.add(component, Math.ceil(this.position));
             this.position = Math.ceil(this.position);
+            if (component instanceof MJXGUISymbol || component instanceof TextComponent) {
+                this.block = null;
+                this.component = null;
+                this.position += 0.5;
+            }
+            else {
+                this.block = component.blocks[0];
+                this.component = component;
+            }
         }
         else {
             this.block.addChild(component, this.child);
         }
         this.child = 0;
-        this.block = component.blocks[0] || null;
-        this.component = component;
     }
 
     removeComponent() {
-        if (this.block === null) return;
-        if (this.component.parent === null) {
+        if (this.block === null) {
+            // If we are not in a block then we check if the component to the left is a TextComponent
+            // If it is, we remove it, else we do nothing.
+            let prevComponent = this.expression.components[Math.floor(this.position)];
+            if (prevComponent instanceof TextComponent) {
+                this.position = Math.floor(this.position);
+                this.component = prevComponent;
+                this.block = prevComponent.blocks[0];
+                this.child = 0;
+                this.removeComponent();
+            }
+        }
+        else if (this.component.parent === null) {
             //Find the component in the expression and remove it, change the cursor object's
             // component and block pointers
             for (let i = 0; i < this.expression.components.length; i++) {
@@ -111,9 +129,10 @@ class Cursor {
         if (this.position >= maxPos) return;
         else if (this.block === null) {
             this.position += 0.5;
-            if (this.expression.components[this.position] instanceof TextComponent) {
+            // If the component at this index is a MJXGUISymbol or a TextComponent, skip it and go to the next
+            if (this.expression.components[this.position] instanceof TextComponent || this.expression.components[this.position] instanceof MJXGUISymbol) {
                 // If the component to the right of the cursor is a TextComponent, we skip it and
-                // move one more position to the right and into the space between two componenets
+                // move one more position to the right and into the space between two components
                 this.position += 0.5;
                 this.block = null;
                 this.child = 0;
@@ -154,7 +173,8 @@ class Cursor {
         if (this.position <= -0.5) return;
         else if (this.block === null) {
             this.position -= 0.5;
-            if (this.expression.components[this.position] instanceof TextComponent) {
+            // If the component at this index is a MJXGUISymbol or a TextComponent, we skip this component and go to the next
+            if (this.expression.components[this.position] instanceof TextComponent || this.expression.components[this.position] instanceof MJXGUISymbol) {
                 // If the component to the left of the cursor is a TextComponent, we skip it and
                 // move one more position to the left and into the space between two components
                 this.position -= 0.5;
@@ -222,7 +242,7 @@ class Cursor {
             this.display = document.getElementById(this.display);
         }
         MathJax.typesetClear([this.display]);
-        this.display.innerHTML = mjxguiCursor.toLatex();
+        this.display.innerHTML = this.toLatex();
         MathJax.typesetPromise([this.display]).then(() => {});
     }
 }
