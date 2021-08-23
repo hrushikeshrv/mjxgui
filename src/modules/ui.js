@@ -109,6 +109,10 @@ const symbolLatexMap = {
     'infin': '\\infty',
 }
 
+const functionComponentMap = {
+    'sum': Sum,
+}
+
 window.onload = function() {
     const tabButtons = document.querySelectorAll('.tab-container');
     const tabs = document.querySelectorAll('.tab');
@@ -145,6 +149,17 @@ window.onload = function() {
         symbol.addEventListener('click', function() {
             if (symbol.dataset.latexData in symbolLatexMap) {
                 let _ = new MJXGUISymbol(mjxguiCursor.block, symbolLatexMap[symbol.dataset.latexData]);
+                mjxguiCursor.addComponent(_);
+                mjxguiCursor.updateDisplay();
+                latexOutput.innerHTML = mjxguiCursor.latex;
+            }
+        })
+    })
+
+    mjxguiFunctions.forEach(func => {
+        func.addEventListener('click', function() {
+            if (func.dataset.functionId in functionComponentMap) {
+                let _ = new functionComponentMap[func.dataset.functionId]()
                 mjxguiCursor.addComponent(_);
                 mjxguiCursor.updateDisplay();
                 latexOutput.innerHTML = mjxguiCursor.latex;

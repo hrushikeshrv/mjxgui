@@ -123,7 +123,7 @@ class TextComponent extends Component {
 
 /**
  * @class
- * The capital greek letter alpha
+ * A symbol which is just some latex with no arguments to be inserted into the expression.
  */
 // TODO - Add support for the backslash character as a symbol
 class MJXGUISymbol extends Component {
@@ -134,5 +134,22 @@ class MJXGUISymbol extends Component {
 
     toLatex() {
         return this.latexData;
+    }
+}
+
+/**
+ * @class
+ * The summation function
+ */
+class Sum extends Component {
+    constructor(parent) {
+        let b1 = new Block(parent);
+        let b2 = new Block(parent);
+        let b3 = new Block(parent);
+        super([b1, b2, b3], parent);
+    }
+    
+    toLatex() {
+        return `\\sum_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
     }
 }
