@@ -125,6 +125,7 @@ class TextComponent extends Component {
  * @class
  * The capital greek letter alpha
  */
+// TODO - Add support for the backslash character as a symbol
 class MJXGUISymbol extends Component {
     constructor(parent, latexData) {
         super([], parent);

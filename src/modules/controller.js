@@ -2,7 +2,7 @@
 
 let expression = new Expression();
 const characters = new Set();
-for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/\\?.,<>-=_+`~') {
+for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
     characters.add(char);
 }
 
@@ -228,7 +228,7 @@ class Cursor {
                 this.position = Math.floor(this.position);
             }
         }
-        // TODO - This implementation of backspace() is probably not correct and will break in nested functions
+        // TODO - This implementation of backspace() is probably not correct and will break inside nested functions
         else {
             this.block.removeChild(this.child);
             this.child--;
