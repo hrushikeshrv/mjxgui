@@ -160,8 +160,11 @@ window.onload = function() {
         func.addEventListener('click', function() {
             if (func.dataset.functionId in functionComponentMap) {
                 let _ = new functionComponentMap[func.dataset.functionId]()
+                // console.log(expression.components);
                 mjxguiCursor.addComponent(_);
+                // console.log(expression.components);
                 mjxguiCursor.updateDisplay();
+                // console.log(expression.components);
                 latexOutput.innerHTML = mjxguiCursor.latex;
             }
         })

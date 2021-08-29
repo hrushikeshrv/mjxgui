@@ -64,6 +64,9 @@ class Cursor {
         }
         else {
             this.block.addChild(component, this.child);
+            console.log(this.block)
+            this.component = component;
+            this.block = component.blocks[0];
         }
         this.child = 0;
     }
@@ -104,8 +107,14 @@ class Cursor {
                     break;
                 }
             }
-            this.component = parentBlock.children[this.child];
-            this.block = parentBlock;
+            if (parentBlock.children.length === 0) {
+                this.component = parentBlock.parent;
+                this.block = parentBlock.parent.blocks[0];
+            }
+            else {
+                this.component = parentBlock.children[this.child];
+                this.block = parentBlock.children[this.child].blocks[0];
+            }
         }
     }
 
@@ -245,14 +254,28 @@ class Cursor {
 
         let oldPos = this.position;
         this.position = Math.floor(this.position) + 1;
-
+        console.log(`Before adding the caret -----`);
+        console.log('The cursor component is ', this.component);
+        console.log('The cursor block is ', this.block);
+        console.log('The cursor child position is ', this.child);
+        console.log('------------------\n');
         this.addComponent(caret);
+        console.log(`After adding the caret -----`);
+        console.log('The cursor component is ', this.component);
+        console.log('The cursor block is ', this.block);
+        console.log('The cursor child position is ', this.child);
+        console.log('------------------\n');
         let latex = '$$ ' + this.expression.toLatex() + '$$';
         this.removeComponent();
+        console.log(`After removing the caret -----`);
+        console.log('The cursor component is ', this.component);
+        console.log('The cursor block is ', this.block);
+        console.log('The cursor child position is ', this.child);
+        console.log('------------------\n');
 
-        this.block = null;
-        this.component = null;
-        this.position = oldPos;
+        // this.block = null;
+        // this.component = null;
+        // this.position = oldPos;
         this.latex = latex;
         return latex;
     }

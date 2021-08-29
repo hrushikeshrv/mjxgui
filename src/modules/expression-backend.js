@@ -143,10 +143,13 @@ class MJXGUISymbol extends Component {
  */
 class Sum extends Component {
     constructor(parent) {
-        let b1 = new Block(parent);
-        let b2 = new Block(parent);
-        let b3 = new Block(parent);
+        let b1 = new Block();
+        let b2 = new Block();
+        let b3 = new Block();
         super([b1, b2, b3], parent);
+        b1.parent = this;
+        b2.parent = this;
+        b3.parent = this;
     }
     
     toLatex() {
