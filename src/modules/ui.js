@@ -135,8 +135,9 @@ window.onload = function() {
     document.addEventListener('keydown', function(evt) {
         MathJax.typesetClear([display]);
         mjxguiCursor.keyPress(evt);
+        console.log(mjxguiCursor.block);
         display.innerHTML = mjxguiCursor.toLatex();
-        // console.log(mjxguiCursor.toLatex());
+        console.log(mjxguiCursor.block);
         MathJax.typesetPromise([display]).then(() => {});
         latexOutput.innerHTML = mjxguiCursor.latex;
     });
@@ -159,7 +160,7 @@ window.onload = function() {
     mjxguiFunctions.forEach(func => {
         func.addEventListener('click', function() {
             if (func.dataset.functionId in functionComponentMap) {
-                let _ = new functionComponentMap[func.dataset.functionId]()
+                let _ = new functionComponentMap[func.dataset.functionId]();
                 // console.log(expression.components);
                 mjxguiCursor.addComponent(_);
                 // console.log(expression.components);

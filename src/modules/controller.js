@@ -22,6 +22,7 @@ class Cursor {
     }
 
     addText(text) {
+        console.log(this.block);
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
         if (this.block === null) {
@@ -38,10 +39,13 @@ class Cursor {
         }
         else {
             // We are in some Block in some Component of the Expression. 
-            // The child we are in changes, the component and position remain the same
-            this.block.addChild(text, this.child);
+            // The child we are in changes, the component, block, and position remain the same
+            const _ = new TextComponent(this.block);
+            _.blocks[0].addChild(text);
+            this.block.addChild(_, this.child);
             this.child++;
         }
+        console.log(this.block);
     }
 
     addComponent(component) {
@@ -64,7 +68,6 @@ class Cursor {
         }
         else {
             this.block.addChild(component, this.child);
-            console.log(this.block)
             this.component = component;
             this.block = component.blocks[0];
         }
@@ -112,8 +115,14 @@ class Cursor {
                 this.block = parentBlock.parent.blocks[0];
             }
             else {
-                this.component = parentBlock.children[this.child];
-                this.block = parentBlock.children[this.child].blocks[0];
+                this.component = parentBlock.children[this.child-1];
+                this.block = parentBlock.children[this.child-1].blocks[0];
+            }
+
+            // If we end up moving into a text component or symbol, move one level up
+            if (this.component instanceof TextComponent || this.component instanceof MJXGUISymbol) {
+                this.component = this.component.parent.parent;
+                this.block = this.block.parent.parent;
             }
         }
     }
@@ -254,24 +263,24 @@ class Cursor {
 
         let oldPos = this.position;
         this.position = Math.floor(this.position) + 1;
-        console.log(`Before adding the caret -----`);
-        console.log('The cursor component is ', this.component);
-        console.log('The cursor block is ', this.block);
-        console.log('The cursor child position is ', this.child);
-        console.log('------------------\n');
+        // console.log(`Before adding the caret -----`);
+        // console.log('The cursor component is ', this.component);
+        // console.log('The cursor block is ', this.block);
+        // console.log('The cursor child position is ', this.child);
+        // console.log('------------------\n');
         this.addComponent(caret);
-        console.log(`After adding the caret -----`);
-        console.log('The cursor component is ', this.component);
-        console.log('The cursor block is ', this.block);
-        console.log('The cursor child position is ', this.child);
-        console.log('------------------\n');
+        // console.log(`After adding the caret -----`);
+        // console.log('The cursor component is ', this.component);
+        // console.log('The cursor block is ', this.block);
+        // console.log('The cursor child position is ', this.child);
+        // console.log('------------------\n');
         let latex = '$$ ' + this.expression.toLatex() + '$$';
         this.removeComponent();
-        console.log(`After removing the caret -----`);
-        console.log('The cursor component is ', this.component);
-        console.log('The cursor block is ', this.block);
-        console.log('The cursor child position is ', this.child);
-        console.log('------------------\n');
+        // console.log(`After removing the caret -----`);
+        // console.log('The cursor component is ', this.component);
+        // console.log('The cursor block is ', this.block);
+        // console.log('The cursor child position is ', this.child);
+        // console.log('------------------\n');
 
         // this.block = null;
         // this.component = null;
