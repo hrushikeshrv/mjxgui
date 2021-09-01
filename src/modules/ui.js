@@ -136,7 +136,7 @@ window.onload = function() {
         MathJax.typesetClear([display]);
         mjxguiCursor.keyPress(evt);
         console.log(mjxguiCursor.block);
-        display.innerHTML = mjxguiCursor.toLatex();
+        display.innerHTML = '$$' + mjxguiCursor.toDisplayLatex() + '$$';
         console.log(mjxguiCursor.block);
         MathJax.typesetPromise([display]).then(() => {});
         latexOutput.innerHTML = mjxguiCursor.latex;

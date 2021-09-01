@@ -15,7 +15,7 @@ class Cursor {
         this.expression = expression;
         this.block = null;
         this.component = null;
-        this.child = 0;
+        this.child = -0.5;
         this.position = -0.5;
         this.latex = '';
         this.display = display;
@@ -255,37 +255,22 @@ class Cursor {
     }
 
     toLatex() {
-        // TODO - Change the caret to add a framebox around the current component and a pipe symbol at the current
-        //      child instead of just a pipe symbol
+        // Generate LaTeX from the expression built till now
+        let latex = this.expression.toLatex();
+        this.latex = latex;
+        return latex;
+    }
+
+    toDisplayLatex() {
+        // Generate LaTeX to show in the display by adding a caret character to the expression. 
+        // This is not the real LaTeX of the expression but the LaTeX resulting after we add 
+        // a caret and a \\framebox{} around the active components and blocks in the expression
         let caret = new TextComponent(this.block);
-        // caret.blocks[0].addChild('\\framebox{|}');
         caret.blocks[0].addChild('|');
 
-        let oldPos = this.position;
-        this.position = Math.floor(this.position) + 1;
-        // console.log(`Before adding the caret -----`);
-        // console.log('The cursor component is ', this.component);
-        // console.log('The cursor block is ', this.block);
-        // console.log('The cursor child position is ', this.child);
-        // console.log('------------------\n');
         this.addComponent(caret);
-        // console.log(`After adding the caret -----`);
-        // console.log('The cursor component is ', this.component);
-        // console.log('The cursor block is ', this.block);
-        // console.log('The cursor child position is ', this.child);
-        // console.log('------------------\n');
-        let latex = '$$ ' + this.expression.toLatex() + '$$';
+        let latex = this.toLatex();
         this.removeComponent();
-        // console.log(`After removing the caret -----`);
-        // console.log('The cursor component is ', this.component);
-        // console.log('The cursor block is ', this.block);
-        // console.log('The cursor child position is ', this.child);
-        // console.log('------------------\n');
-
-        // this.block = null;
-        // this.component = null;
-        // this.position = oldPos;
-        this.latex = latex;
         return latex;
     }
 
@@ -294,7 +279,7 @@ class Cursor {
             this.display = document.getElementById(this.display);
         }
         MathJax.typesetClear([this.display]);
-        this.display.innerHTML = this.toLatex();
+        this.display.innerHTML = '$$' + this.toDisplayLatex() + '$$';
         MathJax.typesetPromise([this.display]).then(() => {});
     }
 }
