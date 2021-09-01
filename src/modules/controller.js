@@ -22,7 +22,6 @@ class Cursor {
     }
 
     addText(text) {
-        console.log(this.block);
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
         if (this.block === null) {
@@ -45,7 +44,6 @@ class Cursor {
             this.block.addChild(_, this.child);
             this.child++;
         }
-        console.log(this.block);
     }
 
     addComponent(component) {
@@ -191,23 +189,26 @@ class Cursor {
         if (this.position <= -0.5) return;
         else if (this.block === null) {
             this.position -= 0.5;
-            // If the component at this index is a MJXGUISymbol or a TextComponent, we skip this component and go to the next
+            // If the component at this index is a MJXGUISymbol or a TextComponent, we skip this component and go one more step backward
             if (this.expression.components[this.position] instanceof TextComponent || this.expression.components[this.position] instanceof MJXGUISymbol) {
                 // If the component to the left of the cursor is a TextComponent, we skip it and
                 // move one more position to the left and into the space between two components
                 this.position -= 0.5;
+                this.child = -0.5;
                 this.block = null;
-                this.child = 0;
                 this.component = null;
             }
             else {
+                // Otherwise we moved into a Function
+                // Set the block to be the last block of the function and set the child to be at the right most end
                 this.component = this.expression.components[this.position];
                 this.block = this.component.blocks[this.component.blocks.length-1];
-                this.child = this.block.children.length-1;
+                this.child = this.block.children.length-0.5;
+                // this.position remains the same
             }
         }
         else {
-            if (this.child === 0) {
+            if (this.child === -0.5) {
                 // If we are in the first child, we want to move to a different block.
                 // Detect the position of the block in the component.
                 // If the block is the first block of the component, we move into the space between two components
@@ -216,12 +217,13 @@ class Cursor {
                 if (pos === 0) {
                     this.component = null;
                     this.block = null;
-                    this.child = 0;
+                    this.child = -0.5;
                     this.position -= 0.5;
                 }
                 else {
+                    // this.component and this.position remain the same
                     this.block = this.component.blocks[pos-1];
-                    this.child = this.block.children.length-1;
+                    this.child = this.block.children.length-0.5;
                 }
             }
             else {
@@ -234,6 +236,7 @@ class Cursor {
         // NOTE - If we are in the space between two components and the component to the left
         // is a TextComponent, delete the TextComponent directly.
         if (this.expression.components.length === 0) return;
+        else if (this.position === -0.5) return;
         if (this.block === null) {
             let prevComponent = this.expression.components[Math.floor(this.position)];
             if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
@@ -264,7 +267,7 @@ class Cursor {
     toDisplayLatex() {
         // Generate LaTeX to show in the display by adding a caret character to the expression. 
         // This is not the real LaTeX of the expression but the LaTeX resulting after we add 
-        // a caret and a \\framebox{} around the active components and blocks in the expression
+        // a caret as a | character in the expression
         let caret = new TextComponent(this.block);
         caret.blocks[0].addChild('|');
 

@@ -135,9 +135,7 @@ window.onload = function() {
     document.addEventListener('keydown', function(evt) {
         MathJax.typesetClear([display]);
         mjxguiCursor.keyPress(evt);
-        console.log(mjxguiCursor.block);
         display.innerHTML = '$$' + mjxguiCursor.toDisplayLatex() + '$$';
-        console.log(mjxguiCursor.block);
         MathJax.typesetPromise([display]).then(() => {});
         latexOutput.innerHTML = mjxguiCursor.latex;
     });
