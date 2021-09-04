@@ -31,9 +31,7 @@ class Cursor {
             _.blocks[0].addChild(text);
             this.expression.add(_, Math.ceil(this.position));
             
-            this.child = 0;
-            // this.block = _.blocks[0];
-            // this.component = _;
+            this.child = -0.5;
             this.position++;
         }
         else {
@@ -65,11 +63,12 @@ class Cursor {
             }
         }
         else {
-            this.block.addChild(component, this.child);
+            console.log('Adding child at position', Math.ceil(this.child));
+            this.block.addChild(component, Math.ceil(this.child));
             this.component = component;
             this.block = component.blocks[0];
         }
-        this.child = 0;
+        this.child = -0.5;
     }
 
     removeComponent() {
@@ -81,7 +80,7 @@ class Cursor {
                 this.position = Math.floor(this.position);
                 this.component = prevComponent;
                 this.block = prevComponent.blocks[0];
-                this.child = 0;
+                this.child = -0.5;
                 this.removeComponent();
             }
         }
@@ -97,31 +96,20 @@ class Cursor {
             this.position -= 0.5;
             this.component = null;
             this.block = null;
-            this.child = 0;
+            this.child = -0.5;
         }
         else {
+            // Capture the block above us to move into after we remove this component
             let parentBlock = this.component.parent;
             for (let i = 0; i <  parentBlock.children.length; i++) {
                 if (parentBlock.children[i] === this.component) {
                     parentBlock.removeChild(i);
-                    this.child = i;
+                    this.child = i - 0.5;
                     break;
                 }
             }
-            if (parentBlock.children.length === 0) {
-                this.component = parentBlock.parent;
-                this.block = parentBlock.parent.blocks[0];
-            }
-            else {
-                this.component = parentBlock.children[this.child-1];
-                this.block = parentBlock.children[this.child-1].blocks[0];
-            }
-
-            // If we end up moving into a text component or symbol, move one level up
-            if (this.component instanceof TextComponent || this.component instanceof MJXGUISymbol) {
-                this.component = this.component.parent.parent;
-                this.block = this.block.parent.parent;
-            }
+            this.block = parentBlock;
+            this.component = parentBlock.parent;
         }
     }
 
@@ -186,6 +174,10 @@ class Cursor {
     }
 
     seekLeft() {
+        console.log('Block', this.block);
+        console.log('Component', this.component);
+        console.log('Child', this.child);
+        console.log('Position', this.position);
         if (this.position <= -0.5) return;
         else if (this.block === null) {
             this.position -= 0.5;

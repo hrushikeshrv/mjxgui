@@ -147,9 +147,12 @@ window.onload = function() {
     mjxguiSymbols.forEach(symbol => {
         symbol.addEventListener('click', function() {
             if (symbol.dataset.latexData in symbolLatexMap) {
+                console.log('Cursor child position before adding symbol', mjxguiCursor.child);
                 let _ = new MJXGUISymbol(mjxguiCursor.block, symbolLatexMap[symbol.dataset.latexData]);
                 mjxguiCursor.addComponent(_);
+                console.log('Cursor child position after adding symbol', mjxguiCursor.child);
                 mjxguiCursor.updateDisplay();
+                console.log('Cursor child position after updating display', mjxguiCursor.child);
                 latexOutput.innerHTML = mjxguiCursor.latex;
             }
         })
@@ -158,12 +161,12 @@ window.onload = function() {
     mjxguiFunctions.forEach(func => {
         func.addEventListener('click', function() {
             if (func.dataset.functionId in functionComponentMap) {
+                console.log('Cursor child position before adding component', mjxguiCursor.child);
                 let _ = new functionComponentMap[func.dataset.functionId]();
-                // console.log(expression.components);
                 mjxguiCursor.addComponent(_);
-                // console.log(expression.components);
+                console.log('Cursor child position after adding component', mjxguiCursor.child);
                 mjxguiCursor.updateDisplay();
-                // console.log(expression.components);
+                console.log('Cursor child position after updating display', mjxguiCursor.child);
                 latexOutput.innerHTML = mjxguiCursor.latex;
             }
         })
