@@ -61,6 +61,7 @@ class Cursor {
                 this.block = component.blocks[0];
                 this.component = component;
             }
+            this.child = -0.5;
         }
         else {
             console.log('Inserting component');
@@ -68,11 +69,21 @@ class Cursor {
             console.log('Cursor child', this.child);
             console.log('Cursor block', this.block);
             console.log('Cursor component', this.component);
+            // Add the component to the block's children and increment this.child in preparation to move
+            // inside the inserted component
             this.block.addChild(component, Math.ceil(this.child));
-            this.component = component;
-            this.block = component.blocks[0];
+            this.child += 0.5;
+            if (component instanceof MJXGUISymbol || component instanceof TextComponent) {
+                // If the component we just inserted is a Symbol or Text, don't move into it and increment
+                // this.child by 0.5 again
+                this.child += 0.5;
+            }
+            else {
+                // Otherwise, move into the new component
+                this.component = component;
+                this.block = component.blocks[0];
+            }
         }
-        this.child = -0.5;
     }
 
     removeComponent() {
