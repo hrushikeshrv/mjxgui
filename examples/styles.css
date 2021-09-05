@@ -313,6 +313,10 @@ body {
     position: relative;
     border: 2px solid lightblue;
     border-radius: 6px;
+    user-select: all;
+    font-family: monospace;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 #mjxgui-latex-out::before {

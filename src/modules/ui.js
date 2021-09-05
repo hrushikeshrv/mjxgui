@@ -1,6 +1,9 @@
 // Draws the editor UI and canvas inside the given div
 
 const symbolLatexMap = {
+    // The non-breaking space
+    ' ': '\\,',
+
     // Lowercase greek letters
     'alpha': '\\alpha',
     'beta': '\\beta',

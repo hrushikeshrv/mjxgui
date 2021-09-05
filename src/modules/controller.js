@@ -39,7 +39,7 @@ class Cursor {
             // The child we are in changes, the component, block, and position remain the same
             const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
-            this.block.addChild(_, this.child);
+            this.block.addChild(_, Math.ceil(this.child));
             this.child++;
         }
     }
@@ -63,7 +63,11 @@ class Cursor {
             }
         }
         else {
-            console.log('Adding child at position', Math.ceil(this.child));
+            console.log('Inserting component');
+            console.log('Cursor position', this.position);
+            console.log('Cursor child', this.child);
+            console.log('Cursor block', this.block);
+            console.log('Cursor component', this.component);
             this.block.addChild(component, Math.ceil(this.child));
             this.component = component;
             this.block = component.blocks[0];
@@ -126,6 +130,11 @@ class Cursor {
         else if (event.key === 'Backspace') {
             this.backspace();
         }
+        else if (event.key === ' ') {
+            let _ = new MJXGUISymbol(this.block, '\\:\\:');
+            this.addComponent(_);
+            this.updateDisplay();
+        }
     }
 
     seekRight() {
@@ -138,32 +147,36 @@ class Cursor {
                 // If the component to the right of the cursor is a TextComponent, we skip it and
                 // move one more position to the right and into the space between two components
                 this.position += 0.5;
+                this.child = -0.5;
                 this.block = null;
-                this.child = 0;
                 this.component = null;
             }
             else {
+                // Otherwise we moved into a function
+                // Set the block to be the last block of the function and set the child to be at the left most end
                 this.component = this.expression.components[this.position];
                 this.block = this.component.blocks[0];
-                this.child = 0;
+                this.child = -0.5;
+                // this.position remains the same
             }
         }
         else {
-            if (this.child === this.block.children.length-1) {
+            if (this.child === this.block.children.length-0.5) {
                 // If we are in the last child, we want to move to a different block.
                 // Detect the position of the block in the component.
                 // If the block is the last block of the component, we move into the space between
                 // Else, we just move to the block after the current one
                 let pos = this.component.blocks.indexOf(this.block);
                 if (pos === this.component.blocks.length-1) {
-                    this.position += 0.5;
-                    this.block = null;
-                    this.child = 0;
                     this.component = null;
+                    this.block = null;
+                    this.child = -0.5;
+                    this.position += 0.5;
                 }
                 else {
+                    // this.component and this.position remain the same
                     this.block = this.component.blocks[pos+1];
-                    this.child = 0;
+                    this.child = -0.5;
                 }
             }
             else {
@@ -174,10 +187,6 @@ class Cursor {
     }
 
     seekLeft() {
-        console.log('Block', this.block);
-        console.log('Component', this.component);
-        console.log('Child', this.child);
-        console.log('Position', this.position);
         if (this.position <= -0.5) return;
         else if (this.block === null) {
             this.position -= 0.5;
