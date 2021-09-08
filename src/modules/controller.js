@@ -64,11 +64,6 @@ class Cursor {
             this.child = -0.5;
         }
         else {
-            console.log('Inserting component');
-            console.log('Cursor position', this.position);
-            console.log('Cursor child', this.child);
-            console.log('Cursor block', this.block);
-            console.log('Cursor component', this.component);
             // Add the component to the block's children and increment this.child in preparation to move
             // inside the inserted component
             this.block.addChild(component, Math.ceil(this.child));
@@ -87,6 +82,7 @@ class Cursor {
     }
 
     removeComponent() {
+        console.log('Before removing', this.component, this.block);
         if (this.block === null) {
             // If we are not in a block then we check if the component to the left is a TextComponent
             // If it is, we remove it, else we do nothing.
@@ -126,6 +122,7 @@ class Cursor {
             this.block = parentBlock;
             this.component = parentBlock.parent;
         }
+        console.log('After removing', this.component, this.block);
     }
 
     keyPress(event) {
@@ -284,6 +281,11 @@ class Cursor {
         caret.blocks[0].addChild('|');
 
         this.addComponent(caret);
+        // Set this.block and this.component explicitly since adding TextComponents does not
+        // do so by default
+        this.block = caret.blocks[0];
+        this.component = caret;
+        
         let latex = this.toLatex();
         this.removeComponent();
         return latex;
