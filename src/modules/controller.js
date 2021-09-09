@@ -82,7 +82,6 @@ class Cursor {
     }
 
     removeComponent() {
-        console.log('Before removing', this.component, this.block);
         if (this.block === null) {
             // If we are not in a block then we check if the component to the left is a TextComponent
             // If it is, we remove it, else we do nothing.
@@ -96,7 +95,7 @@ class Cursor {
             }
         }
         else if (this.component.parent === null) {
-            //Find the component in the expression and remove it, change the cursor object's
+            // Find the component in the expression and remove it, change the cursor object's
             // component and block pointers
             for (let i = 0; i < this.expression.components.length; i++) {
                 if (this.expression.components[i] === this.component) {
@@ -122,7 +121,6 @@ class Cursor {
             this.block = parentBlock;
             this.component = parentBlock.parent;
         }
-        console.log('After removing', this.component, this.block);
     }
 
     keyPress(event) {
@@ -262,7 +260,7 @@ class Cursor {
         else {
             this.block.removeChild(this.child);
             this.child--;
-            if (this.child < 0) this.child = 0;
+            if (this.child < -0.5) this.child = -0.5;
         }
     }
 
@@ -279,15 +277,37 @@ class Cursor {
         // a caret as a | character in the expression
         let caret = new TextComponent(this.block);
         caret.blocks[0].addChild('|');
-
-        this.addComponent(caret);
-        // Set this.block and this.component explicitly since adding TextComponents does not
-        // do so by default
-        this.block = caret.blocks[0];
-        this.component = caret;
         
+        let frame = new FrameBox(this.block);
+
+        if (this.block === null) {
+            // If we are not in any block, we just add the caret, generate latex 
+            // and reset the components
+            this.expression.add(caret, Math.ceil(this.position));
+        }
+        else {
+            // We add the current component inside the frame, add the caret in the 
+            // right position, generate latex and reset the components
+            let i = this.component.blocks.indexOf(this.block);
+            this.component.removeBlock(i);
+            this.component.addBlock(frame, i);
+            frame.blocks[0] = this.block;
+            this.block.addChild(caret, Math.ceil(this.child));
+        }
+
         let latex = this.toLatex();
-        this.removeComponent();
+        
+
+        if (this.block === null) {
+            this.expression.remove(Math.ceil(this.position));
+        }
+        else {
+            let i = this.component.blocks.indexOf(frame);
+            this.component.removeBlock(i);
+            this.component.addBlock(this.block, i);
+            this.block.removeChild(Math.ceil(this.child));
+        }
+
         return latex;
     }
 

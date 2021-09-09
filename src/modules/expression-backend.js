@@ -101,6 +101,14 @@ class Component {
     toLatex() {
         return '';
     }
+
+    addBlock(block, position) {
+        this.blocks.splice(position, 0, block);
+    }
+
+    removeBlock(position) {
+        this.blocks.splice(position, 1);
+    }
 }
 
 /**
@@ -136,6 +144,24 @@ class MJXGUISymbol extends Component {
         return this.latexData;
     }
 }
+
+
+/**
+ * @class
+ * A framebox
+ */
+class FrameBox extends Component {
+    constructor(parent) {
+        let b1 = new Block();
+        super([b1], parent);
+        b1.parent = this;
+    }
+
+    toLatex() {
+        return `\\framebox{${this.blocks[0].toLatex()}}`;
+    }
+}
+
 
 /**
  * @class
