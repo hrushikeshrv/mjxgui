@@ -111,6 +111,52 @@ class Component {
     }
 }
 
+
+/**
+ * @class
+ * A component with one block
+ */
+ class OneBlockComponent extends Component {
+    constructor(parent) {
+        let b1 = new Block();
+        super([b1], parent);
+        b1.parent = this;
+    }
+}
+
+
+/**
+ * @class
+ * A component with two blocks
+ */
+class TwoBlockComponent extends Component {
+    constructor(parent) {
+        let b1 = new Block();
+        let b2 = new Block();
+        super([b1, b2], parent);
+        b1.parent = this;
+        b2.parent = this;
+    }
+}
+
+
+/**
+ * @class
+ * A component with three blocks
+ */
+class ThreeBlockComponent extends Component {
+    constructor(parent) {
+        let b1 = new Block();
+        let b2 = new Block();
+        let b3 = new Block();
+        super([b1, b2, b3], parent);
+        b1.parent = this;
+        b2.parent = this;
+        b3.parent = this;
+    }
+}
+
+
 /**
  * @class
  * A component with only text and no symbol, function of other LaTeX data. Safe to assume that
@@ -150,13 +196,7 @@ class MJXGUISymbol extends Component {
  * @class
  * A framebox
  */
-class FrameBox extends Component {
-    constructor(parent) {
-        let b1 = new Block();
-        super([b1], parent);
-        b1.parent = this;
-    }
-
+class FrameBox extends OneBlockComponent {
     toLatex() {
         return `\\boxed{${this.blocks[0].toLatex()}}`;
     }
@@ -167,18 +207,97 @@ class FrameBox extends Component {
  * @class
  * The summation function
  */
-class Sum extends Component {
-    constructor(parent) {
-        let b1 = new Block();
-        let b2 = new Block();
-        let b3 = new Block();
-        super([b1, b2, b3], parent);
-        b1.parent = this;
-        b2.parent = this;
-        b3.parent = this;
-    }
-    
+class Sum extends ThreeBlockComponent {
     toLatex() {
         return `\\sum_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * The integration function
+ */
+class Integral extends ThreeBlockComponent {
+    toLatex() {
+        return `\\int_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * The limit function
+ */
+class Limit extends TwoBlockComponent {
+    toLatex() {
+        return `\\lim_{${this.blocks[0].toLatex}}{${this.blocks[1].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * A fraction
+ */
+class Fraction extends TwoBlockComponent {
+    toLatex() {
+        return `\\frac{${this.blocks[0].toLatex()}}{${this.blocks[1].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * Subscript
+ */
+class Subscript extends TwoBlockComponent {
+    toLatex() {
+        return `{${this.blocks[0].toLatex}}_{${this.blocks[1].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * Superscript
+ */
+
+class Superscript extends TwoBlockComponent {
+    toLatex() {
+        return `{${this.blocks[0].toLatex}}^{${this.blocks[1].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * Some text with both a subscript as well as a superscript on the left side
+ */
+class SubSupRight extends ThreeBlockComponent {
+    toLatex() {
+        return `{${this.blocks[1].toLatex()}}_{${this.blocks[0].toLatex}}^{${this.blocks[2].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * The square root function
+ */
+class Sqrt extends OneBlockComponent {
+    toLatex() {
+        return `\\sqrt{${this.blocks[0].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * The nth root function
+ */
+class NthRoot extends TwoBlockComponent {
+    toLatex() {
+        return `\\sqrt[${this.blocks[0].toLatex()}]{${this.blocks[1].toLatex()}}`;
     }
 }
