@@ -158,7 +158,7 @@ class FrameBox extends Component {
     }
 
     toLatex() {
-        return `\\framebox{${this.blocks[0].toLatex()}}`;
+        return `\\boxed{${this.blocks[0].toLatex()}}`;
     }
 }
 
