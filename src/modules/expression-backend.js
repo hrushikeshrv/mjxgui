@@ -142,7 +142,9 @@ class TwoBlockComponent extends Component {
 
 /**
  * @class
- * A component with three blocks
+ * A component with three blocks. We could further subclass ThreeBlockComponent to define a class that
+ * takes in some LaTeX data, since that is mostly the only thing that varies between functions, and that would
+ * make this file much DRYer
  */
 class ThreeBlockComponent extends Component {
     constructor(parent) {
@@ -153,6 +155,44 @@ class ThreeBlockComponent extends Component {
         b1.parent = this;
         b2.parent = this;
         b3.parent = this;
+    }
+}
+
+
+/**
+ * @class
+ * A template three block component that contains three blocks and uses the same LaTeX template.
+ * Only the LaTeX command changes, but the template remains the same for every three block component.
+ * We don't define a two block template component because the LaTeX generation for two block components
+ * differs significantly from component to component.
+ */
+class TemplateThreeBlockComponent extends ThreeBlockComponent {
+    constructor(parent, latexData) {
+        super(parent);
+        this.latexData = latexData;
+    }
+
+    toLatex() {
+        return `\\${this.latexData}_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
+    }
+}
+
+
+/**
+ * @class
+ * A template two block component for trigonometric functions, which all use the same LaTeX template.
+ * Every trigonometric component will, by default, have an empty block as a superscript. MathJax removes the
+ * empty block while rendering, so users will be able to raise the function to any power without us having to
+ * define a separate template component to support exponents for trigonometric components.
+ */
+class TrigonometricTwoBlockComponent extends TwoBlockComponent {
+    constructor(parent, latexData) {
+        super(parent);
+        this.latexData = latexData;
+    }
+
+    toLatex() {
+        return `\\${this.latexData}^{${this.blocks[0].toLatex()}}{${this.blocks[1].toLatex()}}`;
     }
 }
 
@@ -199,28 +239,6 @@ class MJXGUISymbol extends Component {
 class FrameBox extends OneBlockComponent {
     toLatex() {
         return `\\boxed{${this.blocks[0].toLatex()}}`;
-    }
-}
-
-
-/**
- * @class
- * The summation function
- */
-class Sum extends ThreeBlockComponent {
-    toLatex() {
-        return `\\sum_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
-    }
-}
-
-
-/**
- * @class
- * The integration function
- */
-class Integral extends ThreeBlockComponent {
-    toLatex() {
-        return `\\int_{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}{${this.blocks[2].toLatex()}}`;
     }
 }
 

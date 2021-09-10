@@ -110,8 +110,11 @@ const symbolLatexMap = {
 }
 
 const functionComponentMap = {
-    'sum': Sum,
-    'int': Integral,
+    'sum': 'sum',
+    'int': 'int',
+    'log': 'log',
+    'min': 'min',
+    'max': 'max',
 }
 
 window.onload = function() {
@@ -159,7 +162,14 @@ window.onload = function() {
     mjxguiFunctions.forEach(func => {
         func.addEventListener('click', function() {
             if (func.dataset.functionId in functionComponentMap) {
-                let _ = new functionComponentMap[func.dataset.functionId]();
+                let newComponent = functionComponentMap[func.dataset.functionId];
+                let _;
+                if (newComponent instanceof String || typeof newComponent === 'string') {
+                    _ = new TemplateThreeBlockComponent(mjxguiCursor.block, newComponent);
+                }
+                else {
+                    _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
+                }
                 mjxguiCursor.addComponent(_);
                 mjxguiCursor.updateDisplay();
                 latexOutput.innerHTML = mjxguiCursor.latex;
