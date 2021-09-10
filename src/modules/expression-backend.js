@@ -249,7 +249,7 @@ class FrameBox extends OneBlockComponent {
  */
 class Limit extends TwoBlockComponent {
     toLatex() {
-        return `\\lim_{${this.blocks[0].toLatex}}{${this.blocks[1].toLatex()}}`;
+        return `\\lim_{${this.blocks[0].toLatex()}}{${this.blocks[1].toLatex()}}`;
     }
 }
 
@@ -271,7 +271,7 @@ class Fraction extends TwoBlockComponent {
  */
 class Subscript extends TwoBlockComponent {
     toLatex() {
-        return `{${this.blocks[0].toLatex}}_{${this.blocks[1].toLatex()}}`;
+        return `{${this.blocks[0].toLatex()}}_{${this.blocks[1].toLatex()}}`;
     }
 }
 
@@ -283,7 +283,7 @@ class Subscript extends TwoBlockComponent {
 
 class Superscript extends TwoBlockComponent {
     toLatex() {
-        return `{${this.blocks[0].toLatex}}^{${this.blocks[1].toLatex()}}`;
+        return `{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}`;
     }
 }
 

@@ -110,11 +110,13 @@ const symbolLatexMap = {
 }
 
 const functionComponentMap = {
-    'sum': 'sum',
-    'int': 'int',
-    'log': 'log',
-    'min': 'min',
-    'max': 'max',
+    'lim': Limit,
+    'sqrt': Sqrt,
+    'nsqrt': NthRoot,
+    'sub': Subscript,
+    'sup': Superscript,
+    'subsup': SubSupRight,
+    'frac': Fraction,
 }
 
 window.onload = function() {
@@ -161,19 +163,21 @@ window.onload = function() {
 
     mjxguiFunctions.forEach(func => {
         func.addEventListener('click', function() {
-            if (func.dataset.functionId in functionComponentMap) {
-                let newComponent = functionComponentMap[func.dataset.functionId];
-                let _;
-                if (newComponent instanceof String || typeof newComponent === 'string') {
-                    _ = new TemplateThreeBlockComponent(mjxguiCursor.block, newComponent);
+            let _;
+            if (func.dataset.templateType !== 'null') {
+                if (func.dataset.templateType === 'three') {
+                    _ = new TemplateThreeBlockComponent(mjxguiCursor.block, func.dataset.latexData);
                 }
-                else {
-                    _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
+                else if (func.dataset.templateType === 'trigonometric') {
+                    _ = new TrigonometricTwoBlockComponent(mjxguiCursor.block, func.dataset.latexData);
                 }
-                mjxguiCursor.addComponent(_);
-                mjxguiCursor.updateDisplay();
-                latexOutput.innerHTML = mjxguiCursor.latex;
             }
+            else {
+                _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
+            }
+            mjxguiCursor.addComponent(_);
+            mjxguiCursor.updateDisplay();
+            latexOutput.innerHTML = mjxguiCursor.latex;
         })
     })
 }
