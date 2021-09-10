@@ -294,7 +294,7 @@ class Superscript extends TwoBlockComponent {
  */
 class SubSupRight extends ThreeBlockComponent {
     toLatex() {
-        return `{${this.blocks[1].toLatex()}}_{${this.blocks[0].toLatex}}^{${this.blocks[2].toLatex()}}`;
+        return `{${this.blocks[0].toLatex()}}_{${this.blocks[1].toLatex()}}^{${this.blocks[2].toLatex()}}`;
     }
 }
 
