@@ -119,6 +119,34 @@ const functionComponentMap = {
     'frac': Fraction,
 }
 
+class MJXGUI {
+    constructor(elementSelector, mathDelimiter, inputCallback) {
+        this.elements = elementSelector;
+        this.mathDelimiter = mathDelimiter;
+        this.inputCallback = inputCallback;
+        this.eqnHistory = [];
+        this.expression = new Expression();
+        this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
+
+        if (this.elements instanceof String || typeof this.elements === 'string') {
+            this.elements = document.querySelectorAll(this.elements);
+        }
+
+        this.constructUI();
+        this.elements.forEach(el => {
+            el.addEventListener('click', this.showUI);
+        })
+    }
+
+    showUI() {
+        // Shows the MJXGUI editor when this.element is clicked
+    }
+
+    constructUI() {
+        // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
+    }
+}
+
 window.onload = function() {
     const tabButtons = document.querySelectorAll('.tab-container');
     const tabs = document.querySelectorAll('.tab');

@@ -290,12 +290,12 @@ body {
 
 .tab .mjxgui-btn {
     background-color: var(--background);
-    font-size: 2rem;
+    font-size: 1rem;
     padding: 1px 8px;
     border-radius: 5px;
     transition: background-color ease 0.25s;
     cursor: pointer;
-    min-width: 50px;
+    min-width: 20px;
     display: flex;
     justify-content: center;
 }
