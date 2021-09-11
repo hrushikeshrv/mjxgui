@@ -30,6 +30,8 @@
     <title>MJXGUI Demo</title>
 </head>
 <body>
+    <strong>HTML structure for the MJXGUI editor (non-functional)</strong><br>
+    <input type="button" value="Add Equation" id="show_editor">
     <div id="mjxgui_editor_window">
         <div id="mjxgui_editor_controls">
             <div style="cursor: pointer;">
@@ -39,8 +41,8 @@
                     <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
             </div>
-            <div style="display: flex; flex-flow: row wrap; font-family: monospace; align-items: center; justify-content: center;">
-                <span style="display: flex; flex-flow: row wrap; align-items: center; justify-content: center; margin: 0 5px;">
+            <div class="mjxgui_clear_save_buttons">
+                <span class="mjxgui_button_container">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <line x1="4" y1="7" x2="20" y2="7" />
@@ -51,7 +53,7 @@
                     </svg>
                     <span>Clear Eqn</span>
                 </span>
-                <span style="display: flex; flex-flow: row wrap; align-items: center; justify-content: center; margin: 0 5px;">
+                <span class="mjxgui_button_container">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                       <path d="M5 12l5 5l10 -10" />
@@ -218,6 +220,18 @@
                     }
                 })
             })
+        })
+    </script>
+    <script>
+        const editor = document.querySelector('#mjxgui_editor_window');
+        const showButton = document.querySelector('#show_editor');
+        showButton.addEventListener('click', function() {
+            editor.style.display = 'block';
+        })
+
+        const closeButton = document.querySelector('.mjxgui_close_button_svg');
+        closeButton.addEventListener('click', function() {
+            editor.removeAttribute('style');
         })
     </script>
 </body>
