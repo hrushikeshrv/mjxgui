@@ -124,10 +124,12 @@ class MJXGUI {
         this.elements = elementSelector;
         this.mathDelimiter = mathDelimiter;
         this.successCallback = successCallback;
-        this.eqnHistory = [];
+        // this.eqnHistory = [];
         this.expression = new Expression();
         this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
-        this.editorWindow = null;
+        // this.latex = '';
+        // this.editorWindow = null;
+        // this.eqnDisplay = null;
 
         if (this.elements instanceof String || typeof this.elements === 'string') {
             this.elements = document.querySelectorAll(this.elements);
@@ -135,13 +137,51 @@ class MJXGUI {
 
         this.constructUI();
         this.elements.forEach(el => {
-            el.addEventListener('click', this.showUI);
+            el.addEventListener('click', () => {
+                this.editorWindow.style.display = 'block';
+                this.editorWindow.dataset.visible = 'true';
+            })
         })
-    }
 
-    showUI() {
-        // Shows the MJXGUI editor when this.element is clicked
-        this.editorWindow.style.display = 'block';
+        document.addEventListener('keydown', evt => {
+            if (this.editorWindow.dataset.visible === 'false') return;
+            MathJax.typesetClear([this.eqnDisplay]);
+            this.cursor.keyPress(evt);
+            this.eqnDisplay.innerHTML = this.mathDelimiter + this.cursor.toDisplayLatex() + this.mathDelimiter;
+            MathJax.typesetPromise([this.eqnDisplay]).then(() => {});
+        })
+
+        const symbols = this.editorWindow.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
+        const functions = this.editorWindow.querySelectorAll('.mjxgui-function');
+
+        symbols.forEach(symbol => {
+            symbol.addEventListener('click', () => {
+                if (symbol.dataset.latexData in symbolLatexMap) {
+                    let _ = new MJXGUISymbol(this.cursor.block, symbolLatexMap[symbol.dataset.latexData]);
+                    this.cursor.addComponent(_);
+                    this.cursor.updateDisplay();
+                }
+            })
+        })
+
+        functions.forEach(func => {
+            func.addEventListener('click', () => {
+                let _;
+                if (func.dataset.templateType !== 'null') {
+                    if (func.dataset.templateType === 'three') {
+                        _ = new TemplateThreeBlockComponent(this.cursor.block, func.dataset.latexData);
+                    }
+                    else if (func.dataset.templateType === 'trigonometric') {
+                        _ = new TrigonometricTwoBlockComponent(this.cursor.block, func.dataset.latexData);
+                    }
+                }
+                else {
+                    _ = new functionComponentMap[func.dataset.functionId](this.cursor.block);
+                }
+                this.cursor.addComponent(_);
+                this.cursor.updateDisplay();
+            })
+        })
     }
 
     constructUI() {
@@ -150,6 +190,7 @@ class MJXGUI {
         // CSS First
         const css = `
             #mjxgui_editor_window {
+                display: none;
                 position: fixed;
                 top: 50%;
                 left: 50%;
@@ -248,8 +289,8 @@ class MJXGUI {
 
         // HTML
         const editorDiv = document.createElement('div');
-        this.editorWindow = editorDiv;
         editorDiv.id = 'mjxgui_editor_window';
+        editorDiv.dataset.visible = 'false';
         editorDiv.innerHTML = `
             <div id="mjxgui_editor_controls">
                 <div style="cursor: pointer;">
@@ -420,8 +461,11 @@ class MJXGUI {
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arccos">$ \\arccos{} $</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arctan">$ \\arctan{} $</span>
             </div>
-            <div id="_mjxgui_editor_display"></div>
+            <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
+
+        this.editorWindow = editorDiv;
+        this.eqnDisplay = editorDiv.querySelector('#_mjxgui_editor_display');
         const mjxguiTabButtons = editorDiv.querySelectorAll('.mjxgui_tab_container');
         const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
 
@@ -441,15 +485,21 @@ class MJXGUI {
         const closeEditor = editorDiv.querySelector('.mjxgui_close_button_svg');
         closeEditor.addEventListener('click', function() {
             editorDiv.removeAttribute('style');
+            editorDiv.dataset.visible = 'false';
         })
 
         const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
         clearEquationButton.addEventListener('click', this.clearEquation);
 
         const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
-        saveEquationButton.addEventListener('click', this.successCallback);
+        saveEquationButton.addEventListener('click', () => {
+            this.successCallback();
+            editorDiv.removeAttribute('style');
+            editorDiv.dataset.visible = 'false';
+        });
 
-        MathJax.typesetPromise([editorDiv]).then(() => {});
+        document.body.appendChild(editorDiv);
+        // MathJax.typesetPromise([editorDiv]).then(() => {});
     }
 
     clearEquation() {
@@ -457,65 +507,65 @@ class MJXGUI {
     }
 }
 
-window.onload = function() {
-    const tabButtons = document.querySelectorAll('.tab-container');
-    const tabs = document.querySelectorAll('.tab');
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            tabs.forEach(tab => {
-                if (tab.dataset.tab === button.dataset.tab) {
-                    tab.classList.remove('hidden');
-                }
-                else {
-                    tab.classList.add('hidden');
-                }
-            })
-        })
-    })
-
-    // ? Listen for keypresses
-    const display = document.querySelector('#mjxgui-display');
-    const latexOutput = document.querySelector('#mjxgui-latex-out');
-    document.addEventListener('keydown', function(evt) {
-        MathJax.typesetClear([display]);
-        mjxguiCursor.keyPress(evt);
-        display.innerHTML = '$$' + mjxguiCursor.toDisplayLatex() + '$$';
-        MathJax.typesetPromise([display]).then(() => {});
-        latexOutput.innerHTML = mjxguiCursor.latex;
-    });
-
-    // ? Listen for button presses
-    const mjxguiSymbols = document.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
-    const mjxguiFunctions = document.querySelectorAll('.mjxgui-function');
-
-    mjxguiSymbols.forEach(symbol => {
-        symbol.addEventListener('click', function() {
-            if (symbol.dataset.latexData in symbolLatexMap) {
-                let _ = new MJXGUISymbol(mjxguiCursor.block, symbolLatexMap[symbol.dataset.latexData]);
-                mjxguiCursor.addComponent(_);
-                mjxguiCursor.updateDisplay();
-                latexOutput.innerHTML = mjxguiCursor.latex;
-            }
-        })
-    })
-
-    mjxguiFunctions.forEach(func => {
-        func.addEventListener('click', function() {
-            let _;
-            if (func.dataset.templateType !== 'null') {
-                if (func.dataset.templateType === 'three') {
-                    _ = new TemplateThreeBlockComponent(mjxguiCursor.block, func.dataset.latexData);
-                }
-                else if (func.dataset.templateType === 'trigonometric') {
-                    _ = new TrigonometricTwoBlockComponent(mjxguiCursor.block, func.dataset.latexData);
-                }
-            }
-            else {
-                _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
-            }
-            mjxguiCursor.addComponent(_);
-            mjxguiCursor.updateDisplay();
-            latexOutput.innerHTML = mjxguiCursor.latex;
-        })
-    })
-}
+// window.onload = function() {
+//     const tabButtons = document.querySelectorAll('.tab-container');
+//     const tabs = document.querySelectorAll('.tab');
+//     tabButtons.forEach(button => {
+//         button.addEventListener('click', function() {
+//             tabs.forEach(tab => {
+//                 if (tab.dataset.tab === button.dataset.tab) {
+//                     tab.classList.remove('hidden');
+//                 }
+//                 else {
+//                     tab.classList.add('hidden');
+//                 }
+//             })
+//         })
+//     })
+//
+//     // ? Listen for keypresses
+//     const display = document.querySelector('#mjxgui-display');
+//     const latexOutput = document.querySelector('#mjxgui-latex-out');
+//     document.addEventListener('keydown', function(evt) {
+//         MathJax.typesetClear([display]);
+//         mjxguiCursor.keyPress(evt);
+//         display.innerHTML = '$$' + mjxguiCursor.toDisplayLatex() + '$$';
+//         MathJax.typesetPromise([display]).then(() => {});
+//         latexOutput.innerHTML = mjxguiCursor.latex;
+//     });
+//
+//     // ? Listen for button presses
+//     const mjxguiSymbols = document.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
+//     const mjxguiFunctions = document.querySelectorAll('.mjxgui-function');
+//
+//     mjxguiSymbols.forEach(symbol => {
+//         symbol.addEventListener('click', function() {
+//             if (symbol.dataset.latexData in symbolLatexMap) {
+//                 let _ = new MJXGUISymbol(mjxguiCursor.block, symbolLatexMap[symbol.dataset.latexData]);
+//                 mjxguiCursor.addComponent(_);
+//                 mjxguiCursor.updateDisplay();
+//                 latexOutput.innerHTML = mjxguiCursor.latex;
+//             }
+//         })
+//     })
+//
+//     mjxguiFunctions.forEach(func => {
+//         func.addEventListener('click', function() {
+//             let _;
+//             if (func.dataset.templateType !== 'null') {
+//                 if (func.dataset.templateType === 'three') {
+//                     _ = new TemplateThreeBlockComponent(mjxguiCursor.block, func.dataset.latexData);
+//                 }
+//                 else if (func.dataset.templateType === 'trigonometric') {
+//                     _ = new TrigonometricTwoBlockComponent(mjxguiCursor.block, func.dataset.latexData);
+//                 }
+//             }
+//             else {
+//                 _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
+//             }
+//             mjxguiCursor.addComponent(_);
+//             mjxguiCursor.updateDisplay();
+//             latexOutput.innerHTML = mjxguiCursor.latex;
+//         })
+//     })
+// }
