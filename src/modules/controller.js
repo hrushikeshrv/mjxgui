@@ -244,7 +244,10 @@ class Cursor {
         // is a TextComponent, delete the TextComponent directly.
         if (this.expression.components.length === 0) return;
         else if (this.position === -0.5) return;
+
         if (this.block === null) {
+            // If we are not in a block, we are in between two components, remove the previous component if it is
+            // a TextComponent
             let prevComponent = this.expression.components[Math.floor(this.position)];
             if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
                 this.removeComponent();
@@ -252,15 +255,26 @@ class Cursor {
             else {
                 this.component = prevComponent;
                 this.block = this.component.blocks[this.component.blocks.length-1];
-                this.child = this.block.children.length-1;
+                this.child = this.block.children.length-0.5;
                 this.position = Math.floor(this.position);
             }
         }
-        // TODO - This implementation of backspace() is probably not correct and will break inside nested functions
         else {
-            this.block.removeChild(this.child);
-            this.child--;
-            if (this.child < -0.5) this.child = -0.5;
+            if (this.component.isEmpty()) {
+                this.removeComponent();
+            }
+            else {
+                if (this.child <= -0.5) {
+                    const blockPos = this.component.blocks.indexOf(this.block);
+                    if (blockPos === 0) return;
+                    this.block = this.component.blocks[blockPos-1];
+                    this.child = this.block.children.length-0.5;
+                }
+                else {
+                    this.block.removeChild(Math.floor(this.child));
+                    this.child--;
+                }
+            }
         }
     }
 

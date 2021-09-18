@@ -83,7 +83,7 @@ class Block {
 
 /**
  * @class
- * Abstract base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
+ * Base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
  * and all *Function classes. All child classes of Component override the toLatex method
  * to customize the LaTeX generated. You can define your own child classes to add support for 
  * LaTeX syntax not yet supported.
@@ -108,6 +108,14 @@ class Component {
 
     removeBlock(position) {
         this.blocks.splice(position, 1);
+    }
+
+    isEmpty() {
+        // Returns true if the blocks in the component are empty
+        for (let block of this.blocks) {
+            if (block.children.length) return false;
+        }
+        return true;
     }
 }
 

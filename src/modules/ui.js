@@ -451,15 +451,15 @@ class MJXGUI {
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">$ {\\Box}^{\\Box} $</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">$ {\\Box}^{\\Box}_{\\Box} $</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">$ \\frac{\\Box}{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="sin">$ \\sin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="cos">$ \\cos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="tan">$ \\tan{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="csc">$ \\csc{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="sec">$ \\sec{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="cot">$ \\cot{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arcsin">$ \\arcsin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arccos">$ \\arccos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arctan">$ \\arctan{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">$ \\sin{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">$ \\cos{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">$ \\tan{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">$ \\csc{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">$ \\sec{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">$ \\cot{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">$ \\arcsin{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">$ \\arccos{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">$ \\arctan{} $</span>
             </div>
             <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
@@ -506,66 +506,3 @@ class MJXGUI {
 
     }
 }
-
-// window.onload = function() {
-//     const tabButtons = document.querySelectorAll('.tab-container');
-//     const tabs = document.querySelectorAll('.tab');
-//     tabButtons.forEach(button => {
-//         button.addEventListener('click', function() {
-//             tabs.forEach(tab => {
-//                 if (tab.dataset.tab === button.dataset.tab) {
-//                     tab.classList.remove('hidden');
-//                 }
-//                 else {
-//                     tab.classList.add('hidden');
-//                 }
-//             })
-//         })
-//     })
-//
-//     // ? Listen for keypresses
-//     const display = document.querySelector('#mjxgui-display');
-//     const latexOutput = document.querySelector('#mjxgui-latex-out');
-//     document.addEventListener('keydown', function(evt) {
-//         MathJax.typesetClear([display]);
-//         mjxguiCursor.keyPress(evt);
-//         display.innerHTML = '$$' + mjxguiCursor.toDisplayLatex() + '$$';
-//         MathJax.typesetPromise([display]).then(() => {});
-//         latexOutput.innerHTML = mjxguiCursor.latex;
-//     });
-//
-//     // ? Listen for button presses
-//     const mjxguiSymbols = document.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
-//     const mjxguiFunctions = document.querySelectorAll('.mjxgui-function');
-//
-//     mjxguiSymbols.forEach(symbol => {
-//         symbol.addEventListener('click', function() {
-//             if (symbol.dataset.latexData in symbolLatexMap) {
-//                 let _ = new MJXGUISymbol(mjxguiCursor.block, symbolLatexMap[symbol.dataset.latexData]);
-//                 mjxguiCursor.addComponent(_);
-//                 mjxguiCursor.updateDisplay();
-//                 latexOutput.innerHTML = mjxguiCursor.latex;
-//             }
-//         })
-//     })
-//
-//     mjxguiFunctions.forEach(func => {
-//         func.addEventListener('click', function() {
-//             let _;
-//             if (func.dataset.templateType !== 'null') {
-//                 if (func.dataset.templateType === 'three') {
-//                     _ = new TemplateThreeBlockComponent(mjxguiCursor.block, func.dataset.latexData);
-//                 }
-//                 else if (func.dataset.templateType === 'trigonometric') {
-//                     _ = new TrigonometricTwoBlockComponent(mjxguiCursor.block, func.dataset.latexData);
-//                 }
-//             }
-//             else {
-//                 _ = new functionComponentMap[func.dataset.functionId](mjxguiCursor.block);
-//             }
-//             mjxguiCursor.addComponent(_);
-//             mjxguiCursor.updateDisplay();
-//             latexOutput.innerHTML = mjxguiCursor.latex;
-//         })
-//     })
-// }
