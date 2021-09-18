@@ -124,7 +124,7 @@ class MJXGUI {
         this.elements = elementSelector;
         this.mathDelimiter = mathDelimiter;
         this.successCallback = successCallback;
-        // this.eqnHistory = [];
+        this.eqnHistory = [];
         this.expression = new Expression();
         this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
         // this.latex = '';
@@ -489,20 +489,34 @@ class MJXGUI {
         })
 
         const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
-        clearEquationButton.addEventListener('click', this.clearEquation);
+        clearEquationButton.addEventListener('click', () => {
+            this.clearEquation();
+        });
 
         const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
         saveEquationButton.addEventListener('click', () => {
-            this.successCallback();
+            const latex = this.cursor.toLatex();
+            if (latex) {
+                this.successCallback();
+            }
             editorDiv.removeAttribute('style');
             editorDiv.dataset.visible = 'false';
+            this.clearEquation();
         });
 
         document.body.appendChild(editorDiv);
-        // MathJax.typesetPromise([editorDiv]).then(() => {});
     }
 
     clearEquation() {
-
+        // push this entire expression onto the eqnHistory array so the user can access it again
+        this.eqnHistory.push(this.expression);
+        this.expression = new Expression();
+        this.cursor.expression = this.expression;
+        this.cursor.block = null;
+        this.cursor.component = null;
+        this.cursor.child = -0.5;
+        this.cursor.position = -0.5;
+        this.cursor.latex = '';
+        this.cursor.updateDisplay();
     }
 }

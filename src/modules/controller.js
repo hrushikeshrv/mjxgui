@@ -240,8 +240,6 @@ class Cursor {
     }
 
     backspace() {
-        // NOTE - If we are in the space between two components and the component to the left
-        // is a TextComponent, delete the TextComponent directly.
         if (this.expression.components.length === 0) return;
         else if (this.position === -0.5) return;
 
