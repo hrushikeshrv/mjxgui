@@ -166,10 +166,6 @@ class MJXGUI {
 
         functions.forEach(func => {
             func.addEventListener('click', () => {
-                console.log('Cursor block before', this.cursor.block);
-                console.log('Cursor component before', this.cursor.component);
-                console.log('Cursor position before', this.cursor.position);
-                console.log('Cursor child before', this.cursor.child);
                 let _;
                 if (func.dataset.templateType !== 'null') {
                     if (func.dataset.templateType === 'three') {
@@ -184,11 +180,6 @@ class MJXGUI {
                 }
                 this.cursor.addComponent(_);
                 this.cursor.updateDisplay();
-                console.log('Cursor block after', this.cursor.block);
-                console.log('Cursor component after', this.cursor.component);
-                console.log('Cursor position after', this.cursor.position);
-                console.log('Cursor child after', this.cursor.child);
-                console.log('------------\n\n');
             })
         })
     }

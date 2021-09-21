@@ -169,16 +169,26 @@ class Cursor {
         }
         else {
             if (this.child === this.block.children.length-0.5) {
-                // If we are in the last child, we want to move to a different block.
-                // Detect the position of the block in the component.
-                // If the block is the last block of the component, we move into the space between
-                // Else, we just move to the block after the current one
+                // If we are at the end of the block, we want to move to a different block
+                // and possibly a new component
                 let pos = this.component.blocks.indexOf(this.block);
                 if (pos === this.component.blocks.length-1) {
-                    this.component = null;
-                    this.block = null;
-                    this.child = -0.5;
-                    this.position += 0.5;
+                    // If we are in the last block of the current component, we want to move out of this component
+                    if (this.component.parent === null) {
+                        // We are at the top level, our component and blocks become null
+                        this.component = null;
+                        this.block = null;
+                        this.child = -0.5;
+                        this.position += 0.5;
+                    }
+                    else {
+                        // Otherwise, we move one level above and our component becomes the parent component
+                        // our block becomes the block that the current component was in
+                        this.block = this.component.parent;
+                        // Record the position the current component is in. We move the cursor here
+                        this.child = this.block.children.indexOf(this.component) + 0.5;
+                        this.component = this.block.parent;
+                    }
                 }
                 else {
                     // this.component and this.position remain the same
@@ -187,10 +197,20 @@ class Cursor {
                 }
             }
             else {
-                this.child++;
+                // We are not at the end of the block
+                // Detect the component to the right
+                let nextComponent = this.block.children[Math.ceil(this.child)];
+                if (nextComponent instanceof TextComponent || nextComponent instanceof MJXGUISymbol) {
+                    // If it is a TextComponent or Symbol, skip it and move on
+                    this.child++;
+                }
+                else {
+                    this.component = nextComponent;
+                    this.block = this.component.blocks[0];
+                    this.child = -0.5;
+                }
             }
         }
-        
     }
 
     seekLeft() {
@@ -217,16 +237,26 @@ class Cursor {
         }
         else {
             if (this.child === -0.5) {
-                // If we are in the first child, we want to move to a different block.
-                // Detect the position of the block in the component.
-                // If the block is the first block of the component, we move into the space between two components
-                // Else, we just move to the block before the current one in the same component.
+                // If we are at the start of the block, we want to move to a different block
+                // and possibly a new component
                 let pos = this.component.blocks.indexOf(this.block);
                 if (pos === 0) {
-                    this.component = null;
-                    this.block = null;
-                    this.child = -0.5;
-                    this.position -= 0.5;
+                    // If we are in the first block of this component, we want to move out of this component
+                    if (this.component.parent === null) {
+                        // We are at the top level, our component and blocks become null
+                        this.component = null;
+                        this.block = null;
+                        this.child = -0.5;
+                        this.position -= 0.5;
+                    }
+                    else {
+                        // Otherwise, we move one level above and our component becomes the parent component
+                        // our block becomes the block that the current component was in
+                        this.block = this.component.parent;
+                        // Record the position the current component is in. We move the cursor there.
+                        this.child = this.block.children.indexOf(this.component) - 0.5;
+                        this.component = this.block.parent;
+                    }
                 }
                 else {
                     // this.component and this.position remain the same
@@ -235,7 +265,18 @@ class Cursor {
                 }
             }
             else {
-                this.child--;
+                // We are not at the start of the block
+                // Detect the component to the left
+                let prevComponent = this.block.children[Math.floor(this.child)];
+                if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
+                    // If it is a TextComponent or Symbol, skip it and move on
+                    this.child--;
+                }
+                else {
+                    this.component = prevComponent;
+                    this.block = this.component.blocks[this.component.blocks.length-1];
+                    this.child = this.block.children.length - 0.5;
+                }
             }
         }
     }
