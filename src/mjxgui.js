@@ -1,6 +1,6 @@
 /*
     mjxgui v0.1.0-beta.1 | (C) Hrushikesh Vaidya
-    
+
     MIT License
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,11 +22,14 @@
     SOFTWARE.
 */
 
+// Builds the expression/equation being typed in by the user
+// Exposes its API for the controller module to use
+
 /**
  * @class
  * Thin wrapper around the Component class that collects all the components together in an Expression
  * that can be easily rendered and converted to LaTeX.
-**/
+ **/
 class Expression {
     constructor(nestingDepth = 0) {
         this.components = [];
@@ -57,8 +60,8 @@ class Expression {
 
 /**
  * @class
- * Represents a block. A fundamental unit of the Expression. 
- * 
+ * Represents a block. A fundamental unit of the Expression.
+ *
  * All data is ultimately stored in
  * a Block. A Component or any child class of Component has a fixed number of Blocks in it, and a Block can
  * have a variable number of 'children'. An element in a Block's children array can either be a string
@@ -104,9 +107,9 @@ class Block {
 
 /**
  * @class
- * Abstract base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
+ * Base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
  * and all *Function classes. All child classes of Component override the toLatex method
- * to customize the LaTeX generated. You can define your own child classes to add support for 
+ * to customize the LaTeX generated. You can define your own child classes to add support for
  * LaTeX syntax not yet supported.
  */
 class Component {
@@ -130,6 +133,14 @@ class Component {
     removeBlock(position) {
         this.blocks.splice(position, 1);
     }
+
+    isEmpty() {
+        // Returns true if the blocks in the component are empty
+        for (let block of this.blocks) {
+            if (block.children.length) return false;
+        }
+        return true;
+    }
 }
 
 
@@ -137,7 +148,7 @@ class Component {
  * @class
  * A component with one block
  */
- class OneBlockComponent extends Component {
+class OneBlockComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         super([b1], parent);
@@ -341,9 +352,8 @@ class NthRoot extends TwoBlockComponent {
     }
 }
 
-// Listens for keypresses and modifies the Expression accordingly
+// Listens for keypress and modifies the Expression accordingly
 
-let expression = new Expression();
 const characters = new Set();
 for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
     characters.add(char);
@@ -351,7 +361,7 @@ for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
 
 /**
  * @class
- * 
+ *
  */
 class Cursor {
     constructor(expression, display) {
@@ -368,17 +378,17 @@ class Cursor {
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
         if (this.block === null) {
-            // Safe to assume we are not in any block and are between two components in the 
+            // Safe to assume we are not in any block and are between two components in the
             // Expression or at the start or end of the Expression.
             const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
             this.expression.add(_, Math.ceil(this.position));
-            
+
             this.child = -0.5;
             this.position++;
         }
         else {
-            // We are in some Block in some Component of the Expression. 
+            // We are in some Block in some Component of the Expression.
             // The child we are in changes, the component, block, and position remain the same
             const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
@@ -389,8 +399,8 @@ class Cursor {
 
     addComponent(component) {
         // Insert a new Component into the Expression at the position of the cursor.
-        // If we are in a block, we add a Component to the block as a child, otherwise 
-        // we insert the Component on the top level as a new component in the 
+        // If we are in a block, we add a Component to the block as a child, otherwise
+        // we insert the Component on the top level as a new component in the
         // Expression
         if (this.block === null) {
             this.expression.add(component, Math.ceil(this.position));
@@ -410,16 +420,17 @@ class Cursor {
             // Add the component to the block's children and increment this.child in preparation to move
             // inside the inserted component
             this.block.addChild(component, Math.ceil(this.child));
-            this.child += 0.5;
+            // this.child += 0.5;
             if (component instanceof MJXGUISymbol || component instanceof TextComponent) {
                 // If the component we just inserted is a Symbol or Text, don't move into it and increment
                 // this.child by 0.5 again
-                this.child += 0.5;
+                this.child += 1;
             }
             else {
                 // Otherwise, move into the new component
                 this.component = component;
                 this.block = component.blocks[0];
+                this.child = -0.5;
             }
         }
     }
@@ -511,16 +522,26 @@ class Cursor {
         }
         else {
             if (this.child === this.block.children.length-0.5) {
-                // If we are in the last child, we want to move to a different block.
-                // Detect the position of the block in the component.
-                // If the block is the last block of the component, we move into the space between
-                // Else, we just move to the block after the current one
+                // If we are at the end of the block, we want to move to a different block
+                // and possibly a new component
                 let pos = this.component.blocks.indexOf(this.block);
                 if (pos === this.component.blocks.length-1) {
-                    this.component = null;
-                    this.block = null;
-                    this.child = -0.5;
-                    this.position += 0.5;
+                    // If we are in the last block of the current component, we want to move out of this component
+                    if (this.component.parent === null) {
+                        // We are at the top level, our component and blocks become null
+                        this.component = null;
+                        this.block = null;
+                        this.child = -0.5;
+                        this.position += 0.5;
+                    }
+                    else {
+                        // Otherwise, we move one level above and our component becomes the parent component
+                        // our block becomes the block that the current component was in
+                        this.block = this.component.parent;
+                        // Record the position the current component is in. We move the cursor here
+                        this.child = this.block.children.indexOf(this.component) + 0.5;
+                        this.component = this.block.parent;
+                    }
                 }
                 else {
                     // this.component and this.position remain the same
@@ -529,10 +550,20 @@ class Cursor {
                 }
             }
             else {
-                this.child++;
+                // We are not at the end of the block
+                // Detect the component to the right
+                let nextComponent = this.block.children[Math.ceil(this.child)];
+                if (nextComponent instanceof TextComponent || nextComponent instanceof MJXGUISymbol) {
+                    // If it is a TextComponent or Symbol, skip it and move on
+                    this.child++;
+                }
+                else {
+                    this.component = nextComponent;
+                    this.block = this.component.blocks[0];
+                    this.child = -0.5;
+                }
             }
         }
-        
     }
 
     seekLeft() {
@@ -559,16 +590,26 @@ class Cursor {
         }
         else {
             if (this.child === -0.5) {
-                // If we are in the first child, we want to move to a different block.
-                // Detect the position of the block in the component.
-                // If the block is the first block of the component, we move into the space between two components
-                // Else, we just move to the block before the current one in the same component.
+                // If we are at the start of the block, we want to move to a different block
+                // and possibly a new component
                 let pos = this.component.blocks.indexOf(this.block);
                 if (pos === 0) {
-                    this.component = null;
-                    this.block = null;
-                    this.child = -0.5;
-                    this.position -= 0.5;
+                    // If we are in the first block of this component, we want to move out of this component
+                    if (this.component.parent === null) {
+                        // We are at the top level, our component and blocks become null
+                        this.component = null;
+                        this.block = null;
+                        this.child = -0.5;
+                        this.position -= 0.5;
+                    }
+                    else {
+                        // Otherwise, we move one level above and our component becomes the parent component
+                        // our block becomes the block that the current component was in
+                        this.block = this.component.parent;
+                        // Record the position the current component is in. We move the cursor there.
+                        this.child = this.block.children.indexOf(this.component) - 0.5;
+                        this.component = this.block.parent;
+                    }
                 }
                 else {
                     // this.component and this.position remain the same
@@ -577,17 +618,29 @@ class Cursor {
                 }
             }
             else {
-                this.child--;
+                // We are not at the start of the block
+                // Detect the component to the left
+                let prevComponent = this.block.children[Math.floor(this.child)];
+                if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
+                    // If it is a TextComponent or Symbol, skip it and move on
+                    this.child--;
+                }
+                else {
+                    this.component = prevComponent;
+                    this.block = this.component.blocks[this.component.blocks.length-1];
+                    this.child = this.block.children.length - 0.5;
+                }
             }
         }
     }
 
     backspace() {
-        // NOTE - If we are in the space between two components and the component to the left
-        // is a TextComponent, delete the TextComponent directly.
         if (this.expression.components.length === 0) return;
         else if (this.position === -0.5) return;
+
         if (this.block === null) {
+            // If we are not in a block, we are in between two components, remove the previous component if it is
+            // a TextComponent
             let prevComponent = this.expression.components[Math.floor(this.position)];
             if (prevComponent instanceof TextComponent || prevComponent instanceof MJXGUISymbol) {
                 this.removeComponent();
@@ -595,15 +648,26 @@ class Cursor {
             else {
                 this.component = prevComponent;
                 this.block = this.component.blocks[this.component.blocks.length-1];
-                this.child = this.block.children.length-1;
+                this.child = this.block.children.length-0.5;
                 this.position = Math.floor(this.position);
             }
         }
-        // TODO - This implementation of backspace() is probably not correct and will break inside nested functions
         else {
-            this.block.removeChild(this.child);
-            this.child--;
-            if (this.child < -0.5) this.child = -0.5;
+            if (this.component.isEmpty()) {
+                this.removeComponent();
+            }
+            else {
+                if (this.child <= -0.5) {
+                    const blockPos = this.component.blocks.indexOf(this.block);
+                    if (blockPos === 0) return;
+                    this.block = this.component.blocks[blockPos-1];
+                    this.child = this.block.children.length-0.5;
+                }
+                else {
+                    this.block.removeChild(Math.floor(this.child));
+                    this.child--;
+                }
+            }
         }
     }
 
@@ -615,21 +679,21 @@ class Cursor {
     }
 
     toDisplayLatex() {
-        // Generate LaTeX to show in the display by adding a caret character to the expression. 
-        // This is not the real LaTeX of the expression but the LaTeX resulting after we add 
+        // Generate LaTeX to show in the display by adding a caret character to the expression.
+        // This is not the real LaTeX of the expression but the LaTeX resulting after we add
         // a caret as a | character in the expression
         let caret = new TextComponent(this.block);
         caret.blocks[0].addChild('|');
-        
+
         let frame = new FrameBox(this.block);
 
         if (this.block === null) {
-            // If we are not in any block, we just add the caret, generate latex 
+            // If we are not in any block, we just add the caret, generate latex
             // and reset the components
             this.expression.add(caret, Math.ceil(this.position));
         }
         else {
-            // We add the current component inside the frame, add the caret in the 
+            // We add the current component inside the frame, add the caret in the
             // right position, generate latex and reset the components
             let i = this.component.blocks.indexOf(this.block);
             this.component.removeBlock(i);
@@ -639,7 +703,7 @@ class Cursor {
         }
 
         let latex = this.toLatex();
-        
+
 
         if (this.block === null) {
             this.expression.remove(Math.ceil(this.position));
@@ -663,8 +727,6 @@ class Cursor {
         MathJax.typesetPromise([this.display]).then(() => {});
     }
 }
-
-let mjxguiCursor = new Cursor(expression, 'mjxgui-display');
 
 // Draws the editor UI and canvas inside the given div
 
@@ -792,7 +854,7 @@ class MJXGUI {
         this.elements = elementSelector;
         this.mathDelimiter = mathDelimiter;
         this.successCallback = successCallback;
-        // this.eqnHistory = [];
+        this.eqnHistory = [];
         this.expression = new Expression();
         this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
         // this.latex = '';
@@ -857,7 +919,99 @@ class MJXGUI {
 
         // CSS First
         const css = `
-        #mjxgui_editor_window{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#f0f0f0;border:2px solid #000;border-radius:6px;box-shadow:0 0 20px rgba(0,0,0,.3);padding:20px;min-width:280px;max-width:600px}#_mjxgui_tab_container_container{display:flex;flex-flow:row wrap}.mjxgui_tab_container{padding:5px;font-family:monospace;font-size:1.1rem;border-radius:6px;background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;user-select:none;margin:0 10px}.mjxgui_tab_container:hover{background-color:#dcdcdc}#mjxgui_editor_controls{display:flex;flex-flow:row wrap;justify-content:space-between}#_mjxgui_editor_display{padding:10px;margin:10px;border:1px solid #000;border-radius:6px}.mjxgui_tab{padding:10px;margin-top:10px;display:none;align-items:stretch;flex-flow:row wrap}.mjxgui_tab .mjxgui-btn{background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;margin:2px;min-width:25px;text-align:center}.mjxgui-btn:hover{background-color:#dcdcdc}.mjxgui_button_container,.mjxgui_clear_save_buttons{display:flex;flex-flow:row wrap;font-family:monospace;font-size:1.1rem;align-items:center;justify-content:center}.mjxgui_button_container{margin:0 5px;background-color:#f0f0f0;border-radius:6px;transition:background-color ease .25s;cursor:pointer;padding:5px}.mjxgui_button_container:hover{background-color:#dcdcdc}
+            #mjxgui_editor_window {
+                display: none;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            
+                background-color: rgb(240, 240, 240);
+                border: 2px solid black;
+                border-radius: 6px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            
+                padding: 20px;
+                min-width: 280px;
+                max-width: 600px;
+            }
+            
+            #_mjxgui_tab_container_container {
+                display: flex;
+                flex-flow: row wrap;
+            }
+            
+            .mjxgui_tab_container {
+                padding: 5px;
+                font-family: monospace;
+                font-size: 1.1rem;
+                border-radius: 6px;
+                background-color: rgb(240, 240, 240);
+                transition: background-color ease 0.25s;
+                cursor: pointer;
+                user-select: none;
+                margin: 0 10px;
+            }
+            
+            .mjxgui_tab_container:hover {
+                background-color: rgb(220, 220, 220);
+            }
+            
+            #mjxgui_editor_controls {
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: space-between;
+            }
+            
+            #_mjxgui_editor_display {
+                padding: 10px;
+                margin: 10px;
+                border: 1px solid black;
+                border-radius: 6px;
+            }
+            
+            .mjxgui_tab {
+                padding: 10px;
+                margin-top: 10px;
+                display: none;
+                align-items: stretch;
+                flex-flow: row wrap;
+            }
+            
+            .mjxgui_tab .mjxgui-btn {
+                background-color: rgb(240, 240, 240);
+                transition: background-color ease 0.25s;
+                cursor: pointer;
+                margin: 2px;
+                min-width: 25px;
+                text-align: center;
+            }
+            
+            .mjxgui-btn:hover {
+                background-color: rgb(220, 220, 220);
+            }
+            
+            .mjxgui_clear_save_buttons, .mjxgui_button_container {
+                display: flex;
+                flex-flow: row wrap;
+                font-family: monospace;
+                font-size: 1.1rem;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .mjxgui_button_container {
+                margin: 0 5px;
+                background-color: rgb(240, 240, 240);
+                border-radius: 6px;
+                transition: background-color ease 0.25s;
+                cursor: pointer;
+                padding: 5px;
+            }
+            
+            .mjxgui_button_container:hover  {
+                background-color: rgb(220, 220, 220);
+            }
         `;
         const style = document.createElement('style');
         document.head.appendChild(style);
@@ -868,7 +1022,176 @@ class MJXGUI {
         editorDiv.id = 'mjxgui_editor_window';
         editorDiv.dataset.visible = 'false';
         editorDiv.innerHTML = `
-            <div id="mjxgui_editor_controls"> <div style="cursor: pointer;"> <svg xmlns="http://www.w3.org/2000/svg" class="mjxgui_close_button_svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"/> <line x1="18" y1="6" x2="6" y2="18"/> <line x1="6" y1="6" x2="18" y2="18"/> </svg> </div><div class="mjxgui_clear_save_buttons"> <span class="mjxgui_button_container" id="mjxgui_clear_equation"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"/> <line x1="4" y1="7" x2="20" y2="7"/> <line x1="10" y1="11" x2="10" y2="17"/> <line x1="14" y1="11" x2="14" y2="17"/> <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/> <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/> </svg> <span>Clear Eqn</span> </span> <span class="mjxgui_button_container" id="mjxgui_save_equation"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"/> <path d="M5 12l5 5l10 -10"/> </svg> <span>Done</span> </span> </div></div><div id="_mjxgui_tab_container_container"> <div class="mjxgui_tab_container" data-tab="1">Greek Letters</div><div class="mjxgui_tab_container" data-tab="2">Operators & Symbols</div><div class="mjxgui_tab_container" data-tab="3">Functions</div></div><div class="mjxgui_tab" style="display: flex;" data-tab="1"> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Alpha">&Alpha;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Beta">&Beta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Gamma">&Gamma;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Delta">&Delta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Epsilon">&Epsilon;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Zeta">&Zeta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Eta">&Eta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Theta">&Theta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Iota">&Iota;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Kappa">&Kappa;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Lambda">&Lambda;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Mu">&Mu;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Nu">&Nu;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Xi">&Xi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Omicron">&Omicron;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Pi">&Pi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Rho">&Rho;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Sigma">&Sigma;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Tau">&Tau;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Upsilon">&Upsilon;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Phi">&Phi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Chi">&Chi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Psi">&Psi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Omega">&Omega;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="alpha">&alpha;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="beta">&beta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="gamma">&gamma;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="delta">&delta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="epsilon">&epsilon;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="zeta">&zeta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="eta">&eta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="theta">&theta;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="iota">&iota;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="kappa">&kappa;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="lambda">&lambda;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="mu">&mu;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="nu">&nu;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="xi">&xi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="omicron">&omicron;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="pi">&pi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="rho">&rho;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="sigma">&sigma;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="tau">&tau;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="upsilon">&upsilon;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="phi">&phi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="chi">&chi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="psi">&psi;</span> <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="omega">&omega;</span> </div><div class="mjxgui_tab" data-tab="2"> <span class="mjxgui-btn mjxgui-operator" data-latex-data="times">&times;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="div">&div;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="centerdot">&centerdot;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="plusmn">&plusmn;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="lt">&lt;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="gt">&gt;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="leq">&leq;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="GreaterEqual">&GreaterEqual;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="equals">&equals;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="approx">&approx;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="NotEqual">&NotEqual;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="mnplus">&mnplus;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="starf">&starf;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="bigcup">&bigcup;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="bigcap">&bigcap;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="cup">&cup;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="cap">&cap;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="sub">&sub;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="sup">&sup;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="sube">&sube;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="supe">&supe;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsub">&nsub;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsup">&nsup;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsube">&nsube;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsupe">&nsupe;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="propto">&propto;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="parallel">&parallel;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="npar">&npar;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="asympeq">&asympeq;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="isin">&isin;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="notin">&notin;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="exist">&exist;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nexist">&nexist;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="perp">&perp;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="Leftarrow">&Leftarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="Rightarrow">&Rightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="Leftrightarrow">&Leftrightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="angle">&angle;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="angmsd">&angmsd;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="rightarrow">&rightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="leftarrow">&leftarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="leftrightarrow">&leftrightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="longrightarrow">&longrightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="longleftarrow">&longleftarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="longleftrightarrow">&longleftrightarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="uparrow">&uparrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="downarrow">&downarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="updownarrow">&updownarrow;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="PartialD">&PartialD;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="hbar">&hbar;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="real">&real;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="nabla">&nabla;</span> <span class="mjxgui-btn mjxgui-operator" data-latex-data="infin">&infin;</span> </div><div class="mjxgui_tab" data-tab="3"> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="sum">&Sigma;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="int">&int;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">$ \\iint{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iiint">&iiint;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="oint">&oint;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="prod">&Pi;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="coprod">&coprod;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcup">&bigcup;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcap">&bigcap;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigvee">&bigvee;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigwedge">&bigwedge;</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">$ \\lim $</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">$ \\sqrt{\\Box}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">$ \\sqrt[n]{\\Box}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">$ {\\Box}_{\\Box} $</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">$ {\\Box}^{\\Box} $</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">$ {\\Box}^{\\Box}_{\\Box} $</span> <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">$ \\frac{\\Box}{\\Box}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="sin">$ \\sin{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="cos">$ \\cos{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="tan">$ \\tan{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="csc">$ \\csc{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="sec">$ \\sec{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="cot">$ \\cot{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arcsin">$ \\arcsin{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arccos">$ \\arccos{}$</span> <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-function-id="arctan">$ \\arctan{}$</span> </div><div id="_mjxgui_editor_display">${this.mathDelimiter}| ${this.mathDelimiter}</div>
+            <div id="mjxgui_editor_controls">
+                <div style="cursor: pointer;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mjxgui_close_button_svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </div>
+                <div class="mjxgui_clear_save_buttons">
+                    <span class="mjxgui_button_container" id="mjxgui_clear_equation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <line x1="4" y1="7" x2="20" y2="7" />
+                          <line x1="10" y1="11" x2="10" y2="17" />
+                          <line x1="14" y1="11" x2="14" y2="17" />
+                          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                        </svg>
+                        <span>Clear Eqn</span>
+                    </span>
+                    <span class="mjxgui_button_container" id="mjxgui_save_equation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                        <span>Done</span>
+                    </span>
+                </div>
+            </div>
+            <div id="_mjxgui_tab_container_container">
+                <div class="mjxgui_tab_container" data-tab="1">Greek Letters</div>
+                <div class="mjxgui_tab_container" data-tab="2">Operators & Symbols</div>
+                <div class="mjxgui_tab_container" data-tab="3">Functions</div>
+            </div>
+            <div class="mjxgui_tab" style="display: flex;" data-tab="1">
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Alpha">&Alpha;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Beta">&Beta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Gamma">&Gamma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Delta">&Delta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Epsilon">&Epsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Zeta">&Zeta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Eta">&Eta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Theta">&Theta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Iota">&Iota;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Kappa">&Kappa;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Lambda">&Lambda;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Mu">&Mu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Nu">&Nu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Xi">&Xi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Omicron">&Omicron;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Pi">&Pi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Rho">&Rho;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Sigma">&Sigma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Tau">&Tau;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Upsilon">&Upsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Phi">&Phi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Chi">&Chi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Psi">&Psi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="Omega">&Omega;</span>
+    
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="alpha">&alpha;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="beta">&beta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="gamma">&gamma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="delta">&delta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="epsilon">&epsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="zeta">&zeta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="eta">&eta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="theta">&theta;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="iota">&iota;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="kappa">&kappa;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="lambda">&lambda;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="mu">&mu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="nu">&nu;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="xi">&xi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="omicron">&omicron;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="pi">&pi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="rho">&rho;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="sigma">&sigma;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="tau">&tau;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="upsilon">&upsilon;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="phi">&phi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="chi">&chi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="psi">&psi;</span>
+                <span class="mjxgui-btn mjxgui-greek-letter" data-latex-data="omega">&omega;</span>
+            </div>
+            <div class="mjxgui_tab" data-tab="2">
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="times">&times;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="div">&div;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="centerdot">&centerdot;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="plusmn">&plusmn;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="lt">&lt;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="gt">&gt;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="leq">&leq;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="GreaterEqual">&GreaterEqual;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="equals">&equals;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="approx">&approx;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="NotEqual">&NotEqual;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="mnplus">&mnplus;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="starf">&starf;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="bigcup">&bigcup;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="bigcap">&bigcap;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="cup">&cup;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="cap">&cap;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="sub">&sub;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="sup">&sup;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="sube">&sube;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="supe">&supe;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsub">&nsub;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsup">&nsup;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsube">&nsube;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nsupe">&nsupe;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="propto">&propto;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="parallel">&parallel;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="npar">&npar;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="asympeq">&asympeq;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="isin">&isin;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="notin">&notin;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="exist">&exist;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nexist">&nexist;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="perp">&perp;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="Leftarrow">&Leftarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="Rightarrow">&Rightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="Leftrightarrow">&Leftrightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="angle">&angle;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="angmsd">&angmsd;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="rightarrow">&rightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="leftarrow">&leftarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="leftrightarrow">&leftrightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="longrightarrow">&longrightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="longleftarrow">&longleftarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="longleftrightarrow">&longleftrightarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="uparrow">&uparrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="downarrow">&downarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="updownarrow">&updownarrow;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="PartialD">&PartialD;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="hbar">&hbar;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="real">&real;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="nabla">&nabla;</span>
+                <span class="mjxgui-btn mjxgui-operator" data-latex-data="infin">&infin;</span>
+            </div>
+            <div class="mjxgui_tab" data-tab="3">
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="sum">&Sigma;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="int">&int;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">$ \\iint{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iiint">&iiint;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="oint">&oint;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="prod">&Pi;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="coprod">&coprod;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcup">&bigcup;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcap">&bigcap;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigvee">&bigvee;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigwedge">&bigwedge;</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">$ \\lim $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">$ \\sqrt{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">$ \\sqrt[n]{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">$ {\\Box}_{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">$ {\\Box}^{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">$ {\\Box}^{\\Box}_{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">$ \\frac{\\Box}{\\Box} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">$ \\sin{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">$ \\cos{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">$ \\tan{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">$ \\csc{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">$ \\sec{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">$ \\cot{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">$ \\arcsin{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">$ \\arccos{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">$ \\arctan{} $</span>
+            </div>
+            <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
 
         this.editorWindow = editorDiv;
@@ -896,20 +1219,34 @@ class MJXGUI {
         })
 
         const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
-        clearEquationButton.addEventListener('click', this.clearEquation);
+        clearEquationButton.addEventListener('click', () => {
+            this.clearEquation();
+        });
 
         const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
         saveEquationButton.addEventListener('click', () => {
-            this.successCallback();
+            const latex = this.cursor.toLatex();
+            if (latex) {
+                this.successCallback();
+            }
             editorDiv.removeAttribute('style');
             editorDiv.dataset.visible = 'false';
+            this.clearEquation();
         });
 
         document.body.appendChild(editorDiv);
-        // MathJax.typesetPromise([editorDiv]).then(() => {});
     }
 
     clearEquation() {
-
+        // push this entire expression onto the eqnHistory array so the user can access it again
+        this.eqnHistory.push(this.expression);
+        this.expression = new Expression();
+        this.cursor.expression = this.expression;
+        this.cursor.block = null;
+        this.cursor.component = null;
+        this.cursor.child = -0.5;
+        this.cursor.position = -0.5;
+        this.cursor.latex = '';
+        this.cursor.updateDisplay();
     }
 }

@@ -1,6 +1,5 @@
-// Listens for keypresses and modifies the Expression accordingly
+// Listens for keypress and modifies the Expression accordingly
 
-let expression = new Expression();
 const characters = new Set();
 for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
     characters.add(char);
@@ -374,5 +373,3 @@ class Cursor {
         MathJax.typesetPromise([this.display]).then(() => {});
     }
 }
-
-let mjxguiCursor = new Cursor(expression, 'mjxgui-display');
