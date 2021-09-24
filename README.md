@@ -33,27 +33,27 @@ Then include the minified MJXGUI source file in your <head> tag by getting the [
 A sample configuration is shown below  
 
 ````javascript
-    <script>
-        MathJax = {
-            tex: {
-            inlineMath: [[‘$’, ‘$’], [‘\\(‘, ‘\\)’]],
-            displayMath: [[‘$$’, ‘$$’]],
-        },
-        svg: {
-            fontCache: ‘global’,
-        },
-        options: {
-            menuOptions: {
-                settings: {
-                    zoom: ‘NoZoom’,
-                    zscale: ‘250%’,
-                }
-            }
-        }
-    }
-    <script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-        <script src=”/path/to/mjxgui”></script>
+	<script>
+		MathJax = {
+		    tex: {
+		    inlineMath: [[‘$’, ‘$’], [‘\\(‘, ‘\\)’]],
+		    displayMath: [[‘$$’, ‘$$’]],
+		},
+		svg: {
+		    fontCache: ‘global’,
+		},
+		options: {
+		    menuOptions: {
+			settings: {
+			    zoom: ‘NoZoom’,
+			    zscale: ‘250%’,
+			}
+		    }
+		}
+		}
+	<script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<script src=”/path/to/mjxgui”></script>
 ````
 
 # Usage
