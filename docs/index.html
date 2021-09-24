@@ -2,9 +2,176 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Quicksand:wght@300;500&family=Staatliches&display=swap" rel="stylesheet">
         <title>MJXGUI Documentation</title>
+        <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
+        <nav>
+            <a href="#what">MJXGUI</a>
+            <a href="#features">Features</a>
+            <a href="#installing">Installing</a>
+            <a href="#usage">Usage</a>
+            <a href="#examples">Examples</a>
+            <a href="#api">API</a>
+            <a href="#customizing">Customizing</a>
+            <a href="#contributing">Contributing</a>
+        </nav>
+        <section id="what">
+            <h1>What is MJXGUI?</h1>
+            <p>
+                MJXGUI is a widget style application meant to give users a graphical interface for creating equations
+                to use on the web. It uses MathJax as a core dependency and as an external renderer to show users a
+                preview of their equation as they write it. Once users have created their expression, it generates
+                corresponding LaTeX for it for you to handle however you would like, the most common use case being to
+                store an equation/expression as plain text so you can use it later with MathJax.
+            </p>
+            <p>
+                I wrote this library because I needed such a widget for a website where school teachers were
+                supposed to create test questions for physics, chemistry, and math topics that needed complex
+                mathematical equations.
+            </p>
+            <p>
+                The motivation was to have something like a pop-up widget that would help users build an expression
+                graphically just as they do in Google Docs or Microsoft Word, but then would also convert the same
+                equation into LaTeX so it could be rendered with MathJax later.
+            </p>
+        </section>
 
+        <section id="features">
+            <h1>Features</h1>
+            <ul>
+                <li>
+                    Build mathematical, physical, and chemical equations using a GUI, similar to inserting equations
+                    in editors like Microsoft Word and Google Docs
+                </li>
+                <li>
+                    Support for Greek letters, mathematical operators, and common mathematical functions
+                </li>
+                <li>
+                    Write your own math functions, operators, and characters to add support for the same not available
+                    by default.
+                </li>
+                <li>
+                    Convert created equations into LaTeX for storage and representation in the browser.
+                </li>
+            </ul>
+        </section>
+        <section id="installing">
+            <h1>Installing</h1>
+            <p>
+                MJXGUI uses MathJax as a core dependency, so you need to include both MathJax as well as MJXGUI into
+                your webpage. MJXGUI does not have a built in renderer, and uses MathJax to render the equations as
+                they are being built.
+            </p>
+            <p>
+                Make sure you include MathJax  before including MJXGUI.
+            </p>
+            <p>
+                Include the minified MJXGUI source file in your &lt;head&gt; tag by getting the <a href="https://raw.githubusercontent.com/hrushikeshrv/mjxgui/main/src/mjxgui.min.js" target="_blank">source from GitHub</a>.
+            </p>
+            <div class="code-block">
+    &lt;script&gt;
+        MathJax = {
+            tex: {
+                inlineMath: [[‘$’, ‘$’], [‘\\(‘, ‘\\)’]],
+                displayMath: [[‘$$’, ‘$$’]],
+            },
+            svg: {
+                fontCache: ‘global’,
+            },
+            options: {
+                menuOptions: {
+                    settings: {
+                        zoom: ‘NoZoom’,
+                        zscale: ‘250%’,
+                    }
+                }
+            }
+        }
+    &lt;script&gt;
+    &lt;script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">&lt;/script&gt;
+    &lt;script src=”/path/to/mjxgui”>&lt;/script&gt;
+            </div>
+        </section>
+        <section id="usage">
+            <h1>Usage</h1>
+            <p>
+                MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI
+                attaches event listeners to these elements and shows the editor UI when they are clicked.
+            </p>
+            <p>
+                Once the user is done entering the equation/expression, the editor UI disappears and a callback
+                function that you supply is run. This callback function has access to the full internal API, from
+                which you can access the generated LaTeX for the expression the user just entered. Make sure the
+                callback function you supply is not an arrow function but a regular function.
+            </p>
+            <p>
+                Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a
+                math delimiter, and a callback function.
+            </p>
+            <code>const gui = new MJXGUI(‘selector’, ‘delimiter’, function() {})</code>
+            <p>
+                The selector is a CSS selector that should be able to select the elements you want users to click
+                on to start entering an equation. MJXGUI adds click event listeners to all selected elements and
+                shows the editor UI whenever they are clicked.
+            </p>
+            <p>
+                The delimiter is the math delimiter you use in your configuration of MathJax, usually ‘$$’. This
+                tells MJXGUI to use the same delimiter while rendering the equation being built so that users can
+                see it correctly.
+            </p>
+            <p>
+                The callback function is a function that is run when the user is done entering the equation and
+                clicks on the “Done” button. This is where you will be able to access the LaTeX for the equation.
+                The <code>this</code> keyword inside this function will have access to the MJXGUI cursor, which contains all the
+                methods and properties used to build equations and generate LaTeX for them. Calling
+                <code>this.cursor.toLatex()</code> will generate the LaTeX for the equation and return it to you
+                as a string.
+            </p>
+            <p>
+                You would build a minimal example as shown below. This example takes the LaTeX for the equation the
+                user has created, appends it to the body, and typesets it using MathJax.
+            </p>
+            <div class="code-block">
+    // The element to listen for keypresses
+    &lt;button id="add-equation-button">Add Equation&lt;/button&gt;
+
+    // We add the entered equation to this div
+    &lt;div id="equation-output">&lt;/div&gt;
+
+    &lt;script&gt;
+        const eqnOutput = document.querySelector('#equation-output');
+
+        // Create new MJXGUI instance
+        const gui = new MJXGUI('#add-equation-button', '$$', function() {
+            MathJax.typesetClear([eqnOutput]);
+            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '&lt;br&gt;';
+            MathJax.typesetPromise([eqnOutput]).then(() => {});
+        })
+    &lt;/script&gt;
+            </div>
+        </section>
+        <section id="examples">
+            <h1>Examples</h1>
+            <ul>
+                <li><a href="../examples/basic-example.html">Basic Example 1</a></li>
+            </ul>
+        </section>
+        <section id="api">
+            <h1>API</h1>
+            <span class="under-construction"></span>
+        </section>
+        <section id="customizing">
+            <h1>Customizing</h1>
+            <span class="under-construction"></span>
+        </section>
+        <section id="contributing">
+            <h1>Contributing</h1>
+            <span class="under-construction"></span>
+        </section>
     </body>
 </html>

@@ -30,13 +30,15 @@
     <title>MJXGUI Demo</title>
 </head>
 <body>
-    <button id="mjxgui-button">Add Equation</button>
-    <div id="equation-output"></div>
+    <button id="mjxgui-button" style="margin: 30px; padding: 10px; font-family: monospace; font-size: 2rem;">Add Equation</button>
+    <div id="equation-output" style="padding: 40px; font-size: 2rem;">
+        <h3 style="font-family: monospace;">Inserted Equations:</h3>
+    </div>
     <script>
         const eqnOutput = document.querySelector('#equation-output');
         const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
             MathJax.typesetClear([eqnOutput]);
-            eqnOutput.innerHTML += '$' + this.cursor.toLatex() + '$' + '<br>';
+            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     </script>
