@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$']]
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            options: {
+                menuOptions: {
+                    settings: {
+                        zoom: 'NoZoom',
+                        zscale: '250%',
+                    }
+                }
+            },
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="../../src/mjxgui.min.js"></script>
+    <title>MJXGUI Demo</title>
+</head>
+<body>
+    <button id="mjxgui-button" style="margin: 30px; padding: 10px; font-family: monospace; font-size: 2rem;">Add Equation</button>
+    <div id="equation-output" style="padding: 40px; font-size: 2rem;">
+        <h3 style="font-family: monospace;">Inserted Equations:</h3>
+    </div>
+    <script>
+        const eqnOutput = document.querySelector('#equation-output');
+        const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
+            MathJax.typesetClear([eqnOutput]);
+            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
+            MathJax.typesetPromise([eqnOutput]).then(() => {});
+        })
+    </script>
+</body>
+</html>
