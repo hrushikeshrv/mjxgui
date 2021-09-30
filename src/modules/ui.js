@@ -435,7 +435,7 @@ class MJXGUI {
             <div class="mjxgui_tab" data-tab="3">
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="sum">&Sigma;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="int">&int;</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">$ \\iint{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">&#8748</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iiint">&iiint;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="oint">&oint;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="prod">&Pi;</span>
@@ -444,22 +444,54 @@ class MJXGUI {
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcap">&bigcap;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigvee">&bigvee;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigwedge">&bigwedge;</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">$ \\lim $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">$ \\sqrt{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">$ \\sqrt[n]{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">$ {\\Box}_{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">$ {\\Box}^{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">$ {\\Box}^{\\Box}_{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">$ \\frac{\\Box}{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">$ \\sin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">$ \\cos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">$ \\tan{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">$ \\csc{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">$ \\sec{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">$ \\cot{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">$ \\arcsin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">$ \\arccos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">$ \\arctan{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">
+                    <img src="../../assets/limit.svg" alt="limit"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">
+                    <img src="../../assets/square-root.svg" alt="square-root"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">
+                    <img src="../../assets/nth-root.svg" alt="n-th-root"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">
+                    <img src="../../assets/subscript.svg" alt="subscript"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">
+                    <img src="../../assets/superscript.svg" alt="subscript"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">
+                    <img src="../../assets/subscript-and-superscript.svg" alt="superscript-and-subscript"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">
+                    <img src="../../assets/fraction.svg" alt="fraction"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">
+                    <img src="../../assets/sin.svg" alt="sin"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">
+                    <img src="../../assets/cos.svg" alt="cos"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">
+                    <img src="../../assets/tan.svg" alt="tan"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">
+                    <img src="../../assets/csc.svg" alt="csc"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">
+                    <img src="../../assets/sec.svg" alt="csc"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">
+                    <img src="../../assets/cot.svg" alt="cot"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">
+                    <img src="../../assets/arcsin.svg" alt="arcsin"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">
+                    <img src="../../assets/arccos.svg" alt="arccos"/>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">
+                    <img src="../../assets/arctan.svg" alt="arctan"/>
+                </span>
             </div>
             <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
