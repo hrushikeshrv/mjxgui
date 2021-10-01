@@ -1,194 +1,206 @@
 // Draws the editor UI and canvas inside the given div
 
 const symbolLatexMap = {
-    // Lowercase greek letters
-    'alpha': '\\alpha',
-    'beta': '\\beta',
-    'gamma': '\\gamma',
-    'delta': '\\delta',
-    'epsilon': '\\epsilon',
-    'zeta': '\\zeta',
-    'eta': '\\eta',
-    'theta': '\\theta',
-    'iota': '\\iota',
-    'kappa': '\\kappa',
-    'lambda': '\\lambda',
-    'mu': '\\mu',
-    'nu': '\\nu',
-    'xi': '\\xi',
-    'omicron': '\\omicron',
-    'pi': '\\pi',
-    'rho': '\\rho',
-    'sigma': '\\sigma',
-    'tau': '\\tau',
-    'upsilon': '\\upsilon',
-    'phi': '\\phi',
-    'chi': '\\chi',
-    'psi': '\\psi',
-    'omega': '\\omega',
+  // Lowercase greek letters
+  alpha: "\\alpha",
+  beta: "\\beta",
+  gamma: "\\gamma",
+  delta: "\\delta",
+  epsilon: "\\epsilon",
+  zeta: "\\zeta",
+  eta: "\\eta",
+  theta: "\\theta",
+  iota: "\\iota",
+  kappa: "\\kappa",
+  lambda: "\\lambda",
+  mu: "\\mu",
+  nu: "\\nu",
+  xi: "\\xi",
+  omicron: "\\omicron",
+  pi: "\\pi",
+  rho: "\\rho",
+  sigma: "\\sigma",
+  tau: "\\tau",
+  upsilon: "\\upsilon",
+  phi: "\\phi",
+  chi: "\\chi",
+  psi: "\\psi",
+  omega: "\\omega",
 
-    // Uppercase greek letters
-    'Alpha': 'A',
-    'Beta': 'B',
-    'Gamma': '\\Gamma',
-    'Delta': '\\Delta',
-    'Epsilon': 'E',
-    'Zeta': 'Z',
-    'Eta': 'H',
-    'Theta': '\\Theta',
-    'Iota': 'I',
-    'Kappa': 'K',
-    'Lambda': '\\Lambda',
-    'Mu': 'M',
-    'Nu': 'N',
-    'Xi': '\\Xi',
-    'Omicron': 'O',
-    'Pi': '\\Pi',
-    'Rho': 'P',
-    'Sigma': '\\Sigma',
-    'Tau': 'T',
-    'Upsilon': '\\Upsilon',
-    'Phi': '\\Phi',
-    'Chi': 'X',
-    'Psi': '\\Psi',
-    'Omega': '\\Omega',
+  // Uppercase greek letters
+  Alpha: "A",
+  Beta: "B",
+  Gamma: "\\Gamma",
+  Delta: "\\Delta",
+  Epsilon: "E",
+  Zeta: "Z",
+  Eta: "H",
+  Theta: "\\Theta",
+  Iota: "I",
+  Kappa: "K",
+  Lambda: "\\Lambda",
+  Mu: "M",
+  Nu: "N",
+  Xi: "\\Xi",
+  Omicron: "O",
+  Pi: "\\Pi",
+  Rho: "P",
+  Sigma: "\\Sigma",
+  Tau: "T",
+  Upsilon: "\\Upsilon",
+  Phi: "\\Phi",
+  Chi: "X",
+  Psi: "\\Psi",
+  Omega: "\\Omega",
 
-    // Operators and symbols
-    'times': '\\times',
-    'div': '\\div',
-    'centerdot': '\\cdot',
-    'plusmn': '\\pm',
-    'mnplus': '\\mp',
-    'starf': '\\star',
-    'bigcup': '\\bigcup',
-    'bigcap': '\\bigcap',
-    'cup': '\\cup',
-    'cap': '\\cap',
-    'lt': '\\lt',
-    'gt': '\\gt',
-    'leq': '\\leq',
-    'GreaterEqual': '\\geq',
-    'equals': '=',
-    'approx': '\\approx',
-    'NotEqual': '\\ne',
-    'sub': '\\subset',
-    'sup': '\\supset',
-    'sube': '\\subseteq',
-    'supe': '\\supseteq',
-    'nsub': '\\not\\subset',
-    'nsup': '\\not\\supset',
-    'nsube': '\\not\\subseteq',
-    'nsupe': '\\not\\supseteq',
-    'propto': '\\propto',
-    'parallel': '\\parallel',
-    'npar': '\\nparallel',
-    'asympeq': '\\asymp',
-    'isin': '\\in',
-    'notin': '\\notin',
-    'exist': '\\exists',
-    'nexist': '\\nexists',
-    'perp': '\\perp',
-    'Leftarrow': '\\Leftarrow',
-    'Rightarrow': '\\Rightarrow',
-    'Leftrightarrow': '\\iff',
-    'angle': '\\angle',
-    'angmsd': '\\measuredangle',
-    'rightarrow': '\\to',
-    'leftarrow': '\\gets',
-    'leftrightarrow': '\\leftrightarrow',
-    'longrightarrow': '\\longrightarrow',
-    'longleftarrow': '\\longleftarrow',
-    'longleftrightarrow': '\\longleftrightarrow',
-    'uparrow': '\\uparrow',
-    'downarrow': '\\downarrow',
-    'updownarrow': '\\updownarrow',
-    'PartialD': '\\partial',
-    'hbar': '\\hbar',
-    'real': '\\Re',
-    'nabla': '\\nabla',
-    'infin': '\\infty',
-}
+  // Operators and symbols
+  times: "\\times",
+  div: "\\div",
+  centerdot: "\\cdot",
+  plusmn: "\\pm",
+  mnplus: "\\mp",
+  starf: "\\star",
+  bigcup: "\\bigcup",
+  bigcap: "\\bigcap",
+  cup: "\\cup",
+  cap: "\\cap",
+  lt: "\\lt",
+  gt: "\\gt",
+  leq: "\\leq",
+  GreaterEqual: "\\geq",
+  equals: "=",
+  approx: "\\approx",
+  NotEqual: "\\ne",
+  sub: "\\subset",
+  sup: "\\supset",
+  sube: "\\subseteq",
+  supe: "\\supseteq",
+  nsub: "\\not\\subset",
+  nsup: "\\not\\supset",
+  nsube: "\\not\\subseteq",
+  nsupe: "\\not\\supseteq",
+  propto: "\\propto",
+  parallel: "\\parallel",
+  npar: "\\nparallel",
+  asympeq: "\\asymp",
+  isin: "\\in",
+  notin: "\\notin",
+  exist: "\\exists",
+  nexist: "\\nexists",
+  perp: "\\perp",
+  Leftarrow: "\\Leftarrow",
+  Rightarrow: "\\Rightarrow",
+  Leftrightarrow: "\\iff",
+  angle: "\\angle",
+  angmsd: "\\measuredangle",
+  rightarrow: "\\to",
+  leftarrow: "\\gets",
+  leftrightarrow: "\\leftrightarrow",
+  longrightarrow: "\\longrightarrow",
+  longleftarrow: "\\longleftarrow",
+  longleftrightarrow: "\\longleftrightarrow",
+  uparrow: "\\uparrow",
+  downarrow: "\\downarrow",
+  updownarrow: "\\updownarrow",
+  PartialD: "\\partial",
+  hbar: "\\hbar",
+  real: "\\Re",
+  nabla: "\\nabla",
+  infin: "\\infty",
+};
 
 const functionComponentMap = {
-    'lim': Limit,
-    'sqrt': Sqrt,
-    'nsqrt': NthRoot,
-    'sub': Subscript,
-    'sup': Superscript,
-    'subsup': SubSupRight,
-    'frac': Fraction,
-}
+  lim: Limit,
+  sqrt: Sqrt,
+  nsqrt: NthRoot,
+  sub: Subscript,
+  sup: Superscript,
+  subsup: SubSupRight,
+  frac: Fraction,
+};
 
 class MJXGUI {
-    constructor(elementSelector, mathDelimiter, successCallback) {
-        this.elements = elementSelector;
-        this.mathDelimiter = mathDelimiter;
-        this.successCallback = successCallback;
-        this.eqnHistory = [];
-        this.expression = new Expression();
-        this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
-        // this.latex = '';
-        // this.editorWindow = null;
-        // this.eqnDisplay = null;
+  constructor(elementSelector, mathDelimiter, successCallback) {
+    this.elements = elementSelector;
+    this.mathDelimiter = mathDelimiter;
+    this.successCallback = successCallback;
+    this.eqnHistory = [];
+    this.expression = new Expression();
+    this.cursor = new Cursor(this.expression, "_mjxgui_editor_display");
+    // this.latex = '';
+    // this.editorWindow = null;
+    // this.eqnDisplay = null;
 
-        if (this.elements instanceof String || typeof this.elements === 'string') {
-            this.elements = document.querySelectorAll(this.elements);
-        }
-
-        this.constructUI();
-        this.elements.forEach(el => {
-            el.addEventListener('click', () => {
-                this.editorWindow.style.display = 'block';
-                this.editorWindow.dataset.visible = 'true';
-            })
-        })
-
-        document.addEventListener('keydown', evt => {
-            if (this.editorWindow.dataset.visible === 'false') return;
-            MathJax.typesetClear([this.eqnDisplay]);
-            this.cursor.keyPress(evt);
-            this.eqnDisplay.innerHTML = this.mathDelimiter + this.cursor.toDisplayLatex() + this.mathDelimiter;
-            MathJax.typesetPromise([this.eqnDisplay]).then(() => {});
-        })
-
-        const symbols = this.editorWindow.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
-        const functions = this.editorWindow.querySelectorAll('.mjxgui-function');
-
-        symbols.forEach(symbol => {
-            symbol.addEventListener('click', () => {
-                if (symbol.dataset.latexData in symbolLatexMap) {
-                    let _ = new MJXGUISymbol(this.cursor.block, symbolLatexMap[symbol.dataset.latexData]);
-                    this.cursor.addComponent(_);
-                    this.cursor.updateDisplay();
-                }
-            })
-        })
-
-        functions.forEach(func => {
-            func.addEventListener('click', () => {
-                let _;
-                if (func.dataset.templateType !== 'null') {
-                    if (func.dataset.templateType === 'three') {
-                        _ = new TemplateThreeBlockComponent(this.cursor.block, func.dataset.latexData);
-                    }
-                    else if (func.dataset.templateType === 'trigonometric') {
-                        _ = new TrigonometricTwoBlockComponent(this.cursor.block, func.dataset.latexData);
-                    }
-                }
-                else {
-                    _ = new functionComponentMap[func.dataset.functionId](this.cursor.block);
-                }
-                this.cursor.addComponent(_);
-                this.cursor.updateDisplay();
-            })
-        })
+    if (this.elements instanceof String || typeof this.elements === "string") {
+      this.elements = document.querySelectorAll(this.elements);
     }
 
-    constructUI() {
-        // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
+    this.constructUI();
+    this.elements.forEach((el) => {
+      el.addEventListener("click", () => {
+        this.editorWindow.style.display = "block";
+        this.editorWindow.dataset.visible = "true";
+      });
+    });
 
-        // CSS First
-        const css = `
+    document.addEventListener("keydown", (evt) => {
+      if (this.editorWindow.dataset.visible === "false") return;
+      MathJax.typesetClear([this.eqnDisplay]);
+      this.cursor.keyPress(evt);
+      this.eqnDisplay.innerHTML =
+        this.mathDelimiter + this.cursor.toDisplayLatex() + this.mathDelimiter;
+      MathJax.typesetPromise([this.eqnDisplay]).then(() => {});
+    });
+
+    const symbols = this.editorWindow.querySelectorAll(
+      ".mjxgui-operator, .mjxgui-greek-letter"
+    );
+    const functions = this.editorWindow.querySelectorAll(".mjxgui-function");
+
+    symbols.forEach((symbol) => {
+      symbol.addEventListener("click", () => {
+        if (symbol.dataset.latexData in symbolLatexMap) {
+          let _ = new MJXGUISymbol(
+            this.cursor.block,
+            symbolLatexMap[symbol.dataset.latexData]
+          );
+          this.cursor.addComponent(_);
+          this.cursor.updateDisplay();
+        }
+      });
+    });
+
+    functions.forEach((func) => {
+      func.addEventListener("click", () => {
+        let _;
+        if (func.dataset.templateType !== "null") {
+          if (func.dataset.templateType === "three") {
+            _ = new TemplateThreeBlockComponent(
+              this.cursor.block,
+              func.dataset.latexData
+            );
+          } else if (func.dataset.templateType === "trigonometric") {
+            _ = new TrigonometricTwoBlockComponent(
+              this.cursor.block,
+              func.dataset.latexData
+            );
+          }
+        } else {
+          _ = new functionComponentMap[func.dataset.functionId](
+            this.cursor.block
+          );
+        }
+        this.cursor.addComponent(_);
+        this.cursor.updateDisplay();
+      });
+    });
+  }
+
+  constructUI() {
+    // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
+
+    // CSS First
+    const css = `
             #mjxgui_editor_window {
                 display: none;
                 position: fixed;
@@ -283,15 +295,15 @@ class MJXGUI {
                 background-color: rgb(220, 220, 220);
             }
         `;
-        const style = document.createElement('style');
-        document.head.appendChild(style);
-        style.appendChild(document.createTextNode(css));
+    const style = document.createElement("style");
+    document.head.appendChild(style);
+    style.appendChild(document.createTextNode(css));
 
-        // HTML
-        const editorDiv = document.createElement('div');
-        editorDiv.id = 'mjxgui_editor_window';
-        editorDiv.dataset.visible = 'false';
-        editorDiv.innerHTML = `
+    // HTML
+    const editorDiv = document.createElement("div");
+    editorDiv.id = "mjxgui_editor_window";
+    editorDiv.dataset.visible = "false";
+    editorDiv.innerHTML = `
             <div id="mjxgui_editor_controls">
                 <div style="cursor: pointer;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="mjxgui_close_button_svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -445,110 +457,113 @@ class MJXGUI {
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigvee">&bigvee;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigwedge">&bigwedge;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">
-                    <img src="../../assets/limit.svg" alt="limit"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="500" font-weight="500" text-anchor="middle" transform="matrix(.75 0 0 .75 279.5 326.267)"><tspan x="0">lim</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">
-                    <img src="../../assets/square-root.svg" alt="square-root"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1,.cls-2{stroke:#000;fill-rule:evenodd}.cls-1{stroke-width:4.667px}.cls-2{stroke-width:7.417px}</style></defs><path id="Line_1" d="M3.707 306.883l-1.73-2.643 41.9-27.427 1.73 2.642z" class="cls-1" data-name="Line 1"/><path id="Line_2" d="M47.233 275.65l1.831-1.045 80.1 140.4-1.831 1.044z" class="cls-1" data-name="Line 2"/><path id="Line_3" d="M129.569 410.274l-3.113-1.374 111.707-252.923 3.113 1.375z" class="cls-2" data-name="Line 3"/><path id="Line_4" d="M241.471 154.67v-1.746h322.563v1.746H241.471z" class="cls-2" data-name="Line 4"/><path fill="none" fill-rule="evenodd" stroke="#000" stroke-width="10.125" d="M288.978 190.824H495.53v206.552H288.978V190.824z"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">
-                    <img src="../../assets/nth-root.svg" alt="n-th-root"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1,.cls-2,.cls-3{stroke:#000;fill-rule:evenodd}.cls-1{stroke-width:4.667px}.cls-2{stroke-width:7.417px}.cls-3{fill:none;stroke-width:10.125px}</style></defs><path id="Line_1" d="M3.707 306.883l-1.73-2.643 41.9-27.427 1.73 2.642z" class="cls-1" data-name="Line 1"/><path id="Line_2" d="M47.233 275.65l1.831-1.045 80.1 140.4-1.831 1.044z" class="cls-1" data-name="Line 2"/><path id="Line_3" d="M129.569 410.274l-3.113-1.374 111.707-252.923 3.113 1.375z" class="cls-2" data-name="Line 3"/><path id="Line_4" d="M241.471 154.67v-1.746h322.563v1.746H241.471z" class="cls-2" data-name="Line 4"/><path d="M288.978 190.824H495.53v206.552H288.978V190.824z" class="cls-3"/><path id="Rectangle_1_copy" d="M69.42 178.744h90.512v90.512H69.42v-90.512z" class="cls-3" data-name="Rectangle 1 copy"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">
-                    <img src="../../assets/subscript.svg" alt="subscript"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M27.09 82.836h285.083v285.083H27.09V82.836z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 295.421h169.985V465.41H362.8V295.421z" class="cls-1" data-name="Rectangle 1 copy"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">
-                    <img src="../../assets/superscript.svg" alt="subscript"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M27.09 468.164h285.083V183.081H27.09v285.083z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 255.579h169.985V85.59H362.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">
-                    <img src="../../assets/subscript-and-superscript.svg" alt="superscript-and-subscript"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M34.7 413.554h267.862V145.693H34.7v267.861z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 243.579h169.985V73.59H362.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/><path id="Rectangle_1_copy_2" d="M533.2 487.579H363.215V317.59H533.2v169.989z" class="cls-1" data-name="Rectangle 1 copy 2"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">
-                    <img src="../../assets/fraction.svg" alt="fraction"/>
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;fill-rule:evenodd;stroke-width:12.875px}</style></defs><path id="Rectangle_1_copy" d="M193.8 225.579h169.985V55.59H193.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/><path id="Line_1" fill="none" fill-rule="evenodd" stroke="#000" stroke-width="10.125" d="M124 284v-1h295v1H124z" data-name="Line 1"/><path id="Rectangle_1_copy_2" d="M364.2 528.579H194.215V358.59H364.2v169.989z" class="cls-1" data-name="Rectangle 1 copy 2"/></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">
-                    <img src="../../assets/sin.svg" alt="sin"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">sin</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">
-                    <img src="../../assets/cos.svg" alt="cos"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">cos</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">
-                    <img src="../../assets/tan.svg" alt="tan"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">tan</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">
-                    <img src="../../assets/csc.svg" alt="csc"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">csc</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">
-                    <img src="../../assets/sec.svg" alt="csc"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">sec</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">
-                    <img src="../../assets/cot.svg" alt="cot"/>
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">cot</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">
-                    <img src="../../assets/arcsin.svg" alt="arcsin"/>
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arcsin</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">
-                    <img src="../../assets/arccos.svg" alt="arccos"/>
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arccos</tspan></text></svg>
                 </span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">
-                    <img src="../../assets/arctan.svg" alt="arctan"/>
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arctan</tspan></text></svg>
                 </span>
             </div>
             <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
 
-        this.editorWindow = editorDiv;
-        this.eqnDisplay = editorDiv.querySelector('#_mjxgui_editor_display');
-        const mjxguiTabButtons = editorDiv.querySelectorAll('.mjxgui_tab_container');
-        const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
+    this.editorWindow = editorDiv;
+    this.eqnDisplay = editorDiv.querySelector("#_mjxgui_editor_display");
+    const mjxguiTabButtons = editorDiv.querySelectorAll(
+      ".mjxgui_tab_container"
+    );
+    const mjxguiTabs = editorDiv.querySelectorAll(".mjxgui_tab");
 
-        mjxguiTabButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                mjxguiTabs.forEach(tab => {
-                    if (tab.dataset.tab === btn.dataset.tab) {
-                        tab.style.display = 'flex';
-                    }
-                    else {
-                        tab.removeAttribute('style');
-                    }
-                })
-            })
+    mjxguiTabButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        mjxguiTabs.forEach((tab) => {
+          if (tab.dataset.tab === btn.dataset.tab) {
+            tab.style.display = "flex";
+          } else {
+            tab.removeAttribute("style");
+          }
         });
+      });
+    });
 
-        const closeEditor = editorDiv.querySelector('.mjxgui_close_button_svg');
-        closeEditor.addEventListener('click', function() {
-            editorDiv.removeAttribute('style');
-            editorDiv.dataset.visible = 'false';
-        })
+    const closeEditor = editorDiv.querySelector(".mjxgui_close_button_svg");
+    closeEditor.addEventListener("click", function () {
+      editorDiv.removeAttribute("style");
+      editorDiv.dataset.visible = "false";
+    });
 
-        const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
-        clearEquationButton.addEventListener('click', () => {
-            this.clearEquation();
-        });
+    const clearEquationButton = editorDiv.querySelector(
+      "#mjxgui_clear_equation"
+    );
+    clearEquationButton.addEventListener("click", () => {
+      this.clearEquation();
+    });
 
-        const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
-        saveEquationButton.addEventListener('click', () => {
-            const latex = this.cursor.toLatex();
-            if (latex) {
-                this.successCallback();
-            }
-            editorDiv.removeAttribute('style');
-            editorDiv.dataset.visible = 'false';
-            this.clearEquation();
-        });
+    const saveEquationButton = editorDiv.querySelector("#mjxgui_save_equation");
+    saveEquationButton.addEventListener("click", () => {
+      const latex = this.cursor.toLatex();
+      if (latex) {
+        this.successCallback();
+      }
+      editorDiv.removeAttribute("style");
+      editorDiv.dataset.visible = "false";
+      this.clearEquation();
+    });
 
-        document.body.appendChild(editorDiv);
-    }
+    document.body.appendChild(editorDiv);
+  }
 
-    clearEquation() {
-        // push this entire expression onto the eqnHistory array so the user can access it again
-        this.eqnHistory.push(this.expression);
-        this.expression = new Expression();
-        this.cursor.expression = this.expression;
-        this.cursor.block = null;
-        this.cursor.component = null;
-        this.cursor.child = -0.5;
-        this.cursor.position = -0.5;
-        this.cursor.latex = '';
-        this.cursor.updateDisplay();
-    }
+  clearEquation() {
+    // push this entire expression onto the eqnHistory array so the user can access it again
+    this.eqnHistory.push(this.expression);
+    this.expression = new Expression();
+    this.cursor.expression = this.expression;
+    this.cursor.block = null;
+    this.cursor.component = null;
+    this.cursor.child = -0.5;
+    this.cursor.position = -0.5;
+    this.cursor.latex = "";
+    this.cursor.updateDisplay();
+  }
 }
