@@ -435,7 +435,7 @@ class MJXGUI {
             <div class="mjxgui_tab" data-tab="3">
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="sum">&Sigma;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="int">&int;</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">$ \\iint{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iint">&#8748</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="iiint">&iiint;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="oint">&oint;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="prod">&Pi;</span>
@@ -444,22 +444,54 @@ class MJXGUI {
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigcap">&bigcap;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigvee">&bigvee;</span>
                 <span class="mjxgui-btn mjxgui-function" data-template-type="three" data-latex-data="bigwedge">&bigwedge;</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">$ \\lim $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">$ \\sqrt{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">$ \\sqrt[n]{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">$ {\\Box}_{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">$ {\\Box}^{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">$ {\\Box}^{\\Box}_{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">$ \\frac{\\Box}{\\Box} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">$ \\sin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">$ \\cos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">$ \\tan{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">$ \\csc{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">$ \\sec{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">$ \\cot{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">$ \\arcsin{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">$ \\arccos{} $</span>
-                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">$ \\arctan{} $</span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="lim">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="500" font-weight="500" text-anchor="middle" transform="matrix(.75 0 0 .75 279.5 326.267)"><tspan x="0">lim</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sqrt">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1,.cls-2{stroke:#000;fill-rule:evenodd}.cls-1{stroke-width:4.667px}.cls-2{stroke-width:7.417px}</style></defs><path id="Line_1" d="M3.707 306.883l-1.73-2.643 41.9-27.427 1.73 2.642z" class="cls-1" data-name="Line 1"/><path id="Line_2" d="M47.233 275.65l1.831-1.045 80.1 140.4-1.831 1.044z" class="cls-1" data-name="Line 2"/><path id="Line_3" d="M129.569 410.274l-3.113-1.374 111.707-252.923 3.113 1.375z" class="cls-2" data-name="Line 3"/><path id="Line_4" d="M241.471 154.67v-1.746h322.563v1.746H241.471z" class="cls-2" data-name="Line 4"/><path fill="none" fill-rule="evenodd" stroke="#000" stroke-width="10.125" d="M288.978 190.824H495.53v206.552H288.978V190.824z"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="nsqrt">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1,.cls-2,.cls-3{stroke:#000;fill-rule:evenodd}.cls-1{stroke-width:4.667px}.cls-2{stroke-width:7.417px}.cls-3{fill:none;stroke-width:10.125px}</style></defs><path id="Line_1" d="M3.707 306.883l-1.73-2.643 41.9-27.427 1.73 2.642z" class="cls-1" data-name="Line 1"/><path id="Line_2" d="M47.233 275.65l1.831-1.045 80.1 140.4-1.831 1.044z" class="cls-1" data-name="Line 2"/><path id="Line_3" d="M129.569 410.274l-3.113-1.374 111.707-252.923 3.113 1.375z" class="cls-2" data-name="Line 3"/><path id="Line_4" d="M241.471 154.67v-1.746h322.563v1.746H241.471z" class="cls-2" data-name="Line 4"/><path d="M288.978 190.824H495.53v206.552H288.978V190.824z" class="cls-3"/><path id="Rectangle_1_copy" d="M69.42 178.744h90.512v90.512H69.42v-90.512z" class="cls-3" data-name="Rectangle 1 copy"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sub">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M27.09 82.836h285.083v285.083H27.09V82.836z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 295.421h169.985V465.41H362.8V295.421z" class="cls-1" data-name="Rectangle 1 copy"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="sup">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M27.09 468.164h285.083V183.081H27.09v285.083z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 255.579h169.985V85.59H362.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="subsup">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;stroke-width:12.875px;fill-rule:evenodd}</style></defs><path d="M34.7 413.554h267.862V145.693H34.7v267.861z" class="cls-1"/><path id="Rectangle_1_copy" d="M362.8 243.579h169.985V73.59H362.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/><path id="Rectangle_1_copy_2" d="M533.2 487.579H363.215V317.59H533.2v169.989z" class="cls-1" data-name="Rectangle 1 copy 2"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="null" data-function-id="frac">
+                <svg viewBox="0 0 567 567"><defs><style>.cls-1{fill:none;stroke:#000;fill-rule:evenodd;stroke-width:12.875px}</style></defs><path id="Rectangle_1_copy" d="M193.8 225.579h169.985V55.59H193.8v169.989z" class="cls-1" data-name="Rectangle 1 copy"/><path id="Line_1" fill="none" fill-rule="evenodd" stroke="#000" stroke-width="10.125" d="M124 284v-1h295v1H124z" data-name="Line 1"/><path id="Rectangle_1_copy_2" d="M364.2 528.579H194.215V358.59H364.2v169.989z" class="cls-1" data-name="Rectangle 1 copy 2"/></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sin">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">sin</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cos">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">cos</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="tan">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">tan</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="csc">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">csc</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="sec">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">sec</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="cot">
+                <svg viewBox="0 0 567 567"><text fill="#242424" font-family="Cambria" font-size="310.5" text-anchor="middle" transform="translate(286.022 367.216) scale(1.235)"><tspan x="0">cot</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin">
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arcsin</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos">
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arccos</tspan></text></svg>
+                </span>
+                <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan">
+                <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arctan</tspan></text></svg>
+                </span>
             </div>
             <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
         `;
