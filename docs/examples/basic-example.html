@@ -32,7 +32,10 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-    <script src="../../src/mjxgui.min.js"></script>
+    <script src="../../src/modules/expression-backend.js"></script>
+    <script src="../../src/modules/controller.js"></script>
+    <script src="../../src/modules/ui.js"></script>
+<!--    <script src="../../src/mjxgui.min.js"></script>-->
     <title>MJXGUI Demo</title>
 </head>
 <body>
@@ -44,7 +47,9 @@
         const eqnOutput = document.querySelector('#equation-output');
         const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
             MathJax.typesetClear([eqnOutput]);
-            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
+
+            eqnOutput.innerHTML += '$$' + mjxgui.getLatex() + '$$' + '<br>';
+
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     </script>

@@ -184,6 +184,7 @@ class MJXGUI {
         })
     }
 
+    // Inject the editor HTML and CSS into the DOM
     constructUI() {
         // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
 
@@ -507,6 +508,8 @@ class MJXGUI {
         document.body.appendChild(editorDiv);
     }
 
+    // Remove the current expression from the display, add it to the history, create a new expression and reset
+    // all cursor properties to defaults.
     clearEquation() {
         // push this entire expression onto the eqnHistory array so the user can access it again
         this.eqnHistory.push(this.expression);
@@ -518,5 +521,10 @@ class MJXGUI {
         this.cursor.position = -0.5;
         this.cursor.latex = '';
         this.cursor.updateDisplay();
+    }
+
+    // Getter method that just returns the cursor's LaTeX.
+    getLatex() {
+        return this.cursor.toLatex();
     }
 }
