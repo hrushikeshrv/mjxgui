@@ -32,20 +32,63 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-    <script src="../mjxgui-example-build-v0.1.0.js"></script>
+    <script src="../../src/modules/expression-backend.js"></script>
+    <script src="../../src/modules/controller.js"></script>
+    <script src="../../src/modules/ui.js"></script>
     <title>MJXGUI Demo</title>
+
+
+    <style>
+        body, html, *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: rgb(240, 240, 240);
+        }
+        table {
+            margin: 0 auto;
+            width: 80%;
+            font-size: 2rem;
+            font-family: monospace;
+        }
+        th {
+            padding: 10px 0;
+        }
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+        td.latex-cell {
+            font-size: 1.4rem;
+            user-select: all;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <button id="mjxgui-button" style="margin: 30px; padding: 10px; font-family: monospace; font-size: 2rem;">Add Equation</button>
-    <div id="equation-output" style="padding: 40px; font-size: 2rem;">
-        <h3 style="font-family: monospace;">Inserted Equations:</h3>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Inserted Equation</th>
+                    <th>Generated LaTeX</th>
+                </tr>
+            </thead>
+            <tbody id="equation-table"></tbody>
+        </table>
     </div>
     <script>
-        const eqnOutput = document.querySelector('#equation-output');
+        const equationTable = document.querySelector('#equation-table');
         const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
-            MathJax.typesetClear([eqnOutput]);
-            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
-            MathJax.typesetPromise([eqnOutput]).then(() => {});
+            let tr = document.createElement('tr');
+            tr.innerHTML += `
+                <td>$$ ${mjxgui.getLatex()} $$</td>
+                <td class="latex-cell">${mjxgui.getLatex()}</td>
+            `;
+            equationTable.appendChild(tr);
+
+            MathJax.typesetPromise([tr]).then(() => {});
         })
     </script>
 </body>
