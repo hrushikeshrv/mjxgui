@@ -10,6 +10,11 @@
             gtag('config', 'G-TGM5F6WJNV');
         </script>
 
+        <!-- Adding equations using MathJax -->
+       <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+       <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,6 +178,72 @@
         </section>
         <section id="api">
             <h1>API</h1>
+            <p>
+                The API documentation is ordered by the precedence of the modules in the structure of the code.
+                The modules that lend their functions and/or classes to others are documented before the others. 
+                This is because reading the documentation in this order will help you understand how MJXGUI works
+                from the ground up and will help you modify, customize, and extend it to include LaTeX symbols, functions, 
+                and characters not included by default.
+            </p>
+            <p>
+                You will most often interact with the API exposed by the MJXGUI class defined in the UI module. 
+                Refer to the UI section if you don’t want much customization and just want to integrate the default editor.
+            </p>
+
+                <h2>Expression Backend</h2>
+                <p>
+                    The expression backend defines the classes that represent different mathematical symbols, 
+                    characters, and functions. It is responsible for building a representation of the equation the 
+                    user is building and has methods to generate LaTeX for an equation once the user is done.
+                </p>
+                <p>
+                    Each equation is made up of different “components”, that can represent a single character, 
+                    symbol, or a mathematical function. A component is, in turn, made up of multiple “blocks” that 
+                    can contain strings or other components to allow functions to be nested indefinitely.
+                </p>
+                <p>
+                    For example, the equation
+                </p>
+                
+                $${{ x = -b \pm \sqrt{b^2-4ac} \over 2a }}$$ 
+
+                <p>
+                    contains many components as well as blocks. Each character (“x”, “=”, and so on) is its own component (represented by 
+                    a “TextComponent”). It also contains two functions, namely the fraction function and the square root function. The fraction 
+                    function has two “blocks”, the numerator and denominator, and the square root function only has one block, the expression 
+                    inside the square root symbol.
+                </p>
+                <p>
+                    The expression that users enter is represented in the following way -
+                </p>
+                
+                <p>
+                    The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
+                    Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 
+                    amount of “children.” The children can be strings which represent the characters that the user entered or some LaTeX data, 
+                    like “\pi” or “x”, or the children can be another component nested inside this current component, as we saw that the square 
+                    root function was nested inside the fraction function. In the above case, the numerator block of the fraction function had 4 
+                    children - [‘-’, ‘b’, MJXGUISymbol, Sqrt].
+                </p>
+                <p>
+                    There are many types of components - characters, symbols, and functions - that inherit from the abstract Component class. 
+                    The Component class has methods to manage the contents of its blocks and a method to generate LaTeX depending on the type of 
+                    component it is.
+                </p>
+                <p>
+                    As users type and choose characters/symbols/functions to insert, they are turned into their own components and added to the 
+                    correct place using the current position of the cursor (see Controller). In short, we define a “cursor” that keeps track of 
+                    where the user is inside the Expression. The user can move the cursor around using the arrow keys and whenever the user types 
+                    in a character or chooses a component to insert, the component is inserted at the position of the cursor.
+                </p>
+                <p>
+                    The Expression class is a wrapper around the Component class that collects all of the equation’s components together and has 
+                    a method toLatex() that generates LaTeX for the components in it.
+                </p>
+
+
+
+
             <span class="under-construction"></span>
         </section>
         <section id="customizing">
