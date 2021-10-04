@@ -30,7 +30,7 @@ class Expression {
         for (let c of this.components) {
             latex += c.toLatex() + ' ';
         }
-        return latex;
+        return latex.trim();
     }
 }
 
@@ -59,13 +59,13 @@ class Block {
         let latex = '';
         for (let c of this.children) {
             if (typeof c === 'string') {
-                latex += c + ' ';
+                latex += c;
             }
             else {
                 latex += c.toLatex() + ' ';
             }
         }
-        return latex;
+        return latex.trim();
     }
 
     addChild(component, position = this.children.length) {
