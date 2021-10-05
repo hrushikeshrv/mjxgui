@@ -1,3 +1,17 @@
+import {
+    Expression,
+    TemplateThreeBlockComponent,
+    TrigonometricTwoBlockComponent,
+    Limit,
+    Sqrt,
+    NthRoot,
+    Fraction,
+    SubSupRight,
+    Superscript,
+    Subscript,
+    MJXGUISymbol,
+} from "./expression-backend";
+import {Cursor} from './controller';
 // Draws the editor UI and canvas inside the given div
 
 const symbolLatexMap = {
