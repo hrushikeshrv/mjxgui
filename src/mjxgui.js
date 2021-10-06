@@ -5,7 +5,7 @@
  * @class
  * Thin wrapper around the Component class that collects all the components together in an Expression
  * that can be easily rendered and converted to LaTeX.
- **/
+**/
 class Expression {
     constructor(nestingDepth = 0) {
         this.components = [];
@@ -36,8 +36,8 @@ class Expression {
 
 /**
  * @class
- * Represents a block. A fundamental unit of the Expression.
- *
+ * Represents a block. A fundamental unit of the Expression. 
+ * 
  * All data is ultimately stored in
  * a Block. A Component or any child class of Component has a fixed number of Blocks in it, and a Block can
  * have a variable number of 'children'. An element in a Block's children array can either be a string
@@ -85,7 +85,7 @@ class Block {
  * @class
  * Base class representing a Component of the equation. Inherited by the TextComponent, all *Symbol,
  * and all *Function classes. All child classes of Component override the toLatex method
- * to customize the LaTeX generated. You can define your own child classes to add support for
+ * to customize the LaTeX generated. You can define your own child classes to add support for 
  * LaTeX syntax not yet supported.
  */
 class Component {
@@ -124,7 +124,7 @@ class Component {
  * @class
  * A component with one block
  */
-class OneBlockComponent extends Component {
+ class OneBlockComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         super([b1], parent);
@@ -327,7 +327,6 @@ class NthRoot extends TwoBlockComponent {
         return `\\sqrt[${this.blocks[0].toLatex()}]{${this.blocks[1].toLatex()}}`;
     }
 }
-
 // Listens for keypress and modifies the Expression accordingly
 
 const characters = new Set();
@@ -337,7 +336,7 @@ for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
 
 /**
  * @class
- *
+ * 
  */
 class Cursor {
     constructor(expression, display) {
@@ -354,17 +353,17 @@ class Cursor {
         // Insert some text into the Expression, either as its own block or into the block
         // we are in currently.
         if (this.block === null) {
-            // Safe to assume we are not in any block and are between two components in the
+            // Safe to assume we are not in any block and are between two components in the 
             // Expression or at the start or end of the Expression.
             const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
             this.expression.add(_, Math.ceil(this.position));
-
+            
             this.child = -0.5;
             this.position++;
         }
         else {
-            // We are in some Block in some Component of the Expression.
+            // We are in some Block in some Component of the Expression. 
             // The child we are in changes, the component, block, and position remain the same
             const _ = new TextComponent(this.block);
             _.blocks[0].addChild(text);
@@ -375,8 +374,8 @@ class Cursor {
 
     addComponent(component) {
         // Insert a new Component into the Expression at the position of the cursor.
-        // If we are in a block, we add a Component to the block as a child, otherwise
-        // we insert the Component on the top level as a new component in the
+        // If we are in a block, we add a Component to the block as a child, otherwise 
+        // we insert the Component on the top level as a new component in the 
         // Expression
         if (this.block === null) {
             this.expression.add(component, Math.ceil(this.position));
@@ -655,21 +654,21 @@ class Cursor {
     }
 
     toDisplayLatex() {
-        // Generate LaTeX to show in the display by adding a caret character to the expression.
-        // This is not the real LaTeX of the expression but the LaTeX resulting after we add
+        // Generate LaTeX to show in the display by adding a caret character to the expression. 
+        // This is not the real LaTeX of the expression but the LaTeX resulting after we add 
         // a caret as a | character in the expression
         let caret = new TextComponent(this.block);
         caret.blocks[0].addChild('|');
-
+        
         let frame = new FrameBox(this.block);
 
         if (this.block === null) {
-            // If we are not in any block, we just add the caret, generate latex
+            // If we are not in any block, we just add the caret, generate latex 
             // and reset the components
             this.expression.add(caret, Math.ceil(this.position));
         }
         else {
-            // We add the current component inside the frame, add the caret in the
+            // We add the current component inside the frame, add the caret in the 
             // right position, generate latex and reset the components
             let i = this.component.blocks.indexOf(this.block);
             this.component.removeBlock(i);
@@ -679,7 +678,7 @@ class Cursor {
         }
 
         let latex = this.toLatex();
-
+        
 
         if (this.block === null) {
             this.expression.remove(Math.ceil(this.position));
@@ -703,7 +702,6 @@ class Cursor {
         MathJax.typesetPromise([this.display]).then(() => {});
     }
 }
-
 // Draws the editor UI and canvas inside the given div
 
 const symbolLatexMap = {
