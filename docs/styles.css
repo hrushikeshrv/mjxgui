@@ -91,6 +91,7 @@ body {
     background-color: var(--background);
     color: var(--default-font-color);
     font-family: var(--paragraph-font);
+    font-size: 16px;
 }
 
 a {
@@ -204,8 +205,24 @@ section h1 {
     padding-top: 60px;
 }
 
+section h2 {
+    padding-top: 30px;
+}
+
+section h3 {
+    padding-top: 15px;
+}
+
 h1 {
     font-size: 2.7rem;
+}
+
+h2 {
+    font-size: 2.1rem;
+}
+
+h3 {
+    font-size: 1.35rem;
 }
 
 code {
@@ -213,6 +230,7 @@ code {
     padding: 2px 5px;
     border-radius: 6px;
     background-color: var(--background-dark-1);
+    font-size: 16px;
 }
 
 div.code-block {
@@ -223,4 +241,6 @@ div.code-block {
     max-width: 100%;
     overflow-x: auto;
     font-family: var(--monospace-font);
+    font-size: 0.9rem;
 }
+
