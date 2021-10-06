@@ -190,56 +190,231 @@
                 Refer to the UI section if you don’t want much customization and just want to integrate the default editor.
             </p>
 
-                <h2>Expression Backend</h2>
-                <p>
-                    The expression backend defines the classes that represent different mathematical symbols, 
-                    characters, and functions. It is responsible for building a representation of the equation the 
-                    user is building and has methods to generate LaTeX for an equation once the user is done.
-                </p>
-                <p>
-                    Each equation is made up of different “components”, that can represent a single character, 
-                    symbol, or a mathematical function. A component is, in turn, made up of multiple “blocks” that 
-                    can contain strings or other components to allow functions to be nested indefinitely.
-                </p>
-                <p>
-                    For example, the equation
-                </p>
-                
-                $${{ x = -b \pm \sqrt{b^2-4ac} \over 2a }}$$ 
+                <h1>Expression Backend</h1>
+                    <p>
+                        The expression backend defines the classes that represent different mathematical symbols, 
+                        characters, and functions. It is responsible for building a representation of the equation the 
+                        user is building and has methods to generate LaTeX for an equation once the user is done.
+                    </p>
+                    <p>
+                        Each equation is made up of different “components”, that can represent a single character, 
+                        symbol, or a mathematical function. A component is, in turn, made up of multiple “blocks” that 
+                        can contain strings or other components to allow functions to be nested indefinitely.
+                    </p>
+                    <p>
+                        For example, the equation
+                    </p>
+                    
+                    $${{ x = -b \pm \sqrt{b^2-4ac} \over 2a }}$$ 
 
-                <p>
-                    contains many components as well as blocks. Each character (“x”, “=”, and so on) is its own component (represented by 
-                    a “TextComponent”). It also contains two functions, namely the fraction function and the square root function. The fraction 
-                    function has two “blocks”, the numerator and denominator, and the square root function only has one block, the expression 
-                    inside the square root symbol.
-                </p>
-                <p>
-                    The expression that users enter is represented in the following way -
-                </p>
-                
-                <p>
-                    The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
-                    Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 
-                    amount of “children.” The children can be strings which represent the characters that the user entered or some LaTeX data, 
-                    like “\pi” or “x”, or the children can be another component nested inside this current component, as we saw that the square 
-                    root function was nested inside the fraction function. In the above case, the numerator block of the fraction function had 4 
-                    children - [‘-’, ‘b’, MJXGUISymbol, Sqrt].
-                </p>
-                <p>
-                    There are many types of components - characters, symbols, and functions - that inherit from the abstract Component class. 
-                    The Component class has methods to manage the contents of its blocks and a method to generate LaTeX depending on the type of 
-                    component it is.
-                </p>
-                <p>
-                    As users type and choose characters/symbols/functions to insert, they are turned into their own components and added to the 
-                    correct place using the current position of the cursor (see Controller). In short, we define a “cursor” that keeps track of 
-                    where the user is inside the Expression. The user can move the cursor around using the arrow keys and whenever the user types 
-                    in a character or chooses a component to insert, the component is inserted at the position of the cursor.
-                </p>
-                <p>
-                    The Expression class is a wrapper around the Component class that collects all of the equation’s components together and has 
-                    a method toLatex() that generates LaTeX for the components in it.
-                </p>
+                    <p>
+                        contains many components as well as blocks. Each character (“x”, “=”, and so on) is its own component (represented by 
+                        a “TextComponent”). It also contains two functions, namely the fraction function and the square root function. The fraction 
+                        function has two “blocks”, the numerator and denominator, and the square root function only has one block, the expression 
+                        inside the square root symbol.
+                    </p>
+                    <p>
+                        The expression that users enter is represented in the following way -
+                    </p>
+                    <img src="mjxgui-structure.png" alt="Mjxgui Structure" width=600 height=175>
+                    <p>
+                        The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
+                        Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 
+                        amount of “children.” The children can be strings which represent the characters that the user entered or some LaTeX data, 
+                        like “\pi” or “x”, or the children can be another component nested inside this current component, as we saw that the square 
+                        root function was nested inside the fraction function. In the above case, the numerator block of the fraction function had 4 
+                        children - [‘-’, ‘b’, MJXGUISymbol, Sqrt].
+                    </p>
+                    <p>
+                        There are many types of components - characters, symbols, and functions - that inherit from the abstract Component class. 
+                        The Component class has methods to manage the contents of its blocks and a method to generate LaTeX depending on the type of 
+                        component it is.
+                    </p>
+                    <p>
+                        As users type and choose characters/symbols/functions to insert, they are turned into their own components and added to the 
+                        correct place using the current position of the cursor (see Controller). In short, we define a “cursor” that keeps track of 
+                        where the user is inside the Expression. The user can move the cursor around using the arrow keys and whenever the user types 
+                        in a character or chooses a component to insert, the component is inserted at the position of the cursor.
+                    </p>
+                    <p>
+                        The Expression class is a wrapper around the Component class that collects all of the equation’s components together and has 
+                        a method toLatex() that generates LaTeX for the components in it.
+                    </p>
+
+                        <h1> class Expression </h1>
+                        <p>
+                            A thin wrapper around the Component class that collects all the components together into an Expression that can 
+                            be easily rendered and converted to LaTeX.
+                        </p>
+
+                            <h2> Expression.components </h2>
+                                <p>
+                                    <code> Expression.components = []; </code>
+                                    <br>
+                                    <br>
+                                    An array containing the components in this expression.
+                                </p>
+
+                            <h2> Expression.add() </h2>
+                                <p>
+                                    <code> Expression.add(component, position=this.components.length) </code>
+                                    <br>
+                                    <br>
+                                    Add a component in this expression at the given position.
+                                </p>
+                            
+                            <h2> Expression.remove() </h2>
+                                <p> 
+                                    <code> Expression.remove(position=this.components.length-1) </code>
+                                    <br>
+                                    <br>
+                                    Remove the component in this expression at the given position.
+                                </p>
+
+                            <h2> Expression.toLatex() </h2>
+                                <p>
+                                    <code> Expression.toLatex() </code>
+                                    <br>
+                                    <br>
+                                    Generates LaTeX code from the components in this expression and returns it as a string.
+                                </p>
+                        
+                        <h1> class Block </h1>    
+                            <p>
+                                A fundamental unit of the Expression. All data is ultimately stored in a Block. Every block has a 
+                                children array that can contain either strings or other Components.
+                            </p>
+                            
+                                <h2> Block.children </h2>
+                                    <p>
+                                        <code> Block.children = []; </code>
+                                        <br>
+                                        <br>
+                                        An array containing all data inside this block. Can contain strings containing characters or 
+                                        LaTeX data, like “\pm”, “\infty”, or “x”, “=”, etc or component objects.
+                                    </p>
+                                    
+                                <h2> Block.parent </h2>
+                                    <p>
+                                        <code> Block.parent = Component(); </code>
+                                        <br>
+                                        <br>
+                                        The component this block belongs to.
+                                    </p>
+                                
+                                <h2> Block.addChild </h2>
+                                    <p>
+                                        <code> Block.addChild(component, position=this.children.length) </code>
+                                        <br>
+                                        <br>
+                                        Add a component to this block’s children.
+                                    </p>
+
+                                <h2> Block.removeChild </h2>
+                                    <p>
+                                        <code> Block.removeChild(position=this.children.length-1) </code>
+                                        <br>
+                                        <br>
+                                        Remove a component from this block’s children.
+                                    </p>
+                                
+                        <h1> class Component </h1>
+                            <p>
+                                Represents a component in the expression array.
+                            </p>
+
+                                <h2> Component.blocks </h2>
+                                    <p>
+                                        <code> Component.blocks = [Block]; </code>
+                                        <br>
+                                        <br>
+                                        An array containing the blocks this component is made of. Each component has a fixed number of 
+                                        blocks. For example, the fraction function component has two blocks, the integration function 
+                                        component has three blocks, etc. We add and remove blocks from components when we generate LaTeX 
+                                        to show the user a preview of their equation.
+                                    </p>
+
+                                <h2> Component.parent </h2>
+                                    <p>
+                                        <code> Component.parent = Block; </code>
+                                        <br>
+                                        <br>
+                                        The block this component is nested inside (if any). If this component is not nested then set to null.
+                                    </p>
+
+                                <h2> Component.addBlock() </h2>
+                                    <p>
+                                        <code> Component.addBlock(block, position) </code>
+                                        <br>
+                                        <br>
+                                        Add a block to this component at the given position.
+                                    </p>
+                                
+                                <h2> Component.removeBlock() </h2>
+                                    <p>
+                                        <code> Component.removeBlock(position) </code>
+                                        <br>
+                                        <br>
+                                        Remove a block from this component at the given position.
+                                    </p>
+                                
+                                <h2> Component.isEmpty() </h2>
+                                    <p>
+                                        <code> Component.isEmpty() </code>
+                                        <br>
+                                        <br>
+                                        Returns true if the component has no content in all of its blocks, false otherwise. Used to 
+                                        check if the component is empty before we delete it when the user presses backspace.
+                                    </p>
+                                
+                                <h2> Component.toLatex() </h2>
+                                    <p>
+                                        <code> Component.toLatex() </code>
+                                        <br>
+                                        <br>
+                                        Generates LaTeX for this component by generating LaTeX for its blocks and combining them. 
+                                        This method is meant to be overridden by each child class that inherits from Component to 
+                                        customize the kind of LaTeX that is generated.
+                                    </p>
+                        
+                        <h1> Controller </h1>
+                            <p> 
+                                The controller module defines a Cursor class that represents the position of the user inside the expression. 
+                                Whenever the user types a character or clicks on a button to add a component, we use the cursor position to 
+                                determine where the character/component should be inserted. The Cursor class has properties to keep track of 
+                                the user’s position in the overall expression, as well as the user’s position inside a specific block, and has 
+                                methods to manipulate the expression’s contents.
+                            </p>
+                            <p>
+                                To uniquely determine the user’s position in the expression, the cursor has a reference to the Expression instance, 
+                                the instance of the Block it is inside, and the instance of Component it’s block is inside.
+                            </p>
+                            <p>
+                                It also keeps track of the LaTeX of the expression as it is being built. However, you shouldn’t use this property 
+                                to access the LaTeX of the final expression, since it contains an extra component that is added to represent the cursor 
+                                itself. To get the LaTeX of the expression once the user is done entering it (or when you specifically want to access 
+                                the LaTeX), use the Cursor’s toLatex() method, which will generate the correct LaTeX for you.
+                            </p>
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
