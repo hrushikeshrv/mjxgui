@@ -6,7 +6,7 @@
  * Thin wrapper around the Component class that collects all the components together in an Expression
  * that can be easily rendered and converted to LaTeX.
 **/
-export class Expression {
+class Expression {
     constructor(nestingDepth = 0) {
         this.components = [];
         this.nestingDepth = nestingDepth;
@@ -43,7 +43,7 @@ export class Expression {
  * have a variable number of 'children'. An element in a Block's children array can either be a string
  * or another Component, allowing for nesting of Components.
  */
-export class Block {
+class Block {
     constructor(parent) {
         /**
          * @param parent: The component to which this block belongs
@@ -88,7 +88,7 @@ export class Block {
  * to customize the LaTeX generated. You can define your own child classes to add support for 
  * LaTeX syntax not yet supported.
  */
-export class Component {
+class Component {
     constructor(blocks = [], parent = null) {
         /**
          * @param blocks: The blocks contained by the component
@@ -124,7 +124,7 @@ export class Component {
  * @class
  * A component with one block
  */
- export class OneBlockComponent extends Component {
+ class OneBlockComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         super([b1], parent);
@@ -137,7 +137,7 @@ export class Component {
  * @class
  * A component with two blocks
  */
-export class TwoBlockComponent extends Component {
+class TwoBlockComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         let b2 = new Block();
@@ -154,7 +154,7 @@ export class TwoBlockComponent extends Component {
  * takes in some LaTeX data, since that is mostly the only thing that varies between functions, and that would
  * make this file much DRYer
  */
-export class ThreeBlockComponent extends Component {
+class ThreeBlockComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         let b2 = new Block();
@@ -174,7 +174,7 @@ export class ThreeBlockComponent extends Component {
  * We don't define a two block template component because the LaTeX generation for two block components
  * differs significantly from component to component.
  */
-export class TemplateThreeBlockComponent extends ThreeBlockComponent {
+class TemplateThreeBlockComponent extends ThreeBlockComponent {
     constructor(parent, latexData) {
         super(parent);
         this.latexData = latexData;
@@ -193,7 +193,7 @@ export class TemplateThreeBlockComponent extends ThreeBlockComponent {
  * empty block while rendering, so users will be able to raise the function to any power without us having to
  * define a separate template component to support exponents for trigonometric components.
  */
-export class TrigonometricTwoBlockComponent extends TwoBlockComponent {
+class TrigonometricTwoBlockComponent extends TwoBlockComponent {
     constructor(parent, latexData) {
         super(parent);
         this.latexData = latexData;
@@ -210,7 +210,7 @@ export class TrigonometricTwoBlockComponent extends TwoBlockComponent {
  * A component with only text and no symbol, function of other LaTeX data. Safe to assume that
  * it only has one block with a string inside. Equivalent to a single block.
  */
-export class TextComponent extends Component {
+class TextComponent extends Component {
     constructor(parent) {
         let b1 = new Block();
         super([b1], parent);
@@ -228,7 +228,7 @@ export class TextComponent extends Component {
  * A symbol which is just some latex with no arguments to be inserted into the expression.
  */
 // TODO - Add support for the backslash character as a symbol
-export class MJXGUISymbol extends Component {
+class MJXGUISymbol extends Component {
     constructor(parent, latexData) {
         super([], parent);
         this.latexData = latexData;
@@ -244,7 +244,7 @@ export class MJXGUISymbol extends Component {
  * @class
  * A framebox
  */
-export class FrameBox extends OneBlockComponent {
+class FrameBox extends OneBlockComponent {
     toLatex() {
         return `\\boxed{${this.blocks[0].toLatex()}}`;
     }
@@ -255,7 +255,7 @@ export class FrameBox extends OneBlockComponent {
  * @class
  * The limit function
  */
-export class Limit extends TwoBlockComponent {
+class Limit extends TwoBlockComponent {
     toLatex() {
         return `\\lim_{${this.blocks[0].toLatex()}}{${this.blocks[1].toLatex()}}`;
     }
@@ -266,7 +266,7 @@ export class Limit extends TwoBlockComponent {
  * @class
  * A fraction
  */
-export class Fraction extends TwoBlockComponent {
+class Fraction extends TwoBlockComponent {
     toLatex() {
         return `\\frac{${this.blocks[0].toLatex()}}{${this.blocks[1].toLatex()}}`;
     }
@@ -277,7 +277,7 @@ export class Fraction extends TwoBlockComponent {
  * @class
  * Subscript
  */
-export class Subscript extends TwoBlockComponent {
+class Subscript extends TwoBlockComponent {
     toLatex() {
         return `{${this.blocks[0].toLatex()}}_{${this.blocks[1].toLatex()}}`;
     }
@@ -289,7 +289,7 @@ export class Subscript extends TwoBlockComponent {
  * Superscript
  */
 
-export class Superscript extends TwoBlockComponent {
+class Superscript extends TwoBlockComponent {
     toLatex() {
         return `{${this.blocks[0].toLatex()}}^{${this.blocks[1].toLatex()}}`;
     }
@@ -300,7 +300,7 @@ export class Superscript extends TwoBlockComponent {
  * @class
  * Some text with both a subscript as well as a superscript on the left side
  */
-export class SubSupRight extends ThreeBlockComponent {
+class SubSupRight extends ThreeBlockComponent {
     toLatex() {
         return `{${this.blocks[0].toLatex()}}_{${this.blocks[1].toLatex()}}^{${this.blocks[2].toLatex()}}`;
     }
@@ -311,7 +311,7 @@ export class SubSupRight extends ThreeBlockComponent {
  * @class
  * The square root function
  */
-export class Sqrt extends OneBlockComponent {
+class Sqrt extends OneBlockComponent {
     toLatex() {
         return `\\sqrt{${this.blocks[0].toLatex()}}`;
     }
@@ -322,7 +322,7 @@ export class Sqrt extends OneBlockComponent {
  * @class
  * The nth root function
  */
-export class NthRoot extends TwoBlockComponent {
+class NthRoot extends TwoBlockComponent {
     toLatex() {
         return `\\sqrt[${this.blocks[0].toLatex()}]{${this.blocks[1].toLatex()}}`;
     }

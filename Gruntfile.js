@@ -4,7 +4,11 @@ module.exports = function(grunt) {
         concat: {
             build: {
                 src: ['src/modules/expression-backend.js', 'src/modules/controller.js', 'src/modules/ui.js'],
-                dest: ['src/mjxgui.js', 'docs/js/mjxgui.js'],
+                dest: 'src/mjxgui.js',
+            },
+            buildExample: {
+                src: ['src/modules/expression-backend.js', 'src/modules/controller.js', 'src/modules/ui.js'],
+                dest: 'docs/js/mjxgui.js'
             }
         },
         uglify: {

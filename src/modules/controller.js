@@ -1,8 +1,3 @@
-import {
-    FrameBox,
-    MJXGUISymbol,
-    TextComponent
-} from "./expression-backend";
 // Listens for keypress and modifies the Expression accordingly
 
 const characters = new Set();
@@ -14,7 +9,7 @@ for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
  * @class
  * 
  */
-export class Cursor {
+class Cursor {
     constructor(expression, display) {
         this.expression = expression;
         this.block = null;
