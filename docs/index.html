@@ -163,7 +163,11 @@
         // Create new MJXGUI instance
         const gui = new MJXGUI('#add-equation-button', '$$', function() {
             MathJax.typesetClear([eqnOutput]);
-            eqnOutput.innerHTML += '$$' + this.getLatex() + '$$' + '&lt;br&gt;'; // NOTE - gui.getLatex() would also work here
+
+                <code>
+            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;'; // NOTE - this.getLatex() would also work here
+                </code>
+
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     &lt;/script&gt;
@@ -216,7 +220,7 @@
                     <p>
                         The expression that users enter is represented in the following way -
                     </p>
-                    <img src="mjxgui-structure.png" alt="Mjxgui Structure" width=600 height=175>
+                    <img src="./media/mjxgui-structure.svg" alt="Mjxgui Structure" width="100%">
                     <p>
                         The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
                         Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 
