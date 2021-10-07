@@ -206,8 +206,24 @@ section h1 {
     padding-top: 60px;
 }
 
+section h2 {
+    padding-top: 30px;
+}
+
+section h3 {
+    padding-top: 15px;
+}
+
 h1 {
     font-size: 2.7rem;
+}
+
+h2 {
+    font-size: 2.1rem;
+}
+
+h3 {
+    font-size: 1.5rem;
 }
 
 code {
