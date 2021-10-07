@@ -10,6 +10,11 @@
             gtag('config', 'G-TGM5F6WJNV');
         </script>
 
+        <!-- Adding equations using MathJax -->
+       <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+       <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,7 +178,463 @@
         </section>
         <section id="api">
             <h1>API</h1>
-            <span class="under-construction"></span>
+            <p>
+                The API documentation is ordered by the precedence of the modules in the structure of the code.
+                The modules that lend their functions and/or classes to others are documented before the others. 
+                This is because reading the documentation in this order will help you understand how MJXGUI works
+                from the ground up and will help you modify, customize, and extend it to include LaTeX symbols, functions, 
+                and characters not included by default.
+            </p>
+            <p>
+                You will most often interact with the API exposed by the MJXGUI class defined in the UI module. 
+                Refer to the UI section if you don’t want much customization and just want to integrate the default editor.
+            </p>
+
+                <h2>Expression Backend</h2>
+                    <p>
+                        The expression backend defines the classes that represent different mathematical symbols, 
+                        characters, and functions. It is responsible for building a representation of the equation the 
+                        user is building and has methods to generate LaTeX for an equation once the user is done.
+                    </p>
+                    <p>
+                        Each equation is made up of different “components”, that can represent a single character, 
+                        symbol, or a mathematical function. A component is, in turn, made up of multiple “blocks” that 
+                        can contain strings or other components to allow functions to be nested indefinitely.
+                    </p>
+                    <p>
+                        For example, the equation
+                    </p>
+                    
+                    $${{ x = -b \pm \sqrt{b^2-4ac} \over 2a }}$$ 
+
+                    <p>
+                        contains many components as well as blocks. Each character (“x”, “=”, and so on) is its own component (represented by 
+                        a “TextComponent”). It also contains two functions, namely the fraction function and the square root function. The fraction 
+                        function has two “blocks”, the numerator and denominator, and the square root function only has one block, the expression 
+                        inside the square root symbol.
+                    </p>
+                    <p>
+                        The expression that users enter is represented in the following way -
+                    </p>
+                    <img src="mjxgui-structure.png" alt="Mjxgui Structure" width=600 height=175>
+                    <p>
+                        The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
+                        Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 
+                        amount of “children.” The children can be strings which represent the characters that the user entered or some LaTeX data, 
+                        like “\pi” or “x”, or the children can be another component nested inside this current component, as we saw that the square 
+                        root function was nested inside the fraction function. In the above case, the numerator block of the fraction function had 4 
+                        children - [‘-’, ‘b’, MJXGUISymbol, Sqrt].
+                    </p>
+                    <p>
+                        There are many types of components - characters, symbols, and functions - that inherit from the abstract Component class. 
+                        The Component class has methods to manage the contents of its blocks and a method to generate LaTeX depending on the type of 
+                        component it is.
+                    </p>
+                    <p>
+                        As users type and choose characters/symbols/functions to insert, they are turned into their own components and added to the 
+                        correct place using the current position of the cursor (see Controller). In short, we define a “cursor” that keeps track of 
+                        where the user is inside the Expression. The user can move the cursor around using the arrow keys and whenever the user types 
+                        in a character or chooses a component to insert, the component is inserted at the position of the cursor.
+                    </p>
+                    <p>
+                        The Expression class is a wrapper around the Component class that collects all of the equation’s components together and has 
+                        a method toLatex() that generates LaTeX for the components in it.
+                    </p>
+
+                        <h2> class Expression </h2>
+                        <p>
+                            A thin wrapper around the Component class that collects all the components together into an Expression that can 
+                            be easily rendered and converted to LaTeX.
+                        </p>
+
+                            <h3> Expression.components </h3>
+                                <p>
+                                    <code> Expression.components = []; </code>
+                                    <br>
+                                    <br>
+                                    An array containing the components in this expression.
+                                </p>
+
+                            <h3> Expression.add() </h3>
+                                <p>
+                                    <code> Expression.add(component, position=this.components.length) </code>
+                                    <br>
+                                    <br>
+                                    Add a component in this expression at the given position.
+                                </p>
+                            
+                            <h3> Expression.remove() </h3>
+                                <p> 
+                                    <code> Expression.remove(position=this.components.length-1) </code>
+                                    <br>
+                                    <br>
+                                    Remove the component in this expression at the given position.
+                                </p>
+
+                            <h3> Expression.toLatex() </h3>
+                                <p>
+                                    <code> Expression.toLatex() </code>
+                                    <br>
+                                    <br>
+                                    Generates LaTeX code from the components in this expression and returns it as a string.
+                                </p>
+                        
+                        <h2> class Block </h2>    
+                            <p>
+                                A fundamental unit of the Expression. All data is ultimately stored in a Block. Every block has a 
+                                children array that can contain either strings or other Components.
+                            </p>
+                            
+                                <h3> Block.children </h3>
+                                    <p>
+                                        <code> Block.children = []; </code>
+                                        <br>
+                                        <br>
+                                        An array containing all data inside this block. Can contain strings containing characters or 
+                                        LaTeX data, like “\pm”, “\infty”, or “x”, “=”, etc or component objects.
+                                    </p>
+                                    
+                                <h3> Block.parent </h3>
+                                    <p>
+                                        <code> Block.parent = Component(); </code>
+                                        <br>
+                                        <br>
+                                        The component this block belongs to.
+                                    </p>
+                                
+                                <h3> Block.addChild </h3>
+                                    <p>
+                                        <code> Block.addChild(component, position=this.children.length) </code>
+                                        <br>
+                                        <br>
+                                        Add a component to this block’s children.
+                                    </p>
+
+                                <h3> Block.removeChild </h3>
+                                    <p>
+                                        <code> Block.removeChild(position=this.children.length-1) </code>
+                                        <br>
+                                        <br>
+                                        Remove a component from this block’s children.
+                                    </p>
+                                
+                        <h2> class Component </h2>
+                            <p>
+                                Represents a component in the expression array.
+                            </p>
+
+                                <h3> Component.blocks </h3>
+                                    <p>
+                                        <code> Component.blocks = [Block]; </code>
+                                        <br>
+                                        <br>
+                                        An array containing the blocks this component is made of. Each component has a fixed number of 
+                                        blocks. For example, the fraction function component has two blocks, the integration function 
+                                        component has three blocks, etc. We add and remove blocks from components when we generate LaTeX 
+                                        to show the user a preview of their equation.
+                                    </p>
+
+                                <h3> Component.parent </h3>
+                                    <p>
+                                        <code> Component.parent = Block; </code>
+                                        <br>
+                                        <br>
+                                        The block this component is nested inside (if any). If this component is not nested then set to null.
+                                    </p>
+
+                                <h3> Component.addBlock() </h3>
+                                    <p>
+                                        <code> Component.addBlock(block, position) </code>
+                                        <br>
+                                        <br>
+                                        Add a block to this component at the given position.
+                                    </p>
+                                
+                                <h3> Component.removeBlock() </h3>
+                                    <p>
+                                        <code> Component.removeBlock(position) </code>
+                                        <br>
+                                        <br>
+                                        Remove a block from this component at the given position.
+                                    </p>
+                                
+                                <h3> Component.isEmpty() </h3>
+                                    <p>
+                                        <code> Component.isEmpty() </code>
+                                        <br>
+                                        <br>
+                                        Returns true if the component has no content in all of its blocks, false otherwise. Used to 
+                                        check if the component is empty before we delete it when the user presses backspace.
+                                    </p>
+                                
+                                <h3> Component.toLatex() </h3>
+                                    <p>
+                                        <code> Component.toLatex() </code>
+                                        <br>
+                                        <br>
+                                        Generates LaTeX for this component by generating LaTeX for its blocks and combining them. 
+                                        This method is meant to be overridden by each child class that inherits from Component to 
+                                        customize the kind of LaTeX that is generated.
+                                    </p>
+                        
+                        <h2> Controller </h2>
+                            <p> 
+                                The controller module defines a Cursor class that represents the position of the user inside the expression. 
+                                Whenever the user types a character or clicks on a button to add a component, we use the cursor position to 
+                                determine where the character/component should be inserted. The Cursor class has properties to keep track of 
+                                the user’s position in the overall expression, as well as the user’s position inside a specific block, and has 
+                                methods to manipulate the expression’s contents.
+                            </p>
+                            <p>
+                                To uniquely determine the user’s position in the expression, the cursor has a reference to the Expression instance, 
+                                the instance of the Block it is inside, and the instance of Component it’s block is inside.
+                            </p>
+                            <p>
+                                It also keeps track of the LaTeX of the expression as it is being built. However, you shouldn’t use this property 
+                                to access the LaTeX of the final expression, since it contains an extra component that is added to represent the cursor 
+                                itself. To get the LaTeX of the expression once the user is done entering it (or when you specifically want to access 
+                                the LaTeX), use the Cursor’s toLatex() method, which will generate the correct LaTeX for you.
+                            </p>
+
+                                <h2> class Cursor </h2>
+                                <br>
+                                    <h3> Cursor.expression </h3>
+                                        <p>
+                                            <code> Cursor.expression = Expression </code>
+                                            <br>
+                                            <br>
+                                            The expression the cursor is operating in.
+                                        </p>
+                                    
+                                    <h3> Cursor.block </h3>
+                                        <p>
+                                            <code> Cursor.block = Block() </code>
+                                            <br>
+                                            <br>
+                                            The Block the cursor is in. If the cursor is not inside any block, we set this to null..
+                                        </p>
+                                    
+                                    <h3> Cursor.component </h3>
+                                        <p>
+                                            <code> Cursor.component = Component() </code>
+                                            <br>
+                                            <br>
+                                            The component the cursor is inside. If the cursor is not inside any component, we set this to null. If 
+                                            either Cursor.component or Cursor.block is null, the other has to be null as well. Conversely, if either 
+                                            of Cursor.component or Cursor.block is non-null, the other has to be non–null as well.
+                                        </p>
+                                    
+                                    <h3> Cursor.child </h3>
+                                        <p>
+                                            <code> Cursor.child = Number </code>
+                                            <br> 
+                                            <br>
+                                            A Number representing the position inside the block the cursor should be drawn. It can take values between 
+                                            -0.5 to <code> Cursor.block.children.length-0.5</code>. A child position of -0.5 means that the cursor should be drawn before 
+                                            the first child in the block, a child position of 0.5 means it should be drawn between the first child in the 
+                                            block (at index 0) and the second child (at index 1). This property can only take half-integral values.
+                                        <p>
+
+                                    <h3> Cursor.position </h3>
+                                        <p>
+                                            <code> Cursor.position = Number; </code>
+                                            <br>
+                                            <br>
+                                            A Number representing the position of the cursor’s component inside the cursor’s expression. Can take values 
+                                            \between -0.5 and <code>Cursor.expression.components.length-0.5</code> in steps of 0.5. A position of -0.5 means 
+                                            that the cursor is on the left side of the first component in the expression. A position of 0 means that the cursor is 
+                                            somewhere inside the first component in the expression (index 0 of <code> Cursor.expression.components </code>). A position of 0.5 means 
+                                            that the cursor is between the first and second components of the expression, and so on.
+                                        </p>
+                                    
+                                    <h3> Cursor.latex </h3>
+                                        <p>
+                                            <code> Cursor.latex = String </code>
+                                            <br>
+                                            <br>
+                                            A String containing the LaTeX of the equation that the cursor’s expression contains.
+                                        </p>
+                                    
+                                    <h3> Cursor.display </h3>
+                                        <p>
+                                            <code> Cursor.display = String || HTML Element </code>
+                                            <br>
+                                            <br>
+                                            Either a String or an HTML element corresponding to the editor UI’s display.
+                                        </p>
+                                    
+                                    <h3> Cursor.addText() </h3>
+                                        <p>
+                                            <code> Cursor.addText(text: String) </code>
+                                            <br>
+                                            <br>
+                                            Adds some text to the expression at the position of the cursor. Called for each character we want to insert.
+                                        </p>
+                                    
+                                    <h3> Cursor.addComponent() </h3>
+                                        <p>
+                                            <code> Cursor.addComponent(component: Component) </code>
+                                            <br>
+                                            <br>
+                                            Inserts a component into the expression at the position of the cursor and changes the cursor’s position and 
+                                            child attributes accordingly.
+                                        </p>
+                                    
+                                    <h3> Cursor.removeComponent() </h3>
+                                        <p>
+                                            <code> Cursor.removeComponent() </code>
+                                            <br>
+                                            <br>
+                                            Removes the component that the cursor is currently in and changes the cursor’s position and child attributes accordingly.
+                                        </p>
+                                    
+                                    <h3> Cursor.keyPress() </h3>
+                                        <p>
+                                            <code> Cursor.keyPress(event: Event) </code>
+                                            <br>
+                                            <br>
+                                            Passed as an event listener callback to listen for the user’s key presses. If the user presses a key, then it adds the 
+                                            corresponding character to the expression. If the user presses special keys like backspace, left arrow, right arrow, 
+                                            etc, it appropriately calls <code> Cursor.backspace() </code> , <code> Cursor.seekLeft() </code> , or <code> Cursor.seekRight() </code> .
+                                        </p>
+                                    
+                                    <h3> Cursor.seekRight() </h3>
+                                        <p>
+                                            <code> Cursor.seekRight() </code>
+                                            <br>
+                                            <br>
+                                            Handles the logic for what to do when the user presses the right arrow key.
+                                        </p>
+                                    
+                                    <h3> Cursor.seekLeft() </h3>
+                                        <p>
+                                            <code> Cursor.seekLeft() </code>
+                                            <br>
+                                            <br>
+                                            Handles the logic for what to do when the user presses the left arrow key.
+                                        </p>
+                                    
+                                    <h3> Cursor.backspace() </h3>
+                                        <p>
+                                            <code> Cursor.backspace() </code>
+                                            <br>
+                                            <br>
+                                            Handles the logic for what to do when the user presses the backspace key.
+                                        </p>
+                                    
+                                    <h3> Cursor.toLatex() </h3>
+                                        <p>
+                                            <code> Cursor.toLatex() </code>
+                                            <br>
+                                            <br>
+                                            Generates LaTeX for the equation represented by the cursor’s expression. Call 
+                                            this method to get the LaTeX you want once the user is done entering their equation.
+                                        </p>
+
+                                    <h3> Cursor.toDisplayLatex() </h3>
+                                        <p>
+                                            <code> Cursor.toDisplayLatex() </code>
+                                            <br>
+                                            <br>
+                                           Generates LaTeX to show the user a preview of the equation they are building by adding a 
+                                           caret and a box around the active block.
+                                        </p>
+                                    
+                                    <h3> Cursor.updateDisplay() </h3>
+                                        <p>
+                                            <code> Cursor.updateDisplay() </code>
+                                            <br>
+                                            <br>
+                                            Updates the editor UI’s display to update the equation being previewed. Called every time 
+                                            the user makes a change to the equation or the cursor’s position and child.
+                                        </p>
+                                    
+                                <h2> UI </h2>
+                                    <p> 
+                                        The UI module defines the main MJXGUI class that exposes the API to the developer.
+                                    </p>
+                                
+                                <h2> Class MJXGUI </h2>
+                                <br>
+
+                                    <h3> MJXGUI.elements </h3>
+                                        <p>
+                                            <code> MJXGUI.elements = String </code>
+                                            <br>
+                                            <br>
+                                            A CSS selector that selects the DOM elements that will show the editor. Click event listeners 
+                                            are added to all elements selected by this selector and the editor UI is shown whenever the user 
+                                            clicks on one of those elements.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.mathDelimiter </h3>
+                                        <p> 
+                                            <code> MJXGUI.mathDelimiter = String </code>
+                                            <br>
+                                            <br>
+                                            A string representing the delimiter you use for MathJax for displayMath (<code> MathJax.tex.displayMath</code>). 
+                                            Usually ‘$$’.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.successCallback </h3>
+                                        <p>
+                                            <code> MJXGUI.successCallback = function </code>
+                                            <br>
+                                            <br>
+                                            A function that will be called when the user finishes typing the equation and clicks the editor’s “Done” button. 
+                                            This is where you will be able to access the LaTeX for the equation created by the user.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.eqnHistory </h3>
+                                        <p>
+                                            <code> MJXGUI.eqnHistory = [] </code>
+                                            <br>
+                                            <br>
+                                            An array containing all the previous equations the user has entered.
+                                        </p>
+
+                                    <h3> MJXGUI.expression </h3>
+                                        <p>
+                                            <code> MJXGUI.expression = Expression </code>
+                                            <br>
+                                            <br>
+                                            The current Expression object being built by the user right now.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.cursor </h3>
+                                        <p>
+                                            <code> MJXGUI.cursor = Cursor </code>
+                                            <br>
+                                            <br>
+                                            The Cursor instance.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.constructUI() </h3>
+                                        <p>
+                                            <code> MJXGUI.constructUI() </code>
+                                            <br>
+                                            <br>
+                                            Creates a new editor and injects its HTML and CSS into the DOM. 
+                                            You won’t need to call this method yourself, it is automatically called when you create a new instance of MJXGUI.
+                                        </p>
+                                    
+                                    <h3> MJXGUI.clearEquation() </h3>
+                                        <p> 
+                                            <code> MJXGUI.clearEquation() </code>
+                                            <br>
+                                            <br>
+                                            Disconnects the current Expression object that was being built from the cursor and pushes it onto the eqnHistory 
+                                            array. Also creates a new Expression object, sets it as the current expression, resets the cursor’s properties back 
+                                            to the defaults, and clears the display.
+                                        </p>
+
+                                    <h3> MJXGUI.getLatex() </h3>
+                                        <p>
+                                            <code> MJXGUI.getLatex() </code>
+                                            <br>
+                                            <br>
+                                            Generates and returns the LaTeX for the current Expression.
+                                        </p>
         </section>
         <section id="customizing">
             <h1>Customizing</h1>
