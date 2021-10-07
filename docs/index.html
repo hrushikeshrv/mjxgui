@@ -141,8 +141,8 @@
             <p>
                 The callback function is a function that is run when the user is done entering the equation and
                 clicks on the “Done” button. This is where you will be able to access the LaTeX for the equation.
-                The <code>this</code> keyword inside this function will have access to the MJXGUI cursor, which contains all the
-                methods and properties used to build equations and generate LaTeX for them. Calling
+                The <code>this</code> keyword inside this function will have access to the MJXGUI cursor, which
+                contains all the methods and properties used to build equations and generate LaTeX for them. Calling
                 <code>this.getLatex()</code> will generate the LaTeX for the equation and return it to you
                 as a string.
             </p>
@@ -163,9 +163,11 @@
         // Create new MJXGUI instance
         const gui = new MJXGUI('#add-equation-button', '$$', function() {
             MathJax.typesetClear([eqnOutput]);
+
                 <code>
-            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;';
+            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;'; // NOTE - this.getLatex() would also work here
                 </code>
+
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     &lt;/script&gt;

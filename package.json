@@ -1,0 +1,35 @@
+{
+  "name": "mjxgui",
+  "version": "1.0.0",
+  "description": "A WYSIWYG equation editor for the web with LaTeX support",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "webpack",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hrushikeshrv/mjxgui.git"
+  },
+  "keywords": [
+    "latex",
+    "mathjax"
+  ],
+  "author": "Hrushikesh Vaidya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hrushikeshrv/mjxgui/issues"
+  },
+  "homepage": "https://github.com/hrushikeshrv/mjxgui#readme",
+  "devDependencies": {
+    "grunt": "^1.4.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^3.1.1",
+    "grunt-contrib-uglify": "^5.0.1",
+    "webpack": "^5.56.1",
+    "webpack-cli": "^4.8.0"
+  }
+}
