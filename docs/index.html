@@ -143,7 +143,7 @@
                 clicks on the “Done” button. This is where you will be able to access the LaTeX for the equation.
                 The <code>this</code> keyword inside this function will have access to the MJXGUI cursor, which contains all the
                 methods and properties used to build equations and generate LaTeX for them. Calling
-                <code>this.cursor.toLatex()</code> will generate the LaTeX for the equation and return it to you
+                <code>this.getLatex()</code> will generate the LaTeX for the equation and return it to you
                 as a string.
             </p>
             <p>
@@ -163,7 +163,9 @@
         // Create new MJXGUI instance
         const gui = new MJXGUI('#add-equation-button', '$$', function() {
             MathJax.typesetClear([eqnOutput]);
-            eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '&lt;br&gt;';
+                <code>
+            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;';
+                </code>
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     &lt;/script&gt;
@@ -216,7 +218,7 @@
                     <p>
                         The expression that users enter is represented in the following way -
                     </p>
-                    <img src="mjxgui-structure.png" alt="Mjxgui Structure" width=600 height=175>
+                    <img src="./media/mjxgui-structure.svg" alt="Mjxgui Structure" width="100%">
                     <p>
                         The equation is represented using the Expression class. An Expression can have multiple components (as described above). 
                         Each component is made up of blocks. Some components have one, some two, and some three. Each block can contain an arbitrary 

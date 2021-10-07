@@ -59,6 +59,8 @@
     --background-dark-3: rgb(181, 181, 181);
     --background-dark-4: rgb(143, 143, 143);
     --background-dark-5: rgb(110, 110, 110);
+
+    --default-font-color: black;
 }
 
 *, *::before, *::after {
