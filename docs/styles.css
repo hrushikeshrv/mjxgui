@@ -204,6 +204,7 @@ h1, h2, h3 {
 
 section h1 {
     padding-top: 60px;
+    /* font-family: var(--monospace-font); */
 }
 
 section h2 {

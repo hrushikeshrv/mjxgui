@@ -114,6 +114,7 @@
             </div>
         </section>
         <section id="usage">
+            
             <h1 id="usage-head"><a href="#usage">Usage</a></h1>
             <p>
                 MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI
@@ -183,7 +184,10 @@
             </ul>
         </section>
         <section id="api">
-            <h1 id="api-head"><a href="#api">API</a></h1>
+            <p style="font-family: var(--monospace-font);">
+                <h1 id="api-head"><a href="#api">API</a></h1>
+            </p>
+            
             <p>
                 The API documentation is ordered by the precedence of the modules in the structure of the code.
                 The modules that lend their functions and/or classes to others are documented before the others. 
@@ -196,7 +200,9 @@
                 Refer to the UI section if you don’t want much customization and just want to integrate the default editor.
             </p>
 
-                <h2>Expression Backend</h2>
+            <p style="font-family: var(--monospace-font);">
+            <h2>Expression Backend</h2>
+            </p>    
                     <p>
                         The expression backend defines the classes that represent different mathematical symbols, 
                         characters, and functions. It is responsible for building a representation of the equation the 
@@ -246,52 +252,59 @@
                         The Expression class is a wrapper around the Component class that collects all of the equation’s components together and has 
                         a method toLatex() that generates LaTeX for the components in it.
                     </p>
-
+                    <p style="font-family: var(--monospace-font);">
                         <h2> class Expression </h2>
+                    </p>
                         <p>
                             A thin wrapper around the Component class that collects all the components together into an Expression that can 
                             be easily rendered and converted to LaTeX.
                         </p>
-
+                        <p style="font-family: var(--monospace-font);">
                             <h3> Expression.components </h3>
+                        </p>
                                 <p>
                                     <code> Expression.components = []; </code>
                                     <br>
                                     <br>
                                     An array containing the components in this expression.
                                 </p>
-
+                                <p style="font-family: var(--monospace-font);">
                             <h3> Expression.add() </h3>
+                                </p>
                                 <p>
                                     <code> Expression.add(component, position=this.components.length) </code>
                                     <br>
                                     <br>
                                     Add a component in this expression at the given position.
                                 </p>
-                            
+                                <p style="font-family: var(--monospace-font);">
                             <h3> Expression.remove() </h3>
+                                </p>
                                 <p> 
                                     <code> Expression.remove(position=this.components.length-1) </code>
                                     <br>
                                     <br>
                                     Remove the component in this expression at the given position.
                                 </p>
-
+                                <p style="font-family: var(--monospace-font);">
                             <h3> Expression.toLatex() </h3>
+                                </p>
                                 <p>
                                     <code> Expression.toLatex() </code>
                                     <br>
                                     <br>
                                     Generates LaTeX code from the components in this expression and returns it as a string.
                                 </p>
-                        
+                                <p style="font-family: var(--monospace-font);">
                         <h2> class Block </h2>    
+                                </p>
                             <p>
                                 A fundamental unit of the Expression. All data is ultimately stored in a Block. Every block has a 
                                 children array that can contain either strings or other Components.
                             </p>
-                            
+                            <p style="font-family: var(--monospace-font);">
                                 <h3> Block.children </h3>
+                            </p>
                                     <p>
                                         <code> Block.children = []; </code>
                                         <br>
@@ -299,37 +312,42 @@
                                         An array containing all data inside this block. Can contain strings containing characters or 
                                         LaTeX data, like “\pm”, “\infty”, or “x”, “=”, etc or component objects.
                                     </p>
-                                    
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Block.parent </h3>
+                                    </p>
                                     <p>
                                         <code> Block.parent = Component(); </code>
                                         <br>
                                         <br>
                                         The component this block belongs to.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Block.addChild </h3>
+                                    </p>
                                     <p>
                                         <code> Block.addChild(component, position=this.children.length) </code>
                                         <br>
                                         <br>
                                         Add a component to this block’s children.
                                     </p>
-
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Block.removeChild </h3>
+                                    </p>
                                     <p>
                                         <code> Block.removeChild(position=this.children.length-1) </code>
                                         <br>
                                         <br>
                                         Remove a component from this block’s children.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">   
                         <h2> class Component </h2>
+                                    </p>
                             <p>
                                 Represents a component in the expression array.
                             </p>
-
+                            <p style="font-family: var(--monospace-font);">
                                 <h3> Component.blocks </h3>
+                            </p>
                                     <p>
                                         <code> Component.blocks = [Block]; </code>
                                         <br>
@@ -339,32 +357,36 @@
                                         component has three blocks, etc. We add and remove blocks from components when we generate LaTeX 
                                         to show the user a preview of their equation.
                                     </p>
-
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Component.parent </h3>
+                                    </p>
                                     <p>
                                         <code> Component.parent = Block; </code>
                                         <br>
                                         <br>
                                         The block this component is nested inside (if any). If this component is not nested then set to null.
                                     </p>
-
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Component.addBlock() </h3>
+                                    </p>
                                     <p>
                                         <code> Component.addBlock(block, position) </code>
                                         <br>
                                         <br>
                                         Add a block to this component at the given position.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Component.removeBlock() </h3>
+                                    </p>
                                     <p>
                                         <code> Component.removeBlock(position) </code>
                                         <br>
                                         <br>
                                         Remove a block from this component at the given position.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Component.isEmpty() </h3>
+                                    </p>
                                     <p>
                                         <code> Component.isEmpty() </code>
                                         <br>
@@ -372,8 +394,9 @@
                                         Returns true if the component has no content in all of its blocks, false otherwise. Used to 
                                         check if the component is empty before we delete it when the user presses backspace.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">
                                 <h3> Component.toLatex() </h3>
+                                    </p>
                                     <p>
                                         <code> Component.toLatex() </code>
                                         <br>
@@ -382,8 +405,9 @@
                                         This method is meant to be overridden by each child class that inherits from Component to 
                                         customize the kind of LaTeX that is generated.
                                     </p>
-                        
+                                    <p style="font-family: var(--monospace-font);">
                         <h2> Controller </h2>
+                                    </p>
                             <p> 
                                 The controller module defines a Cursor class that represents the position of the user inside the expression. 
                                 Whenever the user types a character or clicks on a button to add a component, we use the cursor position to 
@@ -401,26 +425,31 @@
                                 itself. To get the LaTeX of the expression once the user is done entering it (or when you specifically want to access 
                                 the LaTeX), use the Cursor’s toLatex() method, which will generate the correct LaTeX for you.
                             </p>
-
+                            <p style="font-family: var(--monospace-font);">
                                 <h2> class Cursor </h2>
+                            </p>
                                 <br>
+                                <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.expression </h3>
+                                </p>
                                         <p>
                                             <code> Cursor.expression = Expression </code>
                                             <br>
                                             <br>
                                             The expression the cursor is operating in.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.block </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.block = Block() </code>
                                             <br>
                                             <br>
                                             The Block the cursor is in. If the cursor is not inside any block, we set this to null..
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.component </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.component = Component() </code>
                                             <br>
@@ -429,8 +458,9 @@
                                             either Cursor.component or Cursor.block is null, the other has to be null as well. Conversely, if either 
                                             of Cursor.component or Cursor.block is non-null, the other has to be non–null as well.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.child </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.child = Number </code>
                                             <br> 
@@ -440,8 +470,9 @@
                                             the first child in the block, a child position of 0.5 means it should be drawn between the first child in the 
                                             block (at index 0) and the second child (at index 1). This property can only take half-integral values.
                                         <p>
-
+                                            <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.position </h3>
+                                            </p>
                                         <p>
                                             <code> Cursor.position = Number; </code>
                                             <br>
@@ -452,32 +483,36 @@
                                             somewhere inside the first component in the expression (index 0 of <code> Cursor.expression.components </code>). A position of 0.5 means 
                                             that the cursor is between the first and second components of the expression, and so on.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.latex </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.latex = String </code>
                                             <br>
                                             <br>
                                             A String containing the LaTeX of the equation that the cursor’s expression contains.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.display </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.display = String || HTML Element </code>
                                             <br>
                                             <br>
                                             Either a String or an HTML element corresponding to the editor UI’s display.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.addText() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.addText(text: String) </code>
                                             <br>
                                             <br>
                                             Adds some text to the expression at the position of the cursor. Called for each character we want to insert.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.addComponent() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.addComponent(component: Component) </code>
                                             <br>
@@ -485,16 +520,18 @@
                                             Inserts a component into the expression at the position of the cursor and changes the cursor’s position and 
                                             child attributes accordingly.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.removeComponent() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.removeComponent() </code>
                                             <br>
                                             <br>
                                             Removes the component that the cursor is currently in and changes the cursor’s position and child attributes accordingly.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.keyPress() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.keyPress(event: Event) </code>
                                             <br>
@@ -503,32 +540,36 @@
                                             corresponding character to the expression. If the user presses special keys like backspace, left arrow, right arrow, 
                                             etc, it appropriately calls <code> Cursor.backspace() </code> , <code> Cursor.seekLeft() </code> , or <code> Cursor.seekRight() </code> .
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.seekRight() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.seekRight() </code>
                                             <br>
                                             <br>
                                             Handles the logic for what to do when the user presses the right arrow key.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.seekLeft() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.seekLeft() </code>
                                             <br>
                                             <br>
                                             Handles the logic for what to do when the user presses the left arrow key.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.backspace() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.backspace() </code>
                                             <br>
                                             <br>
                                             Handles the logic for what to do when the user presses the backspace key.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.toLatex() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.toLatex() </code>
                                             <br>
@@ -536,8 +577,9 @@
                                             Generates LaTeX for the equation represented by the cursor’s expression. Call 
                                             this method to get the LaTeX you want once the user is done entering their equation.
                                         </p>
-
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.toDisplayLatex() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.toDisplayLatex() </code>
                                             <br>
@@ -545,8 +587,9 @@
                                            Generates LaTeX to show the user a preview of the equation they are building by adding a 
                                            caret and a box around the active block.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> Cursor.updateDisplay() </h3>
+                                        </p>
                                         <p>
                                             <code> Cursor.updateDisplay() </code>
                                             <br>
@@ -554,16 +597,19 @@
                                             Updates the editor UI’s display to update the equation being previewed. Called every time 
                                             the user makes a change to the equation or the cursor’s position and child.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                 <h2> UI </h2>
+                                        </p>
                                     <p> 
                                         The UI module defines the main MJXGUI class that exposes the API to the developer.
                                     </p>
-                                
+                                    <p style="font-family: var(--monospace-font);">
                                 <h2> Class MJXGUI </h2>
+                                    </p>
                                 <br>
-
+                                <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.elements </h3>
+                                </p>
                                         <p>
                                             <code> MJXGUI.elements = String </code>
                                             <br>
@@ -572,8 +618,9 @@
                                             are added to all elements selected by this selector and the editor UI is shown whenever the user 
                                             clicks on one of those elements.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.mathDelimiter </h3>
+                                        </p>
                                         <p> 
                                             <code> MJXGUI.mathDelimiter = String </code>
                                             <br>
@@ -581,8 +628,9 @@
                                             A string representing the delimiter you use for MathJax for displayMath (<code> MathJax.tex.displayMath</code>). 
                                             Usually ‘$$’.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.successCallback </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.successCallback = function </code>
                                             <br>
@@ -590,32 +638,36 @@
                                             A function that will be called when the user finishes typing the equation and clicks the editor’s “Done” button. 
                                             This is where you will be able to access the LaTeX for the equation created by the user.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.eqnHistory </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.eqnHistory = [] </code>
                                             <br>
                                             <br>
                                             An array containing all the previous equations the user has entered.
                                         </p>
-
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.expression </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.expression = Expression </code>
                                             <br>
                                             <br>
                                             The current Expression object being built by the user right now.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.cursor </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.cursor = Cursor </code>
                                             <br>
                                             <br>
                                             The Cursor instance.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.constructUI() </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.constructUI() </code>
                                             <br>
@@ -623,8 +675,9 @@
                                             Creates a new editor and injects its HTML and CSS into the DOM. 
                                             You won’t need to call this method yourself, it is automatically called when you create a new instance of MJXGUI.
                                         </p>
-                                    
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.clearEquation() </h3>
+                                        </p>
                                         <p> 
                                             <code> MJXGUI.clearEquation() </code>
                                             <br>
@@ -633,8 +686,9 @@
                                             array. Also creates a new Expression object, sets it as the current expression, resets the cursor’s properties back 
                                             to the defaults, and clears the display.
                                         </p>
-
+                                        <p style="font-family: var(--monospace-font);">
                                     <h3> MJXGUI.getLatex() </h3>
+                                        </p>
                                         <p>
                                             <code> MJXGUI.getLatex() </code>
                                             <br>
