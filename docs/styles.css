@@ -242,3 +242,7 @@ div.code-block {
     overflow-x: auto;
     font-family: var(--monospace-font);
 }
+
+#api h1, #api h2, #api h3, #api h4, #api h5, #api h6 {
+    font-family: var(--monospace-font);
+}
