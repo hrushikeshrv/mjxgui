@@ -1,5 +1,5 @@
 # mjxgui
-An embeddable WYSIWYG equation editor with LaTeX support
+An embeddable WYSIWYG equation editor for the web with LaTeX support
 
 # What is MJXGUI?
 MJXGUI is a widget style application meant to give users a graphical interface for creating equations 
