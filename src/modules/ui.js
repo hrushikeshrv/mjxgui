@@ -121,15 +121,17 @@ const functionComponentMap = {
 
 class MJXGUI {
     constructor(elementSelector, mathDelimiter, successCallback) {
-        this.elements = elementSelector;
+        this.selector = elementSelector;
+        this.elements = document.querySelectorAll(elementSelector);
         this.mathDelimiter = mathDelimiter;
         this.successCallback = successCallback;
         this.eqnHistory = [];
         this.expression = new Expression();
         this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
-        // this.latex = '';
-        // this.editorWindow = null;
-        // this.eqnDisplay = null;
+        this.showUI = () => {
+            this.editorWindow.style.display = 'block';
+            this.editorWindow.dataset.visible = 'true';
+        }
 
         if (this.elements instanceof String || typeof this.elements === 'string') {
             this.elements = document.querySelectorAll(this.elements);
@@ -137,10 +139,7 @@ class MJXGUI {
 
         this.constructUI();
         this.elements.forEach(el => {
-            el.addEventListener('click', () => {
-                this.editorWindow.style.display = 'block';
-                this.editorWindow.dataset.visible = 'true';
-            })
+            el.addEventListener('click', this.showUI);
         })
 
         document.addEventListener('keydown', evt => {
@@ -261,5 +260,19 @@ class MJXGUI {
     // Getter method that just returns the cursor's LaTeX.
     getLatex() {
         return this.cursor.toLatex();
+    }
+
+    // Removes all MJXGUI click listeners from the MJXGUI.elements,
+    // keeps the selector the same, and selects DOM elements again.
+    // Meant to be called if the DOM changes after DOM content is loaded
+    // or after the MJXGUI object is created.
+    rebindListeners() {
+        this.elements.forEach(el => {
+            el.removeEventListener('click', this.showUI);
+        })
+        this.elements = document.querySelectorAll(this.selector);
+        this.elements.forEach(el => {
+            el.addEventListener('click', this.showUI);
+        })
     }
 }
