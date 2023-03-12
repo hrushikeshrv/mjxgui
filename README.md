@@ -1,19 +1,11 @@
 # mjxgui
 An embeddable WYSIWYG equation editor for the web with LaTeX support
 
-# What is MJXGUI?
 MJXGUI is a widget style application meant to give users a graphical interface for creating equations 
 to use on the web. It uses MathJax as a core dependency and as an external renderer to show users a preview 
 of their equation/expression as they are building it.  
 
-It then generates LaTeX for the entered equation for you to handle however you want, the most common use
-case being to store an equation as plain text, so it can later be rendered using MathJax.  
-
-The motivation for writing this library was because I needed such a widget for a website I was building where 
-school teachers were supposed to create test questions for physics, chemistry, and math tests that would 
-need to support complex mathematical equations. The idea was to have something like a pop up widget that 
-would help them build equations like they did on Google Docs or Microsoft Word, but then would also convert 
-the entered equation to LaTeX so that it could be stored and rendered with MathJax later. 
+It then generates LaTeX for the entered equation for you to handle however you want.
 
 # Features
 - Build mathematical, physical, and chemical equations using a GUI, similar to inserting equations in 
@@ -34,26 +26,26 @@ A sample configuration is shown below
 
 ````javascript
 <script>
-	MathJax = {
-	    tex: {
-	    inlineMath: [[‘$’, ‘$’], [‘\\(‘, ‘\\)’]],
-	    displayMath: [[‘$$’, ‘$$’]],
-	},
-	svg: {
-	    fontCache: ‘global’,
-	},
-	options: {
-	    menuOptions: {
-		settings: {
-		    zoom: ‘NoZoom’,
-		    zscale: ‘250%’,
-		}
-	    }
-	}
-	}
+MathJax = {
+    tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$']],
+    },
+    svg: {
+        fontCache: 'global',
+    },
+    options: {
+        menuOptions: {
+            settings: {
+                zoom: 'NoZoom',
+                zscale: '250%',
+            }
+        }
+    }
+}
 <script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script src=”/path/to/mjxgui”></script>
+<script src="/path/to/mjxgui"></script>
 ````
 
 # Usage
