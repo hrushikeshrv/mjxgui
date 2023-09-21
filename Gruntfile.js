@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                banner: '/*! mjxgui <%= grunt.template.today("yyyy-mm-dd") %> | (C) Hrushikesh Vaidya | MIT License */',
+                banner: '/*! mjxgui <%= grunt.template.today("yyyy-mm-dd") %> | (C) Hrushikesh Vaidya (@hrushikeshrv) | MIT License */',
             },
             build: {
                 src: 'src/mjxgui.js',

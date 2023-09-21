@@ -1,1 +1,0 @@
-// Takes the expression being built as the input and renders the equation using MathJax.
