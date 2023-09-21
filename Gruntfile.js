@@ -3,11 +3,11 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat: {
             build: {
-                src: ['src/modules/expression-backend.js', 'src/modules/controller.js', 'src/modules/ui.js'],
+                src: ['src/modules/expression-backend.js', 'src/modules/cursor.js', 'src/modules/ui.js'],
                 dest: 'src/mjxgui.js',
             },
             buildExample: {
-                src: ['src/modules/expression-backend.js', 'src/modules/controller.js', 'src/modules/ui.js'],
+                src: ['src/modules/expression-backend.js', 'src/modules/cursor.js', 'src/modules/ui.js'],
                 dest: 'docs/js/mjxgui.js'
             }
         },

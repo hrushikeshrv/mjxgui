@@ -238,7 +238,7 @@
                     </p>
                     <p>
                         As users type and choose characters/symbols/functions to insert, they are turned into their own components and added to the 
-                        correct place using the current position of the cursor (see Controller). In short, we define a “cursor” that keeps track of 
+                        correct place using the current position of the cursor (see Cursor). In short, we define a “cursor” that keeps track of
                         where the user is inside the Expression. The user can move the cursor around using the arrow keys and whenever the user types 
                         in a character or chooses a component to insert, the component is inserted at the position of the cursor.
                     </p>
@@ -383,9 +383,9 @@
                                         customize the kind of LaTeX that is generated.
                                     </p>
                         
-                        <h2> Controller </h2>
+                        <h2> Cursor </h2>
                             <p> 
-                                The controller module defines a Cursor class that represents the position of the user inside the expression. 
+                                The cursor module defines a Cursor class that represents the position of the user inside the expression.
                                 Whenever the user types a character or clicks on a button to add a component, we use the cursor position to 
                                 determine where the character/component should be inserted. The Cursor class has properties to keep track of 
                                 the user’s position in the overall expression, as well as the user’s position inside a specific block, and has 

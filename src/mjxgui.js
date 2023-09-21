@@ -1,5 +1,5 @@
 // Builds the expression/equation being typed in by the user
-// Exposes its API for the controller module to use
+// Exposes its API for the cursor module to use
 
 /**
  * @class
