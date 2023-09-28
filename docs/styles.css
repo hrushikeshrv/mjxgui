@@ -87,6 +87,7 @@
 html, body {
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -245,8 +246,4 @@ div.code-block {
 
 #api h1, #api h2, #api h3, #api h4, #api h5, #api h6 {
     font-family: var(--monospace-font);
-}
-
-html {
-    scroll-behavior: smooth;
 }
