@@ -909,17 +909,9 @@ class MJXGUI {
         })
     }
 
-    // Inject the editor HTML and CSS into the DOM
+    // Inject the editor HTML into the DOM
     constructUI() {
-        // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
-
-        // CSS First
-        const css = `#mjxgui_editor_window{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#f0f0f0;border:2px solid #000;border-radius:6px;box-shadow:0 0 20px rgba(0,0,0,.3);padding:20px;min-width:280px;max-width:600px}#_mjxgui_tab_container_container{display:flex;flex-flow:row wrap}.mjxgui_tab_container{padding:5px;font-family:monospace;font-size:1.1rem;border-radius:6px;background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;user-select:none;margin:0 10px}.mjxgui_tab_container:hover{background-color:#dcdcdc}#mjxgui_editor_controls{display:flex;flex-flow:row wrap;justify-content:space-between}#_mjxgui_editor_display{padding:10px;margin:10px;border:1px solid #000;border-radius:6px}.mjxgui_tab{padding:10px;margin-top:10px;display:none;align-items:stretch;flex-flow:row wrap}.mjxgui_tab .mjxgui-btn{background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;margin:2px;min-width:25px;text-align:center}.mjxgui-btn:hover{background-color:#dcdcdc}.mjxgui_button_container,.mjxgui_clear_save_buttons{display:flex;flex-flow:row wrap;font-family:monospace;font-size:1.1rem;align-items:center;justify-content:center}.mjxgui_button_container{margin:0 5px;background-color:#f0f0f0;border-radius:6px;transition:background-color ease .25s;cursor:pointer;padding:5px}.mjxgui_button_container:hover{background-color:#dcdcdc}`;
-        const style = document.createElement('style');
-        document.head.appendChild(style);
-        style.appendChild(document.createTextNode(css));
-
-        // HTML
+        // Injects the UI HTML into the DOM and binds the needed event listeners
         const editorDiv = document.createElement('div');
         editorDiv.id = 'mjxgui_editor_window';
         editorDiv.dataset.visible = 'false';
