@@ -1,7 +1,7 @@
 // Listens for keypress and modifies the Expression accordingly
 
 const characters = new Set();
-for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*(){};:\'"/?.,<>-=_+`~') {
+for (let char of 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@^*()[];:\'"/?.,<>-=+`~') {
     characters.add(char);
 }
 
@@ -138,6 +138,16 @@ class Cursor {
         }
         else if (event.key === ' ') {
             let _ = new MJXGUISymbol(this.block, '\\:\\:');
+            this.addComponent(_);
+            this.updateDisplay();
+        }
+        else if (event.key === '\\') {
+            let _ = new MJXGUISymbol(this.block, '\\backslash');
+            this.addComponent(_);
+            this.updateDisplay();
+        }
+        else if (['$','#','%','&','_','{','}'].includes(event.key)) {
+            let _ = new MJXGUISymbol(this.block, `\\${event.key}`);
             this.addComponent(_);
             this.updateDisplay();
         }
