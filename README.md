@@ -14,6 +14,9 @@ editors like Microsoft Word or Google Docs.
 - Write your own functions, operators, and characters to add support for the same not available out of the box.
 - Convert created equations into LaTeX.
 
+# Contributing
+Please read [CONTRIBUTING.md](https://github.com/hrushikeshrv/mjxgui/blob/main/CONTRIBUTING.md) to get started.
+
 # Installation
 MJXGUI uses MathJax as a core dependency, so you need to include both MathJax and 
 MJXGUI into your webpage. MJXGUI does not have a built-in renderer, and uses MathJax to render the

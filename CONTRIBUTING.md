@@ -13,7 +13,7 @@ git clone https://github.com/hrushikeshrv/mjxgui.git
 
 Next, create a new issue or claim an existing issue on the repository's [issues page](https://github.com/hrushikeshrv/mjxgui/issues).
 
-## Create A Development Environment
+## Creating A Development Environment
 Before you start working on your patch, it is convenient to create an environment that will allow you to quickly test your changes. For this purpose, you can create a simple webpage that integrates the MJXGUI editor and link the relevant files.
 
 Create a new directory named `_test/` (since that name has already been included in the `.gitignore`), and inside create an `index.html` file with the following contents -
