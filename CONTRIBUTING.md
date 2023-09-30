@@ -104,3 +104,7 @@ Then open the `_test/index.html` file and your development environment should be
 
 ## Submitting a Patch
 Once you have finished working on your patch and verified that your issue has been fixed, push your changes and create a pull request!
+
+The MJXGUI bundle is created by combining the constituent source files - `cursor.js`, `expression-backend.js`, and `ui.js` into `mjxgui.js`. This process is automated using Grunt, and a Gruntfile has been configured in the repository root. 
+
+However, you **do not** need to generate and push these files to your patch. Only modify and push changes to the relevant source files.
