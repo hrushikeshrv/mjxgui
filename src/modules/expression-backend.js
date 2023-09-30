@@ -227,7 +227,6 @@ class TextComponent extends Component {
  * @class
  * A symbol which is just some latex with no arguments to be inserted into the expression.
  */
-// TODO - Add support for the backslash character as a symbol
 class MJXGUISymbol extends Component {
     constructor(parent, latexData) {
         super([], parent);
