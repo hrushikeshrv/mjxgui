@@ -19,8 +19,8 @@ class Cursor {
         this.latex = '';
         this.display = display;
         this.skippables = ['\\left.', '\\right.'];
-        this.left_brackets = ['\\left(', '\\left['];
-        this.right_brackets = ['\\right)', '\\right]'];
+        this.left_brackets = ['\\left(', '\\left[', '\\left|'];
+        this.right_brackets = ['\\right)', '\\right]', '\\right|'];
     }
 
     addText(text) {
@@ -152,37 +152,85 @@ class Cursor {
             let _ = new MJXGUISymbol(this.block, `\\${event.key}`);
             this.addComponent(_);
         }
-        else if (['(',')','[',']'].includes(event.key)) {
+        else if (['(',')','[',']','|'].includes(event.key)) {
             if (['(','['].includes(event.key)) {
-                let _ = new MJXGUISymbol(this.block, `\\left${event.key}`);
-                // invisible right bracket
-                let __ = new MJXGUISymbol(this.block, `\\right.`); 
+                let left = new MJXGUISymbol(this.block, `\\left${event.key}`);
+                this.addComponent(left);
                 
-                this.addComponent(_);
+                // invisible right bracket
+                let right_inv = new MJXGUISymbol(this.block, `\\right.`); 
                 // When we are in the main expression level
                 if (this.block ===null) {
                     // adding the invisible bracket to the end of the expression
-                    this.expression.add(__);
+                    this.expression.add(right_inv);
                 }
+                // When we are in a block
                 else{
                     // adding the invisible bracket to the end of the current block
-                    this.block.addChild(__);
+                    this.block.addChild(right_inv);
                 }
             }
             else if ([')',']'].includes(event.key)) {
-                let _ = new MJXGUISymbol(this.block, `\\right${event.key}`);
-                // invisible left bracket
-                let __ = new MJXGUISymbol(this.block, `\\left.`); 
+                let right = new MJXGUISymbol(this.block, `\\right${event.key}`);
+                this.addComponent(right);
                 
-                this.addComponent(_);
+                // invisible left bracket
+                let left_inv = new MJXGUISymbol(this.block, `\\left.`); 
                 // When we are in the main expression level
                 if (this.block ===null) {
                     // adding the invisible bracket to the start of the expression
-                    this.expression.add(__, 0);
+                    this.expression.add(left_inv, 0);
                 }
+                // When we are in a block
                 else{
                     // adding the invisible bracket to the start of the current block
-                    this.block.addChild(__, 0);
+                    this.block.addChild(left_inv, 0);
+                }
+            }
+            else if (event.key === '|') {
+                let open_bracket_count = 0;
+                // When we are in the main expression level
+                if (this.block === null) {
+                    for(let i = 0; i < this.position; i++){
+                        if(this.expression.components[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.expression.components[i].toLatex())){
+                            if (this.expression.components[i].toLatex() === '\\left|')
+                                open_bracket_count++;
+                            else
+                                open_bracket_count--;
+                            
+                        }
+                    }
+                    
+                }
+                // When we are in a block
+                else {
+                    for(let i = 0; i < this.child; i++){
+                        if(this.block.children[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.block.children[i].toLatex())){
+                            if (this.block.children[i].toLatex() === '\\left|')
+                                open_bracket_count++;
+                            else
+                                open_bracket_count--;
+                            
+                        }
+                    }
+                }
+
+                // Deciding whether to add a left or right bracket based on the number of open brackets
+                if (open_bracket_count > 0){
+                    let right = new MJXGUISymbol(this.block, `\\right|`);
+                    this.addComponent(right);
+                    
+                    // invisible left bracket
+                    let left_inv = new MJXGUISymbol(this.block, `\\left.`);
+                    this.expression.add(left_inv, 0);
+                }                         
+                else {
+                    let left = new MJXGUISymbol(this.block, `\\left|`);
+                    this.addComponent(left);
+                    
+                    // invisible right bracket
+                    let right_inv = new MJXGUISymbol(this.block, `\\right.`);
+                    this.expression.add(right_inv);
                 }
             }
         }
