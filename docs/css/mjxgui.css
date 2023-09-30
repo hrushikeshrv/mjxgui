@@ -12,7 +12,7 @@
 
     padding: 20px;
     min-width: 280px;
-    max-width: 600px;
+    max-width: min(600px, 90%);
 }
 
 #_mjxgui_tab_container_container {
@@ -47,6 +47,7 @@
     margin: 10px;
     border: 1px solid black;
     border-radius: 6px;
+    overflow-x: auto;
 }
 
 .mjxgui_tab {
