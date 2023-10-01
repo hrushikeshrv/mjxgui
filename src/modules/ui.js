@@ -360,6 +360,18 @@ class MJXGUI {
       const mjxguiTabButtons = editorDiv.querySelectorAll('.mjxgui_tab_container');
       const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
 
+      const leftArrowButton = editorDiv.querySelector(".leftArrowButton");
+      const rightArrowButton = editorDiv.querySelector(".rightArrowButton");
+      leftArrowButton.addEventListener("click", () => {
+        this.cursor.seekLeft();
+        this.cursor.updateDisplay();
+      });
+
+      rightArrowButton.addEventListener("click", () => {
+        this.cursor.seekRight();
+        this.cursor.updateDisplay();
+      });
+
       mjxguiTabButtons.forEach(btn => {
           btn.addEventListener('click', function() {
               mjxguiTabs.forEach(tab => {
