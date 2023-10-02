@@ -155,82 +155,373 @@ class Cursor {
         else if (['(',')','[',']','|'].includes(event.key)) {
             if (['(','['].includes(event.key)) {
                 let left = new MJXGUISymbol(this.block, `\\left${event.key}`);
-                this.addComponent(left);
                 
                 // invisible right bracket
                 let right_inv = new MJXGUISymbol(this.block, `\\right.`); 
                 // When we are in the main expression level
                 if (this.block ===null) {
-                    // adding the invisible bracket to the end of the expression
-                    this.expression.add(right_inv);
+                    let left_inv_count = 0;
+                    let open_right_bracket_count = 0;
+                    let counter = 0;
+                    let flag = false;
+                    for(let i=0; i < this.position; i++) {
+                        if(this.expression.components[i] instanceof MJXGUISymbol){
+                            if(flag === false && this.expression.components[i].toLatex() === '\\left.')
+                                left_inv_count++;
+                            else{
+                                    flag = true;
+                                    if(this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                        counter++;                                  
+                                    else if(this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                        counter--;
+                                
+                                    if( counter < 0){
+                                        open_right_bracket_count++;
+                                        counter = 0;
+                                    }
+                            }
+                        }
+                    }
+                    this.addComponent(left);
+                    if ( left_inv_count === open_right_bracket_count ) {
+                        // adding the invisible bracket to the end of the expression
+                        this.expression.add(right_inv);
+                    }
+                    else {
+                        // removing the invisible bracket from the end of the expression
+                        this.expression.remove(0); 
+                        this.position--;
+                    }
                 }
                 // When we are in a block
                 else{
-                    // adding the invisible bracket to the end of the current block
-                    this.block.addChild(right_inv);
+                    let left_inv_count = 0;
+                    let open_right_bracket_count = 0;
+                    let counter = 0;
+                    let flag = false;
+                    for(let i=0; i < this.child; i++) {
+                        if(this.block.children[i] instanceof MJXGUISymbol){
+                            if(flag === false && this.block.children[i].toLatex() === '\\left.')
+                                left_inv_count++;
+                            else{
+                                    flag = true;
+                                    if(this.left_brackets.includes(this.block.children[i].toLatex()))
+                                        counter++;                                  
+                                    else if(this.right_brackets.includes(this.block.children[i].toLatex()))
+                                        counter--;
+                                    
+                                    if( counter < 0){
+                                        open_right_bracket_count++;
+                                        counter = 0;
+                                    }
+                            }
+                        }
+                    }
+                    this.addComponent(left);
+                    if ( left_inv_count === open_right_bracket_count ) {
+                        // adding the invisible bracket to the end of the block
+                        this.block.addChild(right_inv);
+                    }
+                    else {
+                        // removing the invisible bracket from the end of the block
+                        this.block.removeChild(0); 
+                        this.child--;
+                    }
                 }
             }
             else if ([')',']'].includes(event.key)) {
                 let right = new MJXGUISymbol(this.block, `\\right${event.key}`);
-                this.addComponent(right);
                 
                 // invisible left bracket
                 let left_inv = new MJXGUISymbol(this.block, `\\left.`); 
                 // When we are in the main expression level
                 if (this.block ===null) {
-                    // adding the invisible bracket to the start of the expression
-                    this.expression.add(left_inv, 0);
+                    let right_inv_count = 0;
+                    let open_left_bracket_count = 0;
+                    let counter = 0;
+                    let flag = false;
+                    for(let i=this.expression.components.length-1; i > this.position; i--) {
+                        if(this.expression.components[i] instanceof MJXGUISymbol){
+                            if(flag === false && this.expression.components[i].toLatex() === '\\right.')
+                                right_inv_count++;
+                            else{
+                                    flag = true;
+                                    if(this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                        counter++;                                  
+                                    else if(this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                        counter--;
+                                
+                                    if( counter > 0){
+                                        open_left_bracket_count++;
+                                        counter = 0;
+                                    }
+                            }
+                        }
+                    }
+                    this.addComponent(right);
+                    if ( right_inv_count === open_left_bracket_count ) {
+                        // adding the invisible bracket to the end of the expression
+                        this.expression.add(left_inv, 0);
+                        this.position++;
+                    }
+                    else {
+                        // removing the invisible bracket from the end of the expression
+                        this.expression.remove(); 
+                    }
                 }
                 // When we are in a block
                 else{
-                    // adding the invisible bracket to the start of the current block
-                    this.block.addChild(left_inv, 0);
+                    let right_inv_count = 0;
+                    let open_left_bracket_count = 0;
+                    let counter = 0;
+                    let flag = false;
+                    for(let i=this.block.children.length-1; i > this.child; i--) {
+                        if(this.block.children[i] instanceof MJXGUISymbol){
+                            if(flag === false && this.block.children[i].toLatex() === '\\right.')
+                                right_inv_count++;
+                            else{
+                                    flag = true;
+                                    if(this.left_brackets.includes(this.block.children[i].toLatex()))
+                                        counter++;                                  
+                                    else if(this.right_brackets.includes(this.block.children[i].toLatex()))
+                                        counter--;
+                                    
+                                    if( counter > 0){
+                                        open_left_bracket_count++;
+                                        counter = 0;
+                                    }
+                            }
+                        }
+                    }
+                    this.addComponent(right);
+                    if ( right_inv_count === open_left_bracket_count ) {
+                        // adding the invisible bracket to the end of the block
+                        this.block.addChild(left_inv, 0);
+                        this.child++;
+                    }
+                    else {
+                        // removing the invisible bracket from the end of the block
+                        this.block.removeChild(); 
+                    }
                 }
             }
             else if (event.key === '|') {
-                let open_bracket_count = 0;
+                let open_left_bracket_count = 0;
+                let open_right_bracket_count = 0;
+                let counter = 0;
                 // When we are in the main expression level
                 if (this.block === null) {
-                    for(let i = 0; i < this.position; i++){
+                    for(let i = Math.floor(this.position); i >=0; i--){
                         if(this.expression.components[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.expression.components[i].toLatex())){
                             if (this.expression.components[i].toLatex() === '\\left|')
-                                open_bracket_count++;
+                                counter++;
                             else
-                                open_bracket_count--;
-                            
+                                counter--;
+
+                            if (counter > 0){
+                                open_left_bracket_count++;
+                                counter = 0;
+                            }
                         }
                     }
-                    
+                    counter = 0;
+                    for(let i = Math.ceil(this.position); i < this.expression.components.length ; i++){
+                        if(this.expression.components[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.expression.components[i].toLatex())){
+                            if (this.expression.components[i].toLatex() === '\\left|')
+                                counter++;
+                            else
+                                counter--;
+
+                            if (counter < 0){
+                                open_right_bracket_count++;
+                                counter = 0;
+                            }
+                        }
+                    }
                 }
                 // When we are in a block
                 else {
-                    for(let i = 0; i < this.child; i++){
+                    for(let i = Math.floor(this.child); i >=0; i--){
                         if(this.block.children[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.block.children[i].toLatex())){
                             if (this.block.children[i].toLatex() === '\\left|')
-                                open_bracket_count++;
+                                counter++;
                             else
-                                open_bracket_count--;
-                            
+                                counter--;
+
+                            if (counter > 0){
+                                open_left_bracket_count++;
+                                counter = 0;
+                            }
+                        }
+                    }
+                    counter = 0;
+                    for(let i = Math.ceil(this.child); i < this.block.children.length ; i++){
+                        if(this.block.children[i] instanceof MJXGUISymbol && ['\\left|','\\right|'].includes(this.block.children[i].toLatex())){
+                            if (this.block.children[i].toLatex() === '\\left|')
+                                counter++;
+                            else
+                                counter--;
+
+                            if (counter < 0){
+                                open_right_bracket_count++;
+                                counter = 0;
+                            }
                         }
                     }
                 }
 
                 // Deciding whether to add a left or right bracket based on the number of open brackets
-                if (open_bracket_count > 0){
+                if (open_left_bracket_count > open_right_bracket_count){
                     let right = new MJXGUISymbol(this.block, `\\right|`);
-                    this.addComponent(right);
                     
                     // invisible left bracket
-                    let left_inv = new MJXGUISymbol(this.block, `\\left.`);
-                    this.expression.add(left_inv, 0);
+                    let left_inv = new MJXGUISymbol(this.block, `\\left.`); 
+                    // When we are in the main expression level
+                    if (this.block ===null) {
+                        let right_inv_count = 0;
+                        let open_left_bracket_count = 0;
+                        let counter = 0;
+                        let flag = false;
+                        for(let i=this.expression.components.length-1; i > this.position; i--) {
+                            if(this.expression.components[i] instanceof MJXGUISymbol){
+                                if(flag === false && this.expression.components[i].toLatex() === '\\right.')
+                                    right_inv_count++;
+                                else{
+                                        flag = true;
+                                        if(this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                            counter++;                                  
+                                        else if(this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                            counter--;
+                                    
+                                        if( counter > 0){
+                                            open_left_bracket_count++;
+                                            counter = 0;
+                                        }
+                                }
+                            }
+                        }
+                        this.addComponent(right);
+                        if ( right_inv_count === open_left_bracket_count ) {
+                            // adding the invisible bracket to the end of the expression
+                            this.expression.add(left_inv, 0);
+                            this.position++;
+                        }
+                        else {
+                            // removing the invisible bracket from the end of the expression
+                            this.expression.remove(); 
+                        }
+                    }
+                    // When we are in a block
+                    else{
+                        let right_inv_count = 0;
+                        let open_left_bracket_count = 0;
+                        let counter = 0;
+                        let flag = false;
+                        for(let i=this.block.children.length-1; i > this.child; i--) {
+                            if(this.block.children[i] instanceof MJXGUISymbol){
+                                if(flag === false && this.block.children[i].toLatex() === '\\right.')
+                                    right_inv_count++;
+                                else{
+                                        flag = true;
+                                        if(this.left_brackets.includes(this.block.children[i].toLatex()))
+                                            counter++;                                  
+                                        else if(this.right_brackets.includes(this.block.children[i].toLatex()))
+                                            counter--;
+                                        
+                                        if( counter > 0){
+                                            open_left_bracket_count++;
+                                            counter = 0;
+                                        }
+                                }
+                            }
+                        }
+                        this.addComponent(right);
+                        if ( right_inv_count === open_left_bracket_count ) {
+                            // adding the invisible bracket to the end of the block
+                            this.block.addChild(left_inv, 0);
+                            this.child++;
+                        }
+                        else {
+                            // removing the invisible bracket from the end of the block
+                            this.block.removeChild(); 
+                        }
+                    }
                 }                         
                 else {
                     let left = new MJXGUISymbol(this.block, `\\left|`);
-                    this.addComponent(left);
                     
                     // invisible right bracket
                     let right_inv = new MJXGUISymbol(this.block, `\\right.`);
-                    this.expression.add(right_inv);
+                    // When we are in the main expression level
+                    if (this.block ===null) {
+                        let left_inv_count = 0;
+                        let open_right_bracket_count = 0;
+                        let counter = 0;
+                        let flag = false;
+                        for(let i=0; i < this.position; i++) {
+                            if(this.expression.components[i] instanceof MJXGUISymbol){
+                                if(flag === false && this.expression.components[i].toLatex() === '\\left.')
+                                    left_inv_count++;
+                                else{
+                                        flag = true;
+                                        if(this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                            counter++;                                  
+                                        else if(this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                            counter--;
+                                    
+                                        if( counter < 0){
+                                            open_right_bracket_count++;
+                                            counter = 0;
+                                        }
+                                }
+                            }
+                        }
+                        this.addComponent(left);
+                        if ( left_inv_count === open_right_bracket_count ) {
+                            // adding the invisible bracket to the end of the expression
+                            this.expression.add(right_inv);
+                        }
+                        else {
+                            // removing the invisible bracket from the end of the expression
+                            this.expression.remove(0); 
+                            this.position--;
+                        }
+                    }
+                    // When we are in a block
+                    else{
+                        let left_inv_count = 0;
+                        let open_right_bracket_count = 0;
+                        let counter = 0;
+                        let flag = false;
+                        for(let i=0; i < this.child; i++) {
+                            if(this.block.children[i] instanceof MJXGUISymbol){
+                                if(flag === false && this.block.children[i].toLatex() === '\\left.')
+                                    left_inv_count++;
+                                else{
+                                        flag = true;
+                                        if(this.left_brackets.includes(this.block.children[i].toLatex()))
+                                            counter++;                                  
+                                        else if(this.right_brackets.includes(this.block.children[i].toLatex()))
+                                            counter--;
+                                        
+                                        if( counter < 0){
+                                            open_right_bracket_count++;
+                                            counter = 0;
+                                        }
+                                }
+                            }
+                        }
+                        this.addComponent(left);
+                        if ( left_inv_count === open_right_bracket_count ) {
+                            // adding the invisible bracket to the end of the block
+                            this.block.addChild(right_inv);
+                        }
+                        else {
+                            // removing the invisible bracket from the end of the block
+                            this.block.removeChild(0); 
+                            this.child--;
+                        }
+                    }
                 }
             }
         }
@@ -435,12 +726,48 @@ class Cursor {
                 }
                 if( this.left_brackets.includes(prevComponent.toLatex()) || this.right_brackets.includes(prevComponent.toLatex())){
                     let bracket = prevComponent.toLatex();
+
+                    let counter = 0;
+                    let flag = false;
                     if(this.left_brackets.includes(bracket)){
-                        this.expression.remove();
+                        for(let i = Math.ceil(this.position); i < this.expression.components.length ; i++){
+                            if(this.expression.components[i] instanceof MJXGUISymbol){
+                                if (this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                    counter++;
+                                else if (this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                    counter--;
+    
+                                if (counter < 0){
+                                    flag =  true;
+                                    this.expression.add(new MJXGUISymbol(this.block, '\\left.'), 0);
+                                    this.position++;
+                                    break;
+                                }
+                            }
+                        }
+                        if( flag === false){
+                            this.expression.remove();
+                        }
                     } 
                     else if (this.right_brackets.includes(bracket)){
-                        this.expression.remove(0);
-                        this.position--;
+                        for(let i = Math.floor(this.position-1); i >=0; i--){
+                            if(this.expression.components[i] instanceof MJXGUISymbol){
+                                if (this.left_brackets.includes(this.expression.components[i].toLatex()))
+                                    counter++;
+                                else if (this.right_brackets.includes(this.expression.components[i].toLatex()))
+                                    counter--;
+    
+                                if (counter > 0){
+                                    flag =  true;
+                                    this.expression.add(new MJXGUISymbol(this.block, '\\right.'));
+                                    break;
+                                }
+                            }
+                        }
+                        if( flag === false){
+                            this.expression.remove(0);
+                            this.position--;
+                        }
                     }
                 }
                 this.removeComponent();
@@ -484,20 +811,53 @@ class Cursor {
                     }
                     if( this.left_brackets.includes(prevComponent.toLatex()) || this.right_brackets.includes(prevComponent.toLatex())) {
                         let bracket = prevComponent.toLatex();
-                        this.block.removeChild(Math.floor(this.child));
-                        this.child--;
+
+                        let counter = 0;
+                        let flag = false;
                         if(this.left_brackets.includes(bracket)){
-                            this.block.removeChild();
+                            for(let i = Math.ceil(this.child); i < this.block.children.length ; i++){
+                                if(this.block.children[i] instanceof MJXGUISymbol){
+                                    if (this.left_brackets.includes(this.block.children[i].toLatex()))
+                                        counter++;
+                                    else if (this.right_brackets.includes(this.block.children[i].toLatex()))
+                                        counter--;
+        
+                                    if (counter < 0){
+                                        flag =  true;
+                                        this.block.addChild(new MJXGUISymbol(this.block, '\\left.'), 0);
+                                        this.child++;
+                                        break;
+                                    }
+                                }
+                            }
+                            if( flag === false){
+                                this.block.removeChild();
+                            }
                         } 
                         else if (this.right_brackets.includes(bracket)){
-                            this.block.removeChild(0);
-                            this.child--;
-                        }
+                            for(let i = Math.floor(this.child-1); i >=0; i--){
+                                if(this.block.children[i] instanceof MJXGUISymbol){
+                                    if (this.left_brackets.includes(this.block.children[i].toLatex()))
+                                        counter++;
+                                    else if (this.right_brackets.includes(this.block.children[i].toLatex()))
+                                        counter--;
+        
+                                    if (counter > 0){
+                                        flag =  true;
+                                        this.block.addChild(new MJXGUISymbol(this.block, '\\right.'));
+                                        break;
+                                    }
+                                }
+                            }
+                            if( flag === false){
+                                this.block.removeChild(0);
+                                this.child--;
+                            }
+                        } 
                     }
-                    else {
-                        this.block.removeChild(Math.floor(this.child));
-                        this.child--;
-                    }
+                    this.block.removeChild(Math.floor(this.child));
+                    this.child--;
+                    
                 }
             }
         }
