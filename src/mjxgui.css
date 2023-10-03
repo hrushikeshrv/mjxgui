@@ -206,3 +206,8 @@
   stroke: var(--text-light);
   stroke-width: 10.125;
 }
+
+.dark-mode #Rectangle_1_copy {
+  stroke: var(--text-light);
+  stroke-width: 10.125;
+}
