@@ -1,11 +1,5 @@
 <div id="mjxgui_editor_controls">
-    <div style="cursor: pointer;">
-        <svg xmlns="http://www.w3.org/2000/svg" class="mjxgui_close_button_svg" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-    </div>
+  
     <div class="mjxgui_clear_save_buttons">
                     <span class="mjxgui_button_container" id="mjxgui_clear_equation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -18,16 +12,21 @@
                         </svg>
                         <span>Clear Eqn</span>
                     </span>
+
         <span class="mjxgui_button_container" id="mjxgui_save_equation">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                           <path d="M5 12l5 5l10 -10" />
                         </svg>
                         <span>Done</span>
-                    </span>
-    </div>
+        </span>
+
+        <span><button>Dark Mode</button></span>
+      </div>
+
 </div>
 <div id="_mjxgui_tab_container_container">
+
     <div class="mjxgui_tab_container" data-tab="1">Greek Letters</div>
     <div class="mjxgui_tab_container" data-tab="2">Operators & Symbols</div>
     <div class="mjxgui_tab_container" data-tab="3">Functions</div>
@@ -166,6 +165,8 @@
     <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arcsin"><svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arcsin</tspan></text></svg></span>
     <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arccos"><svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arccos</tspan></text></svg></span>
     <span class="mjxgui-btn mjxgui-function" data-template-type="trigonometric" data-latex-data="arctan"><svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">arctan</tspan></text></svg></span>
+  
+   
 </div>
 <div class="dir_btn" style="text-align: center;"><button class="leftArrowButton" style="cursor:pointer;">&#9665;</button><button class="rightArrowButton" style="cursor:pointer;">&#9655;</button></div>
 <div id="_mjxgui_editor_display">${this.mathDelimiter} | ${this.mathDelimiter}</div>
