@@ -136,6 +136,9 @@ class Cursor {
         else if (event.key === 'Backspace') {
             this.backspace();
         }
+        else if (event.key === 'Enter') {
+            document.getElementById('mjxgui_save_equation').click();
+        }
         else if (event.key === ' ') {
             let _ = new MJXGUISymbol(this.block, '\\:\\:');
             this.addComponent(_);
