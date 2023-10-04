@@ -1,212 +1,207 @@
 // Draws the editor UI and canvas inside the given div
 
 const symbolLatexMap = {
-  // Lowercase greek letters
-  'alpha': '\\alpha',
-  'beta': '\\beta',
-  'gamma': '\\gamma',
-  'delta': '\\delta',
-  'epsilon': '\\epsilon',
-  'zeta': '\\zeta',
-  'eta': '\\eta',
-  'theta': '\\theta',
-  'iota': '\\iota',
-  'kappa': '\\kappa',
-  'lambda': '\\lambda',
-  'mu': '\\mu',
-  'nu': '\\nu',
-  'xi': '\\xi',
-  'omicron': '\\omicron',
-  'pi': '\\pi',
-  'rho': '\\rho',
-  'sigma': '\\sigma',
-  'tau': '\\tau',
-  'upsilon': '\\upsilon',
-  'phi': '\\phi',
-  'chi': '\\chi',
-  'psi': '\\psi',
-  'omega': '\\omega',
+    // Lowercase greek letters
+    'alpha': '\\alpha',
+    'beta': '\\beta',
+    'gamma': '\\gamma',
+    'delta': '\\delta',
+    'epsilon': '\\epsilon',
+    'zeta': '\\zeta',
+    'eta': '\\eta',
+    'theta': '\\theta',
+    'iota': '\\iota',
+    'kappa': '\\kappa',
+    'lambda': '\\lambda',
+    'mu': '\\mu',
+    'nu': '\\nu',
+    'xi': '\\xi',
+    'omicron': '\\omicron',
+    'pi': '\\pi',
+    'rho': '\\rho',
+    'sigma': '\\sigma',
+    'tau': '\\tau',
+    'upsilon': '\\upsilon',
+    'phi': '\\phi',
+    'chi': '\\chi',
+    'psi': '\\psi',
+    'omega': '\\omega',
 
-  // Uppercase greek letters
-  'Alpha': 'A',
-  'Beta': 'B',
-  'Gamma': '\\Gamma',
-  'Delta': '\\Delta',
-  'Epsilon': 'E',
-  'Zeta': 'Z',
-  'Eta': 'H',
-  'Theta': '\\Theta',
-  'Iota': 'I',
-  'Kappa': 'K',
-  'Lambda': '\\Lambda',
-  'Mu': 'M',
-  'Nu': 'N',
-  'Xi': '\\Xi',
-  'Omicron': 'O',
-  'Pi': '\\Pi',
-  'Rho': 'P',
-  'Sigma': '\\Sigma',
-  'Tau': 'T',
-  'Upsilon': '\\Upsilon',
-  'Phi': '\\Phi',
-  'Chi': 'X',
-  'Psi': '\\Psi',
-  'Omega': '\\Omega',
+    // Uppercase greek letters
+    'Alpha': 'A',
+    'Beta': 'B',
+    'Gamma': '\\Gamma',
+    'Delta': '\\Delta',
+    'Epsilon': 'E',
+    'Zeta': 'Z',
+    'Eta': 'H',
+    'Theta': '\\Theta',
+    'Iota': 'I',
+    'Kappa': 'K',
+    'Lambda': '\\Lambda',
+    'Mu': 'M',
+    'Nu': 'N',
+    'Xi': '\\Xi',
+    'Omicron': 'O',
+    'Pi': '\\Pi',
+    'Rho': 'P',
+    'Sigma': '\\Sigma',
+    'Tau': 'T',
+    'Upsilon': '\\Upsilon',
+    'Phi': '\\Phi',
+    'Chi': 'X',
+    'Psi': '\\Psi',
+    'Omega': '\\Omega',
 
-  // Operators and symbols
-  'times': '\\times',
-  'div': '\\div',
-  'centerdot': '\\cdot',
-  'plusmn': '\\pm',
-  'mnplus': '\\mp',
-  'starf': '\\star',
-  'bigcup': '\\bigcup',
-  'bigcap': '\\bigcap',
-  'cup': '\\cup',
-  'cap': '\\cap',
-  'lt': '\\lt',
-  'gt': '\\gt',
-  'leq': '\\leq',
-  'GreaterEqual': '\\geq',
-  'equals': '=',
-  'approx': '\\approx',
-  'NotEqual': '\\ne',
-  'sub': '\\subset',
-  'sup': '\\supset',
-  'sube': '\\subseteq',
-  'supe': '\\supseteq',
-  'nsub': '\\not\\subset',
-  'nsup': '\\not\\supset',
-  'nsube': '\\not\\subseteq',
-  'nsupe': '\\not\\supseteq',
-  'propto': '\\propto',
-  'parallel': '\\parallel',
-  'npar': '\\nparallel',
-  'asympeq': '\\asymp',
-  'isin': '\\in',
-  'notin': '\\notin',
-  'exist': '\\exists',
-  'nexist': '\\nexists',
-  'perp': '\\perp',
-  'Leftarrow': '\\Leftarrow',
-  'Rightarrow': '\\Rightarrow',
-  'Leftrightarrow': '\\iff',
-  'angle': '\\angle',
-  'angmsd': '\\measuredangle',
-  'rightarrow': '\\to',
-  'leftarrow': '\\gets',
-  'leftrightarrow': '\\leftrightarrow',
-  'longrightarrow': '\\longrightarrow',
-  'longleftarrow': '\\longleftarrow',
-  'longleftrightarrow': '\\longleftrightarrow',
-  'uparrow': '\\uparrow',
-  'downarrow': '\\downarrow',
-  'updownarrow': '\\updownarrow',
-  'PartialD': '\\partial',
-  'hbar': '\\hbar',
-  'real': '\\Re',
-  'nabla': '\\nabla',
-  'infin': '\\infty',
+    // Operators and symbols
+    'times': '\\times',
+    'div': '\\div',
+    'centerdot': '\\cdot',
+    'plusmn': '\\pm',
+    'mnplus': '\\mp',
+    'starf': '\\star',
+    'bigcup': '\\bigcup',
+    'bigcap': '\\bigcap',
+    'cup': '\\cup',
+    'cap': '\\cap',
+    'lt': '\\lt',
+    'gt': '\\gt',
+    'leq': '\\leq',
+    'GreaterEqual': '\\geq',
+    'equals': '=',
+    'approx': '\\approx',
+    'NotEqual': '\\ne',
+    'sub': '\\subset',
+    'sup': '\\supset',
+    'sube': '\\subseteq',
+    'supe': '\\supseteq',
+    'nsub': '\\not\\subset',
+    'nsup': '\\not\\supset',
+    'nsube': '\\not\\subseteq',
+    'nsupe': '\\not\\supseteq',
+    'propto': '\\propto',
+    'parallel': '\\parallel',
+    'npar': '\\nparallel',
+    'asympeq': '\\asymp',
+    'isin': '\\in',
+    'notin': '\\notin',
+    'exist': '\\exists',
+    'nexist': '\\nexists',
+    'perp': '\\perp',
+    'Leftarrow': '\\Leftarrow',
+    'Rightarrow': '\\Rightarrow',
+    'Leftrightarrow': '\\iff',
+    'angle': '\\angle',
+    'angmsd': '\\measuredangle',
+    'rightarrow': '\\to',
+    'leftarrow': '\\gets',
+    'leftrightarrow': '\\leftrightarrow',
+    'longrightarrow': '\\longrightarrow',
+    'longleftarrow': '\\longleftarrow',
+    'longleftrightarrow': '\\longleftrightarrow',
+    'uparrow': '\\uparrow',
+    'downarrow': '\\downarrow',
+    'updownarrow': '\\updownarrow',
+    'PartialD': '\\partial',
+    'hbar': '\\hbar',
+    'real': '\\Re',
+    'nabla': '\\nabla',
+    'infin': '\\infty',
 }
 
 const functionComponentMap = {
-  'lim': Limit,
-  'sqrt': Sqrt,
-  'nsqrt': NthRoot,
-  'sub': Subscript,
-  'sup': Superscript,
-  'subsup': SubSupRight,
-  'frac': Fraction,
+    'lim': Limit,
+    'sqrt': Sqrt,
+    'nsqrt': NthRoot,
+    'sub': Subscript,
+    'sup': Superscript,
+    'subsup': SubSupRight,
+    'frac': Fraction,
 }
 
 class MJXGUI {
-  constructor(elementSelector, mathDelimiter, successCallback) {
-      this.selector = elementSelector;
-      this.elements = document.querySelectorAll(elementSelector);
-      this.mathDelimiter = mathDelimiter;
-      this.successCallback = successCallback;
-      this.eqnHistory = [];
-      this.expression = new Expression();
-      this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
-      this.isMobileDevice = 'ontouchstart' in document.documentElement;
-      this.pseudoMobileKeyboard = null;
-      this.showUI = () => {
-          // Show the editor window
-          this.editorWindow.style.display = 'block';
-          this.editorWindow.dataset.visible = 'true';
+    constructor(elementSelector, mathDelimiter, successCallback) {
+        this.selector = elementSelector;
+        this.elements = document.querySelectorAll(elementSelector);
+        this.mathDelimiter = mathDelimiter;
+        this.successCallback = successCallback;
+        this.eqnHistory = [];
+        this.expression = new Expression();
+        this.cursor = new Cursor(this.expression, '_mjxgui_editor_display');
+        this.isMobileDevice = 'ontouchstart' in document.documentElement;
+        this.pseudoMobileKeyboard = null;
+        this.showUI = () => {
+            // Show the editor window
+            this.editorWindow.style.display = 'block';
+            this.editorWindow.dataset.visible = 'true';
 
-          // If on mobile, give the focus to a hidden text input so the keyboard pops up
-          if (this.isMobileDevice || true) {
-              // Assume that this.pseudoMobileKeyboard is not null
-              // this.showUI will always be called after this.pseudoMobileKeyboard
-              // is set in this.constructUI()
-              this.pseudoMobileKeyboard.focus();
-              console.log('focussed the pseudo keyboard');
-          }
-      }
+            // If on mobile, give the focus to a hidden text input so the keyboard pops up
+            if (this.isMobileDevice || true) {
+                // Assume that this.pseudoMobileKeyboard is not null
+                // this.showUI will always be called after this.pseudoMobileKeyboard
+                // is set in this.constructUI()
+                this.pseudoMobileKeyboard.focus();
+                console.log('focussed the pseudo keyboard');
+            }
+        }
 
-      if (this.elements instanceof String || typeof this.elements === 'string') {
-          this.elements = document.querySelectorAll(this.elements);
-      }
+        if (this.elements instanceof String || typeof this.elements === 'string') {
+            this.elements = document.querySelectorAll(this.elements);
+        }
 
-      this.constructUI();
-      this.elements.forEach(el => {
-          el.addEventListener('click', this.showUI);
-      })
+        this.constructUI();
+        this.elements.forEach(el => {
+            el.addEventListener('click', this.showUI);
+        })
 
-      document.addEventListener('keydown', evt => {
-          if (this.editorWindow.dataset.visible === 'false') return;
-          MathJax.typesetClear([this.eqnDisplay]);
-          this.cursor.keyPress(evt);
-          this.eqnDisplay.innerHTML = this.mathDelimiter + this.cursor.toDisplayLatex() + this.mathDelimiter;
-          MathJax.typesetPromise([this.eqnDisplay]).then(() => {});
-      })
+        document.addEventListener('keydown', evt => {
+            if (this.editorWindow.dataset.visible === 'false') return;
+            MathJax.typesetClear([this.eqnDisplay]);
+            this.cursor.keyPress(evt);
+            this.eqnDisplay.innerHTML = this.mathDelimiter + this.cursor.toDisplayLatex() + this.mathDelimiter;
+            MathJax.typesetPromise([this.eqnDisplay]).then(() => {});
+        })
 
-      const symbols = this.editorWindow.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
-      const functions = this.editorWindow.querySelectorAll('.mjxgui-function');
+        const symbols = this.editorWindow.querySelectorAll('.mjxgui-operator, .mjxgui-greek-letter');
+        const functions = this.editorWindow.querySelectorAll('.mjxgui-function');
 
-      symbols.forEach(symbol => {
-          symbol.addEventListener('click', () => {
-              if (symbol.dataset.latexData in symbolLatexMap) {
-                  let _ = new MJXGUISymbol(this.cursor.block, symbolLatexMap[symbol.dataset.latexData]);
-                  this.cursor.addComponent(_);
-                  this.cursor.updateDisplay();
-              }
-          })
-      })
+        symbols.forEach(symbol => {
+            symbol.addEventListener('click', () => {
+                if (symbol.dataset.latexData in symbolLatexMap) {
+                    let _ = new MJXGUISymbol(this.cursor.block, symbolLatexMap[symbol.dataset.latexData]);
+                    this.cursor.addComponent(_);
+                    this.cursor.updateDisplay();
+                }
+            })
+        })
 
-      functions.forEach(func => {
-          func.addEventListener('click', () => {
-              let _;
-              if (func.dataset.templateType !== 'null') {
-                  if (func.dataset.templateType === 'three') {
-                      _ = new TemplateThreeBlockComponent(this.cursor.block, func.dataset.latexData);
-                  }
-                  else if (func.dataset.templateType === 'trigonometric') {
-                      _ = new TrigonometricTwoBlockComponent(this.cursor.block, func.dataset.latexData);
-                  }
-              }
-              else {
-                  _ = new functionComponentMap[func.dataset.functionId](this.cursor.block);
-              }
-              this.cursor.addComponent(_);
-              this.cursor.updateDisplay();
-          })
-      })
-  }
+        functions.forEach(func => {
+            func.addEventListener('click', () => {
+                let _;
+                if (func.dataset.templateType !== 'null') {
+                    if (func.dataset.templateType === 'three') {
+                        _ = new TemplateThreeBlockComponent(this.cursor.block, func.dataset.latexData);
+                    }
+                    else if (func.dataset.templateType === 'trigonometric') {
+                        _ = new TrigonometricTwoBlockComponent(this.cursor.block, func.dataset.latexData);
+                    }
+                }
+                else {
+                    _ = new functionComponentMap[func.dataset.functionId](this.cursor.block);
+                }
+                this.cursor.addComponent(_);
+                this.cursor.updateDisplay();
+            })
+        })
+    }
 
-  // Inject the editor HTML and CSS into the DOM
-  constructUI() {
-      // Injects the UI HTML & CSS into the DOM and binds the needed event listeners
-
-      // CSS First
-      const css = `#mjxgui_editor_window{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#f0f0f0;border:2px solid #000;border-radius:6px;box-shadow:0 0 20px rgba(0,0,0,.3);padding:20px;min-width:280px;max-width:600px}#_mjxgui_tab_container_container{display:flex;flex-flow:row wrap}.mjxgui_tab_container{padding:5px;font-family:monospace;font-size:1.1rem;border-radius:6px;background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;user-select:none;margin:0 10px}.mjxgui_tab_container:hover{background-color:#dcdcdc}#mjxgui_editor_controls{display:flex;flex-flow:row wrap;justify-content:space-between}#_mjxgui_editor_display{padding:10px;margin:10px;border:1px solid #000;border-radius:6px}.mjxgui_tab{padding:10px;margin-top:10px;display:none;align-items:stretch;flex-flow:row wrap}.mjxgui_tab .mjxgui-btn{background-color:#f0f0f0;transition:background-color ease .25s;cursor:pointer;margin:2px;min-width:25px;text-align:center}.mjxgui-btn:hover{background-color:#dcdcdc}.mjxgui_button_container,.mjxgui_clear_save_buttons{display:flex;flex-flow:row wrap;font-family:monospace;font-size:1.1rem;align-items:center;justify-content:center}.mjxgui_button_container{margin:0 5px;background-color:#f0f0f0;border-radius:6px;transition:background-color ease .25s;cursor:pointer;padding:5px}.mjxgui_button_container:hover{background-color:#dcdcdc}`;
-      const style = document.createElement('style');
-      document.head.appendChild(style);
-      style.appendChild(document.createTextNode(css));
-
-      // HTML
-      // Added This to Dynamically Create Html
+    // Inject the editor HTML into the DOM
+    constructUI() {
+        // Injects the UI HTML into the DOM and binds the needed event listeners
+        const editorDiv = document.createElement("div");
+		editorDiv.id = "mjxgui_editor_window";
+		editorDiv.dataset.visible = "false";
+        // Added This to Dynamically Create Html
 		const letterTab = document.createElement("div");
 		letterTab.classList.add("mjxgui_tab");
 		letterTab.dataset.tab = "1";
@@ -336,9 +331,6 @@ class MJXGUI {
         <svg width="45" height="20" viewBox="0 0 2000 567"><text fill="#242424" font-family="Cambria" font-size="500" text-anchor="middle" transform="matrix(1.5 0 0 1.5 973.5 496)"><tspan x="0">${trigonometricFunctions[key]}</tspan></text></svg></span> `;
 		}
 		// HTML
-		const editorDiv = document.createElement("div");
-		editorDiv.id = "mjxgui_editor_window";
-		editorDiv.dataset.visible = "false";
 		editorDiv.appendChild(letterTab);
 		editorDiv.appendChild(operatorTab);
 		editorDiv.appendChild(functionTab);
@@ -354,93 +346,94 @@ class MJXGUI {
     <path id="Rectangle_1_copy_2" d="M364.2 528.579H194.215V358.59H364.2v169.989z" class="cls-1" data-name="Rectangle 1 copy 2"/></svg></span> `;
 		editorDiv.appendChild(mjxgui_editor_display);
 
-      this.editorWindow = editorDiv;
-      this.eqnDisplay = editorDiv.querySelector('#_mjxgui_editor_display');
-      this.pseudoMobileKeyboard = editorDiv.querySelector('#mjxgui-pseudo-mobile-keyboard');
-      const mjxguiTabButtons = editorDiv.querySelectorAll('.mjxgui_tab_container');
-      const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
+        this.editorWindow = editorDiv;
+        this.eqnDisplay = editorDiv.querySelector('#_mjxgui_editor_display');
+        this.pseudoMobileKeyboard = editorDiv.querySelector('#mjxgui-pseudo-mobile-keyboard');
+        const mjxguiTabButtons = editorDiv.querySelectorAll('.mjxgui_tab_container');
+        const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
 
-      const leftArrowButton = editorDiv.querySelector(".leftArrowButton");
-      const rightArrowButton = editorDiv.querySelector(".rightArrowButton");
-      leftArrowButton.addEventListener("click", () => {
-        this.cursor.seekLeft();
+        const leftArrowButton = editorDiv.querySelector(".leftArrowButton");
+        const rightArrowButton = editorDiv.querySelector(".rightArrowButton");
+
+        leftArrowButton.addEventListener("click", () => {
+          this.cursor.seekLeft();
+          this.cursor.updateDisplay();
+        });
+
+        rightArrowButton.addEventListener("click", () => {
+          this.cursor.seekRight();
+          this.cursor.updateDisplay();
+        });
+
+        mjxguiTabButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                mjxguiTabs.forEach(tab => {
+                    if (tab.dataset.tab === btn.dataset.tab) {
+                        tab.style.display = 'flex';
+                    }
+                    else {
+                        tab.removeAttribute('style');
+                    }
+                })
+            })
+        });
+
+        const closeEditor = editorDiv.querySelector('.mjxgui_close_button_svg');
+        closeEditor.addEventListener('click', function() {
+            editorDiv.removeAttribute('style');
+            editorDiv.dataset.visible = 'false';
+        })
+
+        const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
+        clearEquationButton.addEventListener('click', () => {
+            this.clearEquation();
+        });
+
+        const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
+        saveEquationButton.addEventListener('click', () => {
+            const latex = this.cursor.toLatex();
+            if (latex) {
+                this.successCallback();
+            }
+            editorDiv.removeAttribute('style');
+            editorDiv.dataset.visible = 'false';
+            this.clearEquation();
+        });
+
+        document.body.appendChild(editorDiv);
+    }
+
+    // Remove the current expression from the display, add it to the history, create a new expression and reset
+    // all cursor properties to defaults.
+    clearEquation() {
+        // push this entire expression onto the eqnHistory array so the user can access it again
+        this.eqnHistory.push(this.expression);
+        this.expression = new Expression();
+        this.cursor.expression = this.expression;
+        this.cursor.block = null;
+        this.cursor.component = null;
+        this.cursor.child = -0.5;
+        this.cursor.position = -0.5;
+        this.cursor.latex = '';
         this.cursor.updateDisplay();
-      });
+    }
 
-      rightArrowButton.addEventListener("click", () => {
-        this.cursor.seekRight();
-        this.cursor.updateDisplay();
-      });
+    // Getter method that just returns the cursor's LaTeX.
+    getLatex() {
+        return this.cursor.toLatex();
+    }
 
-      mjxguiTabButtons.forEach(btn => {
-          btn.addEventListener('click', function() {
-              mjxguiTabs.forEach(tab => {
-                  if (tab.dataset.tab === btn.dataset.tab) {
-                      tab.style.display = 'flex';
-                  }
-                  else {
-                      tab.removeAttribute('style');
-                  }
-              })
-          })
-      });
-
-      const closeEditor = editorDiv.querySelector('.mjxgui_close_button_svg');
-      closeEditor.addEventListener('click', function() {
-          editorDiv.removeAttribute('style');
-          editorDiv.dataset.visible = 'false';
-      })
-
-      const clearEquationButton = editorDiv.querySelector('#mjxgui_clear_equation');
-      clearEquationButton.addEventListener('click', () => {
-          this.clearEquation();
-      });
-
-      const saveEquationButton = editorDiv.querySelector('#mjxgui_save_equation');
-      saveEquationButton.addEventListener('click', () => {
-          const latex = this.cursor.toLatex();
-          if (latex) {
-              this.successCallback();
-          }
-          editorDiv.removeAttribute('style');
-          editorDiv.dataset.visible = 'false';
-          this.clearEquation();
-      });
-
-      document.body.appendChild(editorDiv);
-  }
-
-  // Remove the current expression from the display, add it to the history, create a new expression and reset
-  // all cursor properties to defaults.
-  clearEquation() {
-      // push this entire expression onto the eqnHistory array so the user can access it again
-      this.eqnHistory.push(this.expression);
-      this.expression = new Expression();
-      this.cursor.expression = this.expression;
-      this.cursor.block = null;
-      this.cursor.component = null;
-      this.cursor.child = -0.5;
-      this.cursor.position = -0.5;
-      this.cursor.latex = '';
-      this.cursor.updateDisplay();
-  }
-
-  // Getter method that just returns the cursor's LaTeX.
-  getLatex() {
-      return this.cursor.toLatex();
-  }
-
-  // Removes all MJXGUI click listeners from the MJXGUI.elements,
-  // keeps the selector the same, and selects DOM elements again.
-  // Meant to be called if the DOM changes after DOM content is loaded
-  // or after the MJXGUI object is created.
-  rebindListeners() {
-      this.elements.forEach(el => {
-          el.removeEventListener('click', this.showUI);
-      })
-      this.elements = document.querySelectorAll(this.selector);
-      this.elements.forEach(el => {
-          el.addEventListener('click', this.showUI);
-      })
-  }
+    // Removes all MJXGUI click listeners from the MJXGUI.elements,
+    // keeps the selector the same, and selects DOM elements again.
+    // Meant to be called if the DOM changes after DOM content is loaded
+    // or after the MJXGUI object is created.
+    rebindListeners() {
+        this.elements.forEach(el => {
+            el.removeEventListener('click', this.showUI);
+        })
+        this.elements = document.querySelectorAll(this.selector);
+        this.elements.forEach(el => {
+            el.addEventListener('click', this.showUI);
+        })
+    }
 }
