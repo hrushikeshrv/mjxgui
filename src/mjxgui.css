@@ -1,4 +1,4 @@
-#mjxgui_editor_window {
+#_mjxgui_editor_window {
     display: none;
     position: fixed;
     top: 50%;
@@ -12,7 +12,7 @@
 
     padding: 20px;
     min-width: 280px;
-    max-width: min(600px, 90%);
+    width: min(600px, 90%);
 }
 
 #_mjxgui_tab_container_container {

@@ -102,6 +102,23 @@ If you're using VS Code or any other IDE, you can download the Live Server exten
 
 Then open the `_test/index.html` file and your development environment should be set up.
 
+## Working With The Editor's HTML
+If you are working on a patch that requires changing the HTML for the MJXGUI editor, you will need to make changes to the `src/modules/editor.html` file. Once you have made your changes, you will need to inject this HTML into the MJXGUI source for the new HTML to be used. You can do this by running `Grunt`. Make sure [Grunt is installed](https://gruntjs.com/getting-started) and follow these steps -
+
+1. Open the `src/modules/ui.js` file.
+2. Find the line where the editor's HTML is injected into the file, which will look something like this -
+    `editorDiv.innerHTML = '< big HTML string >';`
+3. Delete the big HTML string, and replace that line with this line -
+    ```javascript
+    editorDiv.innerHTML = '{{ editor_html }}';
+    ```
+4. Run the `inject-ui` task from this project's Gruntfile by running -
+    ```bash
+    grunt inject-ui
+    ```
+
+This will minify the `editor.html` file and inject the minified HTML in the right place in the `ui.js` file. You can then test these changes and complete your patch.
+
 ## Submitting a Patch
 Once you have finished working on your patch and verified that your issue has been fixed, push your changes and create a pull request!
 
