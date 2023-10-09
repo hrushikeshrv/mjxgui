@@ -142,18 +142,16 @@ class Cursor {
         else if (event.key === ' ') {
             let _ = new MJXGUISymbol(this.block, '\\:\\:');
             this.addComponent(_);
-            this.updateDisplay();
         }
         else if (event.key === '\\') {
             let _ = new MJXGUISymbol(this.block, '\\backslash');
             this.addComponent(_);
-            this.updateDisplay();
         }
         else if (['$','#','%','&','_','{','}'].includes(event.key)) {
             let _ = new MJXGUISymbol(this.block, `\\${event.key}`);
             this.addComponent(_);
-            this.updateDisplay();
         }
+        this.updateDisplay();
     }
 
     seekRight() {
