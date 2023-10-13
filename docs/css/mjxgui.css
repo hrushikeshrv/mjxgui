@@ -1,18 +1,51 @@
+._mjxgui_editor_window {
+    --background-color: rgb(240, 240, 240);
+    --background-dark-1: rgb(220, 220, 220);
+    --default-font-color: black;
+    --default-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    --success-green: rgb(3, 107, 35);
+    --error-red: rgb(107, 0, 18);
+}
+._mjxgui_editor_window._mjxgui_dark_theme {
+
+    --background-color: rgb(42, 42, 42);
+    --background-dark-1: rgb(18, 18, 18);
+    --default-font-color: white;
+    --default-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    --success-green: rgb(55, 255, 115);
+    --error-red: rgb(255, 13, 53);
+}
+
 #_mjxgui_editor_window {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    color: var(--default-font-color);
 
-    background-color: rgb(240, 240, 240);
-    border: 2px solid black;
+    background-color: var(--background-color);
+    border: 2px solid var(--default-font-color);
     border-radius: 6px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--default-shadow);
 
     padding: 20px;
     min-width: 280px;
-    max-width: min(600px, 90%);
+    width: min(600px, 80%);
+}
+
+#_mjxgui_editor_window svg {
+    stroke: var(--default-font-color);
+}
+
+#_mjxgui_editor_window button {
+    background-color: var(--background-color);
+    transition: background-color ease 0.2s;
+    color: var(--default-font-color);
+}
+
+#_mjxgui_editor_window button:hover {
+    background-color: var(--background-dark-1);
 }
 
 #_mjxgui_tab_container_container {
@@ -20,20 +53,32 @@
     flex-flow: row wrap;
 }
 
+#mjxgui_save_equation svg {
+    stroke: var(--success-green);
+}
+
+#mjxgui_clear_equation svg {
+    stroke: var(--error-red);
+}
+
 .mjxgui_tab_container {
     padding: 5px;
     font-family: monospace;
     font-size: 1.1rem;
     border-radius: 6px;
-    background-color: rgb(240, 240, 240);
+    background-color: var(--background-color);
     transition: background-color ease 0.25s;
     cursor: pointer;
     user-select: none;
     margin: 0 10px;
 }
 
+.mjxgui_tab_container._mjxgui_active_tab {
+    background-color: var(--background-dark-1);
+}
+
 .mjxgui_tab_container:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: var(--background-dark-1);
 }
 
 #mjxgui_editor_controls {
@@ -45,7 +90,7 @@
 #_mjxgui_editor_display {
     padding: 10px;
     margin: 10px;
-    border: 1px solid black;
+    border: 1px solid var(--default-font-color);
     border-radius: 6px;
     overflow-x: auto;
 }
@@ -59,16 +104,17 @@
 }
 
 .mjxgui_tab .mjxgui-btn {
-    background-color: rgb(240, 240, 240);
+    background-color: var(--background-color);
     transition: background-color ease 0.25s;
     cursor: pointer;
     margin: 2px;
     min-width: 25px;
     text-align: center;
+    user-select: none;
 }
 
 .mjxgui-btn:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: var(--background-dark-1);
 }
 
 .mjxgui_clear_save_buttons, .mjxgui_button_container {
@@ -82,7 +128,7 @@
 
 .mjxgui_button_container {
     margin: 0 5px;
-    background-color: rgb(240, 240, 240);
+    background-color: var(--background-color);
     border-radius: 6px;
     transition: background-color ease 0.25s;
     cursor: pointer;
@@ -90,5 +136,11 @@
 }
 
 .mjxgui_button_container:hover  {
-    background-color: rgb(220, 220, 220);
+    background-color: var(--background-dark-1);
+}
+
+._mjxgui_dir_btn {
+    margin: 0 5px;
+    border: 1px solid transparent;
+    border-radius: 3px;
 }
