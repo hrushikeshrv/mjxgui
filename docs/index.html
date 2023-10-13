@@ -132,18 +132,13 @@
             </p>
             <p>
                 Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a
-                math delimiter, and a callback function.
+                a callback function, and an <code>options</code> object.
             </p>
-            <code>const gui = new MJXGUI(‘selector’, ‘delimiter’, function() {})</code>
+            <code>const gui = new MJXGUI(‘selector’, function() {}, options={})</code>
             <p>
                 The selector is a CSS selector that should be able to select the elements you want users to click
                 on to start entering an equation. MJXGUI adds click event listeners to all selected elements and
                 shows the editor UI whenever they are clicked.
-            </p>
-            <p>
-                The delimiter is the math delimiter you use in your configuration of MathJax, usually ‘$$’. This
-                tells MJXGUI to use the same delimiter while rendering the equation being built so that users can
-                see it correctly.
             </p>
             <p>
                 The callback function is a function that is run when the user is done entering the equation and
@@ -168,17 +163,50 @@
         const eqnOutput = document.querySelector('#equation-output');
 
         // Create new MJXGUI instance
-        const gui = new MJXGUI('#add-equation-button', '$$', function() {
+        const gui = new MJXGUI('#add-equation-button', function() {
             MathJax.typesetClear([eqnOutput]);
 
                 <code>
-            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;'; // NOTE - this.getLatex() would also work here
+            eqnOutput.innerHTML += '$$' + gui.getLatex() + '$$' + '&lt;br&gt;';
                 </code>
 
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     &lt;/script&gt;
             </div>
+            <h2 id="options-subhead">Options</h2>
+            <p>Currently, the following options are supported -</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Option</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>mathDelimiter</code></td>
+                        <td><code>String</code></td>
+                        <td><code>"$$"</code></td>
+                        <td>
+                            The math delimiter as configured in when you load MathJax.
+                            Use the same delimiter you use for inserting equation blocks, not inline equations.
+                            Most commonly used block delimiter is "$$".
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>theme</code></td>
+                        <td><code>String</code></td>
+                        <td><code>undefined</code></td>
+                        <td>
+                            Pass <code>theme</code> as <code>"dark"</code> to render the MJXGUI widget in dark mode.
+                            Any other value will default to light mode.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
         <section id="examples">
             <h1 id="examples-head"><a href="#examples-head">Examples</a></h1>

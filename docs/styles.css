@@ -102,6 +102,15 @@ a {
     border-bottom: 2px dotted var(--primary-color);
 }
 
+table {
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 2px solid black;
+    padding: 10px;
+}
+
 .under-construction {
     height: 20px;
     width: 100%;
