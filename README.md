@@ -62,7 +62,7 @@ Make sure the callback function you supply is not an arrow function but a regula
 
 Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a math delimiter, and a callback function.
 
-	const gui = new MJXGUI(‘selector’, ‘delimiter’, function() {})
+	const gui = new MJXGUI(‘selector’, function() {}, options={})
 
 The selector is a CSS selector that should be able to select the elements you want users to click 
 on to start entering an equation. MJXGUI adds click event listeners to all selected elements and 
@@ -92,11 +92,13 @@ the user has created, appends it to the body, and typesets it using MathJax.
         const eqnOutput = document.querySelector('#equation-output');
 
    	    // Create new MJXGUI instance
-        const gui = new MJXGUI('#add-equation-button', '$$', function() {
+        const gui = new MJXGUI('#add-equation-button', function() {
             MathJax.typesetClear([eqnOutput]);
             eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
             MathJax.typesetPromise([eqnOutput]).then(() => {});
         })
     </script>
 ````
+
+For a details reference please check the [docs](https://hrus.in/mjxgui)
 
