@@ -135,15 +135,6 @@ class MJXGUI {
             // Show the editor window
             this.editorWindow.style.display = 'block';
             this.editorWindow.dataset.visible = 'true';
-
-            // If on mobile, give the focus to a hidden text input so the keyboard pops up
-            if (this.isMobileDevice) {
-                // Assume that this.pseudoMobileKeyboard is not null
-                // this.showUI will always be called after this.pseudoMobileKeyboard
-                // is set in this.constructUI()
-                this.pseudoMobileKeyboard.focus();
-                console.log('focussed the pseudo keyboard');
-            }
         };
 
         if (
@@ -170,7 +161,7 @@ class MJXGUI {
         });
 
         const symbols = this.editorWindow.querySelectorAll(
-            '.mjxgui-operator, .mjxgui-greek-letter'
+            '.mjxgui-operator, .mjxgui-greek-letter',
         );
         const functions =
             this.editorWindow.querySelectorAll('.mjxgui-function');
@@ -180,7 +171,7 @@ class MJXGUI {
                 if (symbol.dataset.latexData in symbolLatexMap) {
                     let _ = new MJXGUISymbol(
                         this.cursor.block,
-                        symbolLatexMap[symbol.dataset.latexData]
+                        symbolLatexMap[symbol.dataset.latexData],
                     );
                     this.cursor.addComponent(_);
                     this.cursor.updateDisplay();
@@ -195,17 +186,17 @@ class MJXGUI {
                     if (func.dataset.templateType === 'three') {
                         _ = new TemplateThreeBlockComponent(
                             this.cursor.block,
-                            func.dataset.latexData
+                            func.dataset.latexData,
                         );
                     } else if (func.dataset.templateType === 'trigonometric') {
                         _ = new TrigonometricTwoBlockComponent(
                             this.cursor.block,
-                            func.dataset.latexData
+                            func.dataset.latexData,
                         );
                     }
                 } else {
                     _ = new functionComponentMap[func.dataset.functionId](
-                        this.cursor.block
+                        this.cursor.block,
                     );
                 }
                 this.cursor.addComponent(_);
@@ -232,10 +223,10 @@ class MJXGUI {
         this.eqnDisplay.innerHTML = `${this.mathDelimiter} | ${this.mathDelimiter}`;
 
         this.pseudoMobileKeyboard = editorDiv.querySelector(
-            '#mjxgui-pseudo-mobile-keyboard'
+            '#mjxgui-pseudo-mobile-keyboard',
         );
         const mjxguiTabButtons = editorDiv.querySelectorAll(
-            '.mjxgui_tab_container'
+            '.mjxgui_tab_container',
         );
         const mjxguiTabs = editorDiv.querySelectorAll('.mjxgui_tab');
 
@@ -280,14 +271,14 @@ class MJXGUI {
         });
 
         const clearEquationButton = editorDiv.querySelector(
-            '#mjxgui_clear_equation'
+            '#mjxgui_clear_equation',
         );
         clearEquationButton.addEventListener('click', () => {
             this.clearEquation();
         });
 
         const saveEquationButton = editorDiv.querySelector(
-            '#mjxgui_save_equation'
+            '#mjxgui_save_equation',
         );
         saveEquationButton.addEventListener('click', () => {
             const latex = this.cursor.toLatex();

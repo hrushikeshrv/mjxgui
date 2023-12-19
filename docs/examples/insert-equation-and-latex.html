@@ -1,97 +1,124 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-TGM5F6WJNV');
-    </script>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-TGM5F6WJNV');
+        </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$']]
-            },
-            svg: {
-                fontCache: 'global'
-            },
-            options: {
-                menuOptions: {
-                    settings: {
-                        zoom: 'NoZoom',
-                        zscale: '250%',
-                    }
-                }
-            },
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<!--     <script src="../../src/modules/expression-backend.js"></script> -->
-<!--     <script src="../../src/modules/cursor.js"></script> -->
-<!--     <script src="../../src/modules/ui.js"></script> -->
-    <link rel="stylesheet" href="../css/mjxgui.css">
-    <script src="../js/mjxgui.js"></script>
-    <title>MJXGUI Demo</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [
+                        ['$', '$'],
+                        ['\\(', '\\)'],
+                    ],
+                    displayMath: [['$$', '$$']],
+                },
+                svg: {
+                    fontCache: 'global',
+                },
+                options: {
+                    menuOptions: {
+                        settings: {
+                            zoom: 'NoZoom',
+                            zscale: '250%',
+                        },
+                    },
+                },
+            };
+        </script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+        ></script>
+        <!--     <script src="../../src/modules/expression-backend.js"></script> -->
+        <!--     <script src="../../src/modules/cursor.js"></script> -->
+        <!--     <script src="../../src/modules/ui.js"></script> -->
+        <link rel="stylesheet" href="../css/mjxgui.css" />
+        <script src="../js/mjxgui.js"></script>
+        <title>MJXGUI Demo</title>
 
-
-    <style>
-        body, html, *, *::before, *::after {
-            box-sizing: border-box;
-        }
-        body {
-            background-color: rgb(240, 240, 240);
-        }
-        table {
-            margin: 0 auto;
-            width: 80%;
-            font-size: 2rem;
-            font-family: monospace;
-        }
-        th {
-            padding: 10px 0;
-        }
-        table, th, td {
-            border: 2px solid black;
-            border-collapse: collapse;
-        }
-        td.latex-cell {
-            font-size: 1.4rem;
-            user-select: all;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <button id="mjxgui-button" style="margin: 30px; padding: 10px; font-family: monospace; font-size: 2rem;">Add Equation</button>
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Inserted Equation</th>
-                    <th>Generated LaTeX</th>
-                </tr>
-            </thead>
-            <tbody id="equation-table"></tbody>
-        </table>
-    </div>
-    <script>
-        const equationTable = document.querySelector('#equation-table');
-        const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
-            let tr = document.createElement('tr');
-            tr.innerHTML += `
+        <style>
+            body,
+            html,
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+            body {
+                background-color: rgb(240, 240, 240);
+            }
+            table {
+                margin: 0 auto;
+                width: 80%;
+                font-size: 2rem;
+                font-family: monospace;
+            }
+            th {
+                padding: 10px 0;
+            }
+            table,
+            th,
+            td {
+                border: 2px solid black;
+                border-collapse: collapse;
+            }
+            td.latex-cell {
+                font-size: 1.4rem;
+                user-select: all;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <button
+            id="mjxgui-button"
+            style="
+                margin: 30px;
+                padding: 10px;
+                font-family: monospace;
+                font-size: 2rem;
+            "
+        >
+            Add Equation
+        </button>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inserted Equation</th>
+                        <th>Generated LaTeX</th>
+                    </tr>
+                </thead>
+                <tbody id="equation-table"></tbody>
+            </table>
+        </div>
+        <script>
+            const equationTable = document.querySelector('#equation-table');
+            const mjxgui = new MJXGUI('#mjxgui-button', function () {
+                let tr = document.createElement('tr');
+                tr.innerHTML += `
                 <td>$$ ${mjxgui.getLatex()} $$</td>
                 <td class="latex-cell">${mjxgui.getLatex()}</td>
             `;
-            equationTable.appendChild(tr);
+                equationTable.appendChild(tr);
 
-            MathJax.typesetPromise([tr]).then(() => {});
-        })
-    </script>
-</body>
+                MathJax.typesetPromise([tr]).then(() => {});
+            });
+        </script>
+    </body>
 </html>

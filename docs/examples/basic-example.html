@@ -1,58 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-TGM5F6WJNV');
-    </script>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-TGM5F6WJNV');
+        </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$']]
-            },
-            svg: {
-                fontCache: 'global'
-            },
-            options: {
-                menuOptions: {
-                    settings: {
-                        zoom: 'NoZoom',
-                        zscale: '250%',
-                    }
-                }
-            },
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<!--    <script src="../../src/modules/expression-backend.js"></script>-->
-<!--    <script src="../../src/modules/cursor.js"></script>-->
-<!--    <script src="../../src/modules/ui.js"></script>-->
-    <link rel="stylesheet" href="../css/mjxgui.css">
-    <script src="../js/mjxgui.js"></script>
-    <title>MJXGUI Demo</title>
-</head>
-<body>
-    <button id="mjxgui-button" style="margin: 30px; padding: 10px; font-family: monospace; font-size: 2rem;">Add Equation</button>
-    <div id="equation-output" style="padding: 40px; font-size: 2rem;">
-        <h3 style="font-family: monospace;">Inserted Equations:</h3>
-    </div>
-    <script>
-        const eqnOutput = document.querySelector('#equation-output');
-        const mjxgui = new MJXGUI('#mjxgui-button', '$$', function() {
-            MathJax.typesetClear([eqnOutput]);
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [
+                        ['$', '$'],
+                        ['\\(', '\\)'],
+                    ],
+                    displayMath: [['$$', '$$']],
+                },
+                svg: {
+                    fontCache: 'global',
+                },
+                options: {
+                    menuOptions: {
+                        settings: {
+                            zoom: 'NoZoom',
+                            zscale: '250%',
+                        },
+                    },
+                },
+            };
+        </script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+        ></script>
+        <!--    <script src="../../src/modules/expression-backend.js"></script>-->
+        <!--    <script src="../../src/modules/cursor.js"></script>-->
+        <!--    <script src="../../src/modules/ui.js"></script>-->
+        <link rel="stylesheet" href="../css/mjxgui.css" />
+        <script src="../js/mjxgui.js"></script>
+        <title>MJXGUI Demo</title>
+    </head>
+    <body>
+        <button
+            id="mjxgui-button"
+            style="
+                margin: 30px;
+                padding: 10px;
+                font-family: monospace;
+                font-size: 2rem;
+            "
+        >
+            Add Equation
+        </button>
+        <div id="equation-output" style="padding: 40px; font-size: 2rem">
+            <h3 style="font-family: monospace">Inserted Equations:</h3>
+        </div>
+        <script>
+            const eqnOutput = document.querySelector('#equation-output');
+            const mjxgui = new MJXGUI('#mjxgui-button', function () {
+                MathJax.typesetClear([eqnOutput]);
 
-            eqnOutput.innerHTML += '$$' + mjxgui.getLatex() + '$$' + '<br>';
+                eqnOutput.innerHTML += '$$' + mjxgui.getLatex() + '$$' + '<br>';
 
-            MathJax.typesetPromise([eqnOutput]).then(() => {});
-        })
-    </script>
-</body>
+                MathJax.typesetPromise([eqnOutput]).then(() => {});
+            });
+        </script>
+    </body>
 </html>
