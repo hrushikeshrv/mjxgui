@@ -60,17 +60,13 @@ callback function that you supply is run. This callback function has access to t
 API, from which you can access the generated LaTeX for the expression the user just entered. 
 Make sure the callback function you supply is not an arrow function but a regular function.
 
-Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a math delimiter, and a callback function.
+Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a callback function, and some optional configuration options.
 
 	const gui = new MJXGUI(‘selector’, function() {}, options={})
 
 The selector is a CSS selector that should be able to select the elements you want users to click 
 on to start entering an equation. MJXGUI adds click event listeners to all selected elements and 
 shows the editor UI whenever they are clicked.
-
-The delimiter is the math delimiter you use in your configuration of MathJax, usually ‘$$’. 
-This tells MJXGUI to use the same delimiter while rendering the equation being built so that 
-users can see it correctly.
 
 The callback function is a function that is run when the user is done entering the equation and 
 clicks on the “Done” button. This is where you will be able to access the LaTeX for the equation. 
@@ -83,15 +79,15 @@ the user has created, appends it to the body, and typesets it using MathJax.
 
 ````javascript
     // The element to listen for keypresses
-   <button id="add-equation-button">Add Equation</button>
+    <button id="add-equation-button">Add Equation</button>
 
     // We add the entered equation to this div
     <div id="equation-output"></div>
 
     <script>
         const eqnOutput = document.querySelector('#equation-output');
-
-   	    // Create new MJXGUI instance
+        
+        // Create new MJXGUI instance
         const gui = new MJXGUI('#add-equation-button', function() {
             MathJax.typesetClear([eqnOutput]);
             eqnOutput.innerHTML += '$$' + this.cursor.toLatex() + '$$' + '<br>';
