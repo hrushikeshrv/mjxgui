@@ -847,6 +847,30 @@
                     <code>registerSymbol()</code>
                 </li>
             </ol>
+            <p>
+                For an example, see
+                <a href="./examples/add-custom-symbol.html"
+                    >Adding A Custom Symbol</a
+                >.
+            </p>
+            <h2>Adding A Custom Function</h2>
+            <p>
+                Adding a function to the editor widget that isn't already
+                present is a little different from adding a symbol. A function
+                needs to know how its LaTeX should be generated, since it is not
+                simple static LaTeX like a symbol.
+            </p>
+            <p>
+                You will need to create a class that extends from one of
+                MJXGUI's many Component classes, and override the
+                <code>toLatex()</code> method of the class.
+            </p>
+            <p>
+                For an example, see
+                <a href="./examples/add-custom-function.html"
+                    >Adding A Custom Function</a
+                >.
+            </p>
         </section>
         <section id="contributing">
             <h1 id="contributing-head">
