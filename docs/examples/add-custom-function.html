@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-TGM5F6WJNV');
+        </script>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [
+                        ['$', '$'],
+                        ['\\(', '\\)'],
+                    ],
+                    displayMath: [['$$', '$$']],
+                },
+                svg: {
+                    fontCache: 'global',
+                },
+                options: {
+                    menuOptions: {
+                        settings: {
+                            zoom: 'NoZoom',
+                            zscale: '250%',
+                        },
+                    },
+                },
+            };
+        </script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+        ></script>
+        <!--     <script src="../../src/modules/expression-backend.js"></script> -->
+        <!--     <script src="../../src/modules/cursor.js"></script> -->
+        <!--     <script src="../../src/modules/ui.js"></script> -->
+        <link rel="stylesheet" href="../css/mjxgui.css" />
+        <script src="../js/mjxgui.js"></script>
+        <title>MJXGUI Demo - Add A Custom Symbol</title>
+
+        <style>
+            body,
+            html,
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+            body {
+                background-color: rgb(240, 240, 240);
+            }
+            table {
+                margin: 0 auto;
+                width: 80%;
+                font-size: 2rem;
+                font-family: monospace;
+            }
+            th {
+                padding: 10px 0;
+            }
+            table,
+            th,
+            td {
+                border: 2px solid black;
+                border-collapse: collapse;
+            }
+            td.latex-cell {
+                font-size: 1.4rem;
+                user-select: all;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <button
+            id="mjxgui-button"
+            style="
+                margin: 30px;
+                padding: 10px;
+                font-family: monospace;
+                font-size: 2rem;
+            "
+        >
+            Add Equation
+        </button>
+        <h1
+            style="
+                font-family: monospace;
+                margin: 20px auto;
+                text-align: center;
+            "
+        >
+            This example adds a sine squared function to the editor widget,
+            under the Funtions tab.
+        </h1>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Inserted Equation</th>
+                        <th>Generated LaTeX</th>
+                    </tr>
+                </thead>
+                <tbody id="equation-table"></tbody>
+            </table>
+        </div>
+        <script>
+            const equationTable = document.querySelector('#equation-table');
+            const mjxgui = new MJXGUI('#mjxgui-button', function () {
+                let tr = document.createElement('tr');
+                tr.innerHTML += `
+                <td>$$ ${mjxgui.getLatex()} $$</td>
+                <td class="latex-cell">${mjxgui.getLatex()}</td>
+            `;
+                equationTable.appendChild(tr);
+
+                MathJax.typesetPromise([tr]).then(() => {});
+            });
+
+            class SinSquaredComponent extends OneBlockComponent {
+                toLatex() {
+                    return `\\sin^{2}{${this.blocks[0].toLatex()}}`;
+                }
+            }
+
+            mjxgui.registerFunction(
+                SinSquaredComponent,
+                `<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+            <msup>
+                <mi>sin</mi>
+                <mn>2</mn>
+            </msup>
+        </math>`,
+                'Sine squared',
+            );
+        </script>
+    </body>
+</html>
