@@ -2,4 +2,7 @@ title: MJXGUI
 description: A WYSIWYG equation editor for the web with LaTeX support
 theme: just-the-docs
 
-url: https://hrushikeshrv.github.io
+url: https://hrushikeshrv.github.io/mjxgui
+
+aux_links:
+  Repository: https://github.com/hrushikeshrv/mjxgui
