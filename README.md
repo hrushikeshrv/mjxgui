@@ -7,6 +7,8 @@ of their equation/expression as they are building it.
 
 It then generates LaTeX for the entered equation for you to handle however you want.
 
+<img src="docs/media/mjxgui-editor.png" alt="MJXGUI Editor Window'>
+
 # Features
 - Build mathematical, physical, and chemical equations using a GUI, similar to inserting equations in 
 editors like Microsoft Word or Google Docs.
