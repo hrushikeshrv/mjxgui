@@ -13,12 +13,12 @@ To add a symbol to the editor widget that is not already present, you will need 
 1. The LaTeX representation of the symbol
 2. The HTML representation of the symbol (to show in the editor widget)
 
-Once you create an MJXGUI instance, call the `MJXGUI.registerSymbol()` method to add the symbol you want.
+Once you create an MJXGUI instance, call the `registerSymbol()` method on the MJXGUI instance to add the symbol you want.
 
 ### Example: Adding &there4; to the editor
 For example, lets say you want to add the ∴ symbol to the editor widget. In LaTeX, you can use the `\therefore` command to render a ∴ symbol, and the HTML code for it is `&there4`;
 
-`MJXGUI.registerSymbol()` takes 2 required and 2 optional arguments -
+`registerSymbol()` takes 2 required and 2 optional arguments -
 
 1. `latexData` - The LaTeX representation of the symbol, in this case `"\therefore"`.
 2. `buttonContent` - The HTML representation of the symbol, in this case `"&there4;"`. This HTML representation can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4).
@@ -27,7 +27,6 @@ For example, lets say you want to add the ∴ symbol to the editor widget. In La
 
 ```javascript
 const mjxgui = new MJXGUI('#mjxgui-button');
-    
 mjxgui.successCallback = function () {
     // Handle user input here 
 }
@@ -42,14 +41,14 @@ Adding a function to the editor widget is a little different from adding a symbo
 1. A class that knows how to generate the LaTeX you need for your function
 2. An HTML representation of the function (to show in the editor widget)
 
-You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with their use cases in the [API documentation](./api/index.md).
+You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [API documentation](./api/index.md).
 
-Once you create this class and an MJXGUI instance, call the `MJXGUI.registerFunction()` method to add the function you want.
+Once you create this class and an MJXGUI instance, call the `registerFunction()` method on the MJXGUI instance to add the function you want.
 
-### Example: Adding $ sin^2 $ to the editor
-For example, let's say we want to add a $ sin^2 $ function to the editor.
+### Example: Adding $ sin^2 \framebox $ to the editor
+For example, let's say we want to add the $ sin^2 \framebox $ function to the editor.
 
-`MJXGUI.registerFunction()` takes 2 required and 2 optional arguments -
+`registerFunction()` takes 2 required and 2 optional arguments -
 
 1. `componentClass` - A class inheriting from one of MJXGUI's many component classes, which knows how to render it's content as LaTeX.
 2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax.
