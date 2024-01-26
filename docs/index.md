@@ -1,3 +1,8 @@
+---
+layout: default
+title: MJXGUI Documentation
+---
+
 # What is MJXGUI?
 MJXGUI is a widget style application meant to give users a graphical interface for creating equations to use on the web. It uses MathJax as a core dependency and as an external renderer to show users a preview of their equation as they write it. Once users have created their equation, it generates corresponding LaTeX for it for you to handle however you would like, the most common use case being to store it as plain text, so you can use it later with MathJax.
 
@@ -49,7 +54,10 @@ Also include the stylesheet for MJXGUI. Make sure you include the stylesheet bef
 # Usage
 MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
 
-Once the user is done entering the equation/expression, the editor UI disappears and a callback function that you supply is run. This callback function has access to the full internal API, from which you can access the generated LaTeX for the expression the user just entered. Make sure the callback function you supply is not an arrow function but a regular function.
+Once the user is done entering the equation/expression, the editor UI disappears and a callback function that you supply is run. This callback function is where you can access the generated LaTeX for the expression the user just entered and handle however you need. The most common use case is to store it as LaTeX and/or render it on your page using MathJax. 
+
+{: .note}
+Make sure the callback function you supply is not an arrow function but a regular function.
 
 Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a callback function, and an options object.
 

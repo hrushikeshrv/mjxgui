@@ -5,4 +5,18 @@ theme: just-the-docs
 url: https://hrushikeshrv.github.io/mjxgui
 
 aux_links:
-  Repository: https://github.com/hrushikeshrv/mjxgui
+  "MJXGUI on GitHub": https://github.com/hrushikeshrv/mjxgui
+
+enable_copy_code_button: true
+
+callouts:
+  warning:
+    title: Warning
+    color: red
+  note:
+    title: Note
+    color: purple
+
+ga_tracking: G-TGM5F6WJNV
+
+favicon_ico: "media/favicon.png"
