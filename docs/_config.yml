@@ -5,7 +5,7 @@ theme: just-the-docs
 url: https://hrushikeshrv.github.io/mjxgui
 
 aux_links:
-  "MJXGUI on GitHub": https://github.com/hrushikeshrv/mjxgui
+  "View on GitHub": https://github.com/hrushikeshrv/mjxgui
 
 enable_copy_code_button: true
 

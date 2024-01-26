@@ -1,6 +1,7 @@
 ---
 layout: default
-title: API | MJXGUI Documentation
+title: API
+nav_order: 4
 ---
 
 # API

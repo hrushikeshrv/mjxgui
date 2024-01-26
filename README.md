@@ -7,6 +7,8 @@ of their equation/expression as they are building it.
 
 It then generates LaTeX for the entered equation for you to handle however you want.
 
+Documentation is at [hrus.in/mjxgui](https://hrus.in/mjxgui)
+
 ![MJXGUI Editor Window](docs/media/mjxgui-editor.png)
 
 # Features
@@ -29,28 +31,11 @@ Then include the minified MJXGUI source file in your <head> tag by getting the [
 
 A sample configuration is shown below  
 
-````javascript
-<script>
-MathJax = {
-    tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$']],
-    },
-    svg: {
-        fontCache: 'global',
-    },
-    options: {
-        menuOptions: {
-            settings: {
-                zoom: 'NoZoom',
-                zscale: '250%',
-            }
-        }
-    }
-}
-<script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-<script src="/path/to/mjxgui"></script>
+````html
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" href="path/to/mjxgui/css">
+<script src="path/to/mjxgui/javascript"></script>
 ````
 
 # Usage
