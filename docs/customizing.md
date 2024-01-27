@@ -20,10 +20,10 @@ For example, lets say you want to add the ∴ symbol to the editor widget. In La
 
 `registerSymbol()` takes 2 required and 2 optional arguments -
 
-1. `latexData` - The LaTeX representation of the symbol, in this case `"\therefore"`.
-2. `buttonContent` - The HTML representation of the symbol, in this case `"&there4;"`. This HTML representation can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4).
-3. `title` - A string that will be set as the title attribute of the rendered button.
-4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerSymbol()`. Defaults to `false`.
+1. `latexData` - The LaTeX representation of the symbol, in this case `"\therefore"`. Required.
+2. `buttonContent` - The HTML representation of the symbol, in this case `"&there4;"`. This HTML representation can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required.
+3. `title` - A string that will be set as the title attribute of the rendered button. Optional.
+4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerSymbol()`. Optional, defaults to `false`.
 
 ```javascript
 const mjxgui = new MJXGUI('#mjxgui-button');
@@ -41,19 +41,19 @@ Adding a function to the editor widget is a little different from adding a symbo
 1. A class that knows how to generate the LaTeX you need for your function
 2. An HTML representation of the function (to show in the editor widget)
 
-You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [API documentation](./api/index.md).
+You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [Components documentation](./api/components.md).
 
 Once you create this class and an MJXGUI instance, call the `registerFunction()` method on the MJXGUI instance to add the function you want.
 
-### Example: Adding $ sin^2 \framebox $ to the editor
-For example, let's say we want to add the $ sin^2 \framebox $ function to the editor.
+### Example: Adding $ sin^2 \boxed{} $ to the editor
+For example, let's say you want to add the $ sin^2 \boxed{} $ function to the editor.
 
 `registerFunction()` takes 2 required and 2 optional arguments -
 
-1. `componentClass` - A class inheriting from one of MJXGUI's many component classes, which knows how to render it's content as LaTeX.
-2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax.
-3. `title` - A string that will be set as the title attribute of the rendered button.
-4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerFunction()`. Defaults to `false`.
+1. `componentClass` - A class inheriting from one of MJXGUI's many component classes, which knows how to render it's content as LaTeX. Required.
+2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required.
+3. `title` - A string that will be set as the title attribute of the rendered button. Optional.
+4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerFunction()`. Optional, defaults to `false`.
 
 ```javascript
 // Create the class that knows how to render sin^2 as LaTeX

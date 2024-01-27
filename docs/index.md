@@ -9,8 +9,6 @@ MJXGUI is a widget style application meant to give users a graphical interface f
 
 The motivation is to have something like a pop-up widget that would help users build an expression graphically just as they do in Google Docs or Microsoft Word, but then would also convert the same equation into LaTeX so it could be rendered with MathJax later.
 
-This is what the editor widget looks like -
-
 ![MJXGUI Editor Window](media/mjxgui-editor.png)
 
 # Features
