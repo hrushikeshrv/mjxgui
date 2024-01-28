@@ -55,7 +55,7 @@ For example, let's say you want to add the $ sin^2 \boxed{} $ function to the ed
 `registerFunction()` takes 2 required and 2 optional arguments -
 
 1. `componentClass` - A class inheriting from one of MJXGUI's many component classes, which knows how to render it's content as LaTeX. Required.
-2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required. See [writing your own components]({% link docs/api/components.md %}#writing-your-own-components).
+2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required. See [writing your own components]({% link api/components.md %}#writing-your-own-components).
 3. `title` - A string that will be set as the title attribute of the rendered button. Optional.
 4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerFunction()`. Optional, defaults to `false`.
 
