@@ -5,7 +5,11 @@ nav_order: 3
 ---
 
 # Customizing
+{: .no_toc }
 MJXGUI lets you add support for functions and/or symbols that are not already present in the editor widget.
+
+1. TOC
+{:toc}
 
 ## Adding A Custom Symbol
 To add a symbol to the editor widget that is not already present, you will need the following information -
@@ -41,7 +45,7 @@ Adding a function to the editor widget is a little different from adding a symbo
 1. A class that knows how to generate the LaTeX you need for your function
 2. An HTML representation of the function (to show in the editor widget)
 
-You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [Components documentation](./api/components.md).
+You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [Components documentation]({% link docs/api/components.md %}).
 
 Once you create this class and an MJXGUI instance, call the `registerFunction()` method on the MJXGUI instance to add the function you want.
 
@@ -51,7 +55,7 @@ For example, let's say you want to add the $ sin^2 \boxed{} $ function to the ed
 `registerFunction()` takes 2 required and 2 optional arguments -
 
 1. `componentClass` - A class inheriting from one of MJXGUI's many component classes, which knows how to render it's content as LaTeX. Required.
-2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required.
+2. `buttonContent` - The HTML representation of the function. This can be a simple string, an SVG, some custom HTML, an HTML character code, or LaTeX that can be typeset using MathJax (see argument 4). Required. See [writing your own components]({% link docs/api/components.md %}#writing-your-own-components).
 3. `title` - A string that will be set as the title attribute of the rendered button. Optional.
 4. `typeset` - A boolean that, if true, will use MathJax to typeset the HTML representation (argument 2). If you set this as true, make sure that MathJax is fully loaded when you call `registerFunction()`. Optional, defaults to `false`.
 
