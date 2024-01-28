@@ -45,7 +45,7 @@ Adding a function to the editor widget is a little different from adding a symbo
 1. A class that knows how to generate the LaTeX you need for your function
 2. An HTML representation of the function (to show in the editor widget)
 
-You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [Components documentation]({% link /api/components.md %}).
+You will need to create a class that extends from one of MJXGUI's many Component classes, and override the `toLatex()` method of the class. You can find a list of Component classes MJXGUI provides, along with when to use them in the [Components documentation]({% link api/components.md %}).
 
 Once you create this class and an MJXGUI instance, call the `registerFunction()` method on the MJXGUI instance to add the function you want.
 

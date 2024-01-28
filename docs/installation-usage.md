@@ -57,4 +57,4 @@ You would build a minimal example as shown below. This example takes the LaTeX f
 </script>
 ```
 
-The API provided by the MJXGUI instance is documented in [MJXGUI Instance documentation]({% link /api/mjxgui-instance.md %}).
+The API provided by the MJXGUI instance is documented in [MJXGUI Instance documentation]({% link api/mjxgui-instance.md %}).
