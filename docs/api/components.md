@@ -31,9 +31,9 @@ To identify which component class you should inherit from, determine how many bl
 Once you determine which component class to inherit from, you will need to override the `toLatex()` method. This is where you will be able to define how the LaTeX is generated for your function. Inside the `toLatex()` method, you can access the `blocks` attribute of the instance, and call `toLatex()` for each block to construct the final LaTeX expression step-by-step. There is an example implementation under each heading below to demonstrate.
 
 ## One Block Component
-Inherit from this class if your function has one block. Examples of functions which have one block include $ \sqrt{\boxed{\:}} $, $ \sin{\boxed{\:}} $, $ \sin^{2}{\boxed{\:}} $, etc.
+Inherit from this class if your function has one block. Examples of functions which have one block include $ \sqrt{\boxed{}} $, $ \sin{\boxed{}} $, $ \sin^{2}{\boxed{}} $, etc.
 
-### Inheritance Example: $ \sin^{2}{\boxed{\:}} $
+### Inheritance Example: $ \sin^{2}{\boxed{}} $
 ```javascript
 class SinSquaredComponent extends OneBlockComponent {
     toLatex() {
@@ -43,9 +43,9 @@ class SinSquaredComponent extends OneBlockComponent {
 ```
 
 ## Two Block Component
-Inherit from this class if your function has two blocks. Examples of functions which have two blocks include $ \frac{\boxed{\:}}{\boxed{\:}} $, $ \sqrt[\boxed{\:}]{\boxed{\:}} $, etc.
+Inherit from this class if your function has two blocks. Examples of functions which have two blocks include $ \frac{\boxed{}}{\boxed{}} $, $ \sqrt[\boxed{}]{\boxed{}} $, etc.
 
-### Inheritance Example: $ \frac{\boxed{\:}}{\boxed{\:}} $
+### Inheritance Example: $ \frac{\boxed{}}{\boxed{}} $
 ```javascript
 class Fraction extends TwoBlockComponent {
     toLatex() {
@@ -55,9 +55,9 @@ class Fraction extends TwoBlockComponent {
 ```
 
 ## Three Block Component
-Inherit from this class if your function has three blocks. Examples of functions which have three blocks include $ \sum_{\boxed{\:}}^{\boxed{\:}}{\boxed{\:}} $, $ \int_{\boxed{\:}}^{\boxed{\:}}{\boxed{\:}} $, etc.
+Inherit from this class if your function has three blocks. Examples of functions which have three blocks include $ \sum_{\boxed{}}^{\boxed{}}{\boxed{}} $, $ \int_{\boxed{}}^{\boxed{}}{\boxed{}} $, etc.
 
-### Inheritance Example: $ \left.\frac{\:}{\:}\right|_{\boxed{\:}} $
+### Inheritance Example: $ \left.\frac{\boxed{}}{\boxed{}}\right|_{\boxed{}} $
 ```javascript
 class OneSidedFence extends ThreeBlockComponent {
     toLatex() {
