@@ -19,7 +19,7 @@ editors like Microsoft Word or Google Docs.
 - Convert created equations into LaTeX.
 
 # Contributing
-Please read [CONTRIBUTING.md](https://github.com/hrushikeshrv/mjxgui/blob/main/CONTRIBUTING.md) to get started.
+Please read [CONTRIBUTING.md](docs/contributing.md) to get started.
 
 # Installation
 MJXGUI uses MathJax as a core dependency, so you need to include both MathJax and 

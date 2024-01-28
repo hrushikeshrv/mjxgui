@@ -19,4 +19,12 @@ callouts:
 
 ga_tracking: G-TGM5F6WJNV
 
+nav_external_links:
+  - title: View on GitHub
+    url: https://github.com/hrushikeshrv/mjxgui
+    opens_in_new_tab: true
+  - title: Raise an Issue
+    url: https://github.com/hrushikeshrv/mjxgui/issues
+    opens_in_new_tab: true
+
 favicon_ico: "/media/favicon.png"

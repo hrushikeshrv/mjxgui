@@ -1,3 +1,9 @@
+---
+layout: default
+title: Contributing
+nav_order: 6
+---
+
 # Contributing to MJXGUI
 
 Thanks for volunteering your time and effort toward the development of MJXGUI! To make the contribution process as smooth as possible, follow the steps below to set up your development environment.
