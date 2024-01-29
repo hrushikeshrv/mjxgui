@@ -83,5 +83,5 @@ the user has created, appends it to the body, and typesets it using MathJax.
     </script>
 ````
 
-For a details reference please check the [docs](https://hrus.in/mjxgui)
+For a detailed reference please check the [docs](https://hrus.in/mjxgui)
 

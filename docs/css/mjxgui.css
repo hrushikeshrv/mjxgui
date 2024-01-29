@@ -1,5 +1,5 @@
 ._mjxgui_editor_window {
-    --background-color: rgb(240, 240, 240);
+    --background-color: rgb(248, 248, 248);
     --background-dark-1: rgb(220, 220, 220);
     --default-font-color: black;
     --default-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
@@ -7,7 +7,6 @@
     --error-red: rgb(107, 0, 18);
 }
 ._mjxgui_editor_window._mjxgui_dark_theme {
-
     --background-color: rgb(42, 42, 42);
     --background-dark-1: rgb(18, 18, 18);
     --default-font-color: white;
@@ -105,12 +104,18 @@
 
 .mjxgui_tab .mjxgui-btn {
     background-color: var(--background-color);
-    transition: background-color ease 0.25s;
+    transition: background-color ease 0.15s;
     cursor: pointer;
     margin: 2px;
     min-width: 25px;
     text-align: center;
     user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 1.1rem;
 }
 
 .mjxgui-btn:hover {
@@ -130,7 +135,7 @@
     margin: 0 5px;
     background-color: var(--background-color);
     border-radius: 6px;
-    transition: background-color ease 0.25s;
+    transition: background-color ease 0.15s;
     cursor: pointer;
     padding: 5px;
 }
