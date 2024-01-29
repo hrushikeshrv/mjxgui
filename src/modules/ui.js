@@ -137,6 +137,11 @@ class MJXGUI {
             this.editorWindow.style.display = 'block';
             this.editorWindow.dataset.visible = 'true';
         };
+        this.hideUI = () => {
+            // Hide the editor window
+            this.editorWindow.removeAttribute('style');
+            this.editorWindow.dataset.visible = 'false';
+        };
 
         if (
             this.elements instanceof String ||
@@ -266,10 +271,7 @@ class MJXGUI {
         });
 
         const closeEditor = editorDiv.querySelector('.mjxgui_close_button_svg');
-        closeEditor.addEventListener('click', function () {
-            editorDiv.removeAttribute('style');
-            editorDiv.dataset.visible = 'false';
-        });
+        closeEditor.addEventListener('click', this.hideUI);
 
         const clearEquationButton = editorDiv.querySelector(
             '#mjxgui_clear_equation',
@@ -282,12 +284,8 @@ class MJXGUI {
             '#mjxgui_save_equation',
         );
         saveEquationButton.addEventListener('click', () => {
-            const latex = this.cursor.toLatex();
-            if (latex) {
-                this.successCallback();
-            }
-            editorDiv.removeAttribute('style');
-            editorDiv.dataset.visible = 'false';
+            this.successCallback();
+            this.hideUI();
             this.clearEquation();
         });
 

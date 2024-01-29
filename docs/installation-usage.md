@@ -35,9 +35,9 @@ Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - 
 const mjxgui = new MJXGUI('selector', function() {}, options={});
 ```
 
-The selector is a CSS selector that should be able to select the elements you want users to click on to start entering an equation. MJXGUI adds click event listeners to all selected elements and shows the editor UI whenever they are clicked.
+The selector is a CSS selector that should be able to select the elements you want users to click on to start entering an equation. MJXGUI attaches click event listeners to all selected elements and shows the editor UI whenever they are clicked.
 
-The callback function is a function that is run when the user is done entering the equation and clicks on the “Done” button. This is where you will be able to access the LaTeX for the equation.
+The callback function is a function that is run when the user is done entering the equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the equation. For more information on how you should write a callback function, see [writing a success callback]({% link api/mjxgui-instance.md %}#writing-a-success-callback).
 
 You would build a minimal example as shown below. This example takes the LaTeX for the equation the user has created, appends it to the body, and typesets it using MathJax.
 

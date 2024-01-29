@@ -5,8 +5,12 @@ nav_order: 6
 ---
 
 # Contributing to MJXGUI
+{: .no_toc }
 
 Thanks for volunteering your time and effort toward the development of MJXGUI! To make the contribution process as smooth as possible, follow the steps below to set up your development environment.
+
+1. TOC
+{:toc}
 
 ## Local Installation
 MJXGUI is a pretty simple library, and it is not yet on npm, since it is mainly made for web environments and has no dependencies.

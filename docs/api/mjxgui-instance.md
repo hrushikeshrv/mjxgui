@@ -12,8 +12,11 @@ nav_order: 1
 {:toc}
 
 # Constructor
+The MJXGUI constructor takes 1 required and 2 optional arguments -
 
-## Writing A Success Callback
+1. `selector` - A CSS selector string that can select the elements MJXGUI should be attached to. MJXGUI attached event listeners to all elements selected by this string and shows the editor widget when these elements are clicked.
+2. `successCallback` - A callback function that will be run when the user is done entering the equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the equation. For more information on how you should write a callback function, see [writing a success callback](#writing-a-success-callback). This argument is optional, and it is recommended to supply this function after creating an MJXGUI instance instead of passing it to the constructor.
+3. `options` - An Object that configures the editor's behaviour. See [supported options](#options). This argument is optional.
 
 ## Options
 Currently, the following options are supported -
@@ -23,6 +26,25 @@ Currently, the following options are supported -
 | `mathDelimiter` | String    | `"$$"`        | The math delimiter as configured when you load MathJax. Use the same delimiter you use for inserting equation blocks, not inline equations. Most commonly used block delimiter is "$$". |
 | `theme`         | String    | `undefined`   | Pass theme as "dark" to render the MJXGUI widget in dark colors. Any other value will default to light mode.                                                                            |
 
-# Attributes
+## Writing A Success Callback
+The success callback you supply is run when the user is done entering an equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the entered equation, and handle it however you want. It is recommended to supply this function after creating an MJXGUI instance instead of passing it to the constructor, just because supplying it later lets you use both regular functions and arrow functions as the callback without having to worry about `this` in context.
+
+In the callback, you have access to all the methods and attributes provided by the MJXGUI instance. Out of these, the most used is probably the `toLatex()` method. It simply generates LaTeX for the entered equation. You can then render it on the page using MathJax, store it on your server, or handle it any other way you want.
+
+```javascript
+const mjxgui = new MJXGUI('.selector', options={ theme: 'dark' });
+mjxgui.successCallback = function() {
+    const latex = mjxgui.getLatex();
+    // Process generated LaTeX as you need
+}
+```
 
 # Methods
+| Method               | Description                                                                                                     |
+|----------------------|-----------------------------------------------------------------------------------------------------------------|
+| `showUI()`           | Shows/unhides the editor UI                                                                                     |
+| `hideUI()`           | Hides the editor UI                                                                                             |
+| `clearEquation()`    | Clears the equation being built                                                                                 |
+| `getLatex()`         | Generates LaTeX for the equation being built and returns it as a String                                         |
+| `registerSymbol()`   | Adds a symbol to the editor that is not present out of the box. See [Customizing]({% link customizing.md %}).   |
+| `registerFunction()` | Adds a function to the editor that is not present out of the box. See [Customizing]({% link customizing.md %}). |
