@@ -40,7 +40,7 @@ mjxgui.successCallback = function() {
 ```
 
 # Methods
-| Method               | Description                                                                                                     |
+| Method               | Description                                                                                                     |  
 |----------------------|-----------------------------------------------------------------------------------------------------------------|
 | `showUI()`           | Shows/unhides the editor UI                                                                                     |
 | `hideUI()`           | Hides the editor UI                                                                                             |
