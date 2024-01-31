@@ -1,10 +1,11 @@
 ---
 layout: default
-title: Customizing
-nav_order: 3
+title: Custom Functions & Symbols
+parent: Customizing
+nav_order: 1
 ---
 
-# Customizing
+# Custom Functions & Symbols
 {: .no_toc }
 MJXGUI lets you add support for functions and/or symbols that are not already present in the editor widget.
 

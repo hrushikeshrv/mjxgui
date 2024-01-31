@@ -17,4 +17,5 @@ The motivation is to have a widget that will help users build an expression grap
 - Build mathematical, physical, and chemical equations using a GUI, similar to inserting equations in editors like Microsoft Word and Google Docs
 - Support for Greek letters, mathematical operators, and common mathematical functions
 - Write your own math functions, operators, and characters to add support for those not available by default.
-- Convert created equations into LaTeX for storage and representation in the browser.
+- Convert created equations into LaTeX for storage and rendering in the browser.
+- Convert a simple HTML form input into an interactive "equation" input.
