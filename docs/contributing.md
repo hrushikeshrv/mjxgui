@@ -124,10 +124,30 @@ If you are working on a patch that requires changing the HTML for the MJXGUI edi
     ```
 4. Run the `inject-ui` task from this project's Gruntfile by running -
     ```bash
+    grunt htmlmin
     grunt inject-ui
     ```
 
 This will minify the `editor.html` file and inject the minified HTML in the right place in the `ui.js` file. You can then test these changes and complete your patch.
+
+## Working With The Form Input's HTML
+If you are working on a patch that requires changing the HTML for the MJXGUI form input, you will need to make changes to the `src/modules/form-input.html` file. Once you have made your changes, you will need to inject this HTML into the MJXGUI source for the new HTML to be used. You can do this by running `Grunt`. Make sure [Grunt is installed](https://gruntjs.com/getting-started) and follow these steps -
+
+
+1. Open the `src/modules/ui.js` file.
+2. Find the line where the form input's HTML is injected into the file, which will look something like this -
+   `const formInputHTML = '< big HTML string >';`
+3. Delete the big HTML string, and replace that line with this line -
+    ```javascript
+    const formInputHTML = '{{ form_input_html }}';
+    ```
+4. Run the `inject-ui` task from this project's Gruntfile by running -
+    ```bash
+    grunt htmlmin
+    grunt inject-ui
+    ```
+
+This will minify the `form-input.html` file and inject the minified HTML in the right place in the `ui.js` file. You can then test these changes and complete your patch.
 
 ## Submitting a Patch
 Once you have finished working on your patch and verified that your issue has been fixed, push your changes and create a pull request!

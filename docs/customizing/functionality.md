@@ -37,7 +37,7 @@ mjxgui.successCallback = function () {
 
 mjxgui.registerSymbol('\\therefore', '&there4;', 'Therefore', false);
 ```
-You can see this example [here](./examples/add-custom-symbol.html).
+You can see this example [here](../examples/add-custom-symbol.html).
 
 ## Adding A Custom Function
 Adding a function to the editor widget is a little different from adding a symbol. A function needs to know how its LaTeX should be generated, since it is not simple static LaTeX like a symbol. To add a function that is not already present, you will need -
@@ -85,4 +85,4 @@ mjxgui.registerFunction(
     typeset = false
 );
 ```
-You can see this example [here](./examples/add-custom-function.html).
+You can see this example [here](../examples/add-custom-function.html).
