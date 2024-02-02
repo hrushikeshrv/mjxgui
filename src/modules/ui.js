@@ -390,7 +390,7 @@ class MJXGUI {
     static createEquationInput(selector, options = {}) {
         const inputs = document.querySelectorAll(selector);
         const formInputHTML =
-            '<div class="_mjxgui_equation_input"><button type="button" class="_mjxgui_insert_equation_button">Add</button><div class="_mjxgui_equation_input_preview"></div></div>';
+            '<div class="_mjxgui_equation_input"><button type="button" class="_mjxgui_insert_equation_button">Add Equation</button><div class="_mjxgui_equation_input_preview"></div></div>';
         for (let i = 0; i < inputs.length; i++) {
             let inp = inputs[i];
             inp.style.display = 'none';
@@ -429,7 +429,7 @@ class MJXGUI {
                     inp.value = '';
                     MathJax.typesetClear([eqnDisplay]);
                     eqnDisplay.innerHTML = '';
-                    inpButton.textContent = 'Add';
+                    inpButton.textContent = 'Add Equation';
                 }
 
                 if (inp.validity.valid) {

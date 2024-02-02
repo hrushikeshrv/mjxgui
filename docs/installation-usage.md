@@ -4,7 +4,13 @@ title: Installation & Usage
 nav_order: 2
 ---
 
-# Installation
+# Installation & Usage
+{: .no_toc }
+
+1. TOC
+{:toc}
+
+## Installation
 MJXGUI uses MathJax as a core dependency, so you need to include both MathJax as well as MJXGUI into your webpage. MJXGUI does not have a built-in renderer, and uses MathJax to render the equations as they are being built.
 
 Make sure you include MathJax before including MJXGUI.
@@ -24,7 +30,11 @@ An example config could be -
 <script src="path/to/mjxgui/javascript"></script>
 ```
 
-# Usage
+## Usage
+
+### Using The Form Input
+
+### Using The Editor Widget
 MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
 
 Once the user is done entering the equation/expression, the editor UI disappears and a callback function that you supply is run. This callback function is where you can access the generated LaTeX for the expression the user just entered and handle however you need. The most common use case is to store it as LaTeX and/or render it on your page using MathJax.
