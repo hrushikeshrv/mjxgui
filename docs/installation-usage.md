@@ -4,7 +4,13 @@ title: Installation & Usage
 nav_order: 2
 ---
 
-# Installation
+# Installation & Usage
+{: .no_toc }
+
+1. TOC
+{:toc}
+
+## Installation
 MJXGUI uses MathJax as a core dependency, so you need to include both MathJax as well as MJXGUI into your webpage. MJXGUI does not have a built-in renderer, and uses MathJax to render the equations as they are being built.
 
 Make sure you include MathJax before including MJXGUI.
@@ -24,7 +30,24 @@ An example config could be -
 <script src="path/to/mjxgui/javascript"></script>
 ```
 
-# Usage
+## Usage
+
+### Using The Form Input
+You can use MJXGUI to convert an `<input>` element into an equation input using the editor widget.
+
+The behaviour is straightforward. MJXGUI will hide the actual `<input>` element and show users a button asking them to enter an equation. Once they are done entering the equation, it will generate the LaTeX for the created equation and set the value of the original input to the generated LaTeX.
+
+Once your input element(s) have been loaded into the DOM, call the `MJXGUI.createEquationInput()` static method.
+
+```javascript
+MJXGUI.createEquationInput('.my-equation-input');
+```
+
+`MJXGUI.createEquationInput()` takes a CSS selector as an input. It converts all elements that match that selector into equation inputs. Make sure that the selector you pass only selects `<input>` elements.
+
+For customizing the appearance of the equation input element, see [form input HTML structure]({% link customizing/ui.md %}#form-input-html-structure).
+
+### Using The Editor Widget
 MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
 
 Once the user is done entering the equation/expression, the editor UI disappears and a callback function that you supply is run. This callback function is where you can access the generated LaTeX for the expression the user just entered and handle however you need. The most common use case is to store it as LaTeX and/or render it on your page using MathJax.

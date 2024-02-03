@@ -16,7 +16,8 @@ Documentation is at [hrus.in/mjxgui](https://hrus.in/mjxgui)
 editors like Microsoft Word or Google Docs.
 - Support for common symbols, Greek letters, common math functions and operators.
 - Write your own functions, operators, and characters to add support for the same not available out of the box.
-- Convert created equations into LaTeX.
+- Convert created equations into LaTeX for storage and rendering in the browser.
+- Convert a simple HTML input into an interactive "equation" input.
 
 # Contributing
 Please read [CONTRIBUTING.md](docs/contributing.md) to get started.

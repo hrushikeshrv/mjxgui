@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-TGM5F6WJNV"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-TGM5F6WJNV');
+        </script>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script>
+            MathJax = {
+                tex: {
+                    inlineMath: [
+                        ['$', '$'],
+                        ['\\(', '\\)'],
+                    ],
+                    displayMath: [['$$', '$$']],
+                },
+                svg: {
+                    fontCache: 'global',
+                },
+                options: {
+                    menuOptions: {
+                        settings: {
+                            zoom: 'NoZoom',
+                            zscale: '250%',
+                        },
+                    },
+                },
+            };
+        </script>
+        <script
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
+        ></script>
+        <!--    <script src="../../src/modules/expression-backend.js"></script>-->
+        <!--    <script src="../../src/modules/cursor.js"></script>-->
+        <!--    <script src="../../src/modules/ui.js"></script>-->
+        <link rel="stylesheet" href="../css/mjxgui.css" />
+        <script src="../js/mjxgui.js"></script>
+        <title>MJXGUI Demo</title>
+    </head>
+    <body>
+        <form
+            style="
+                display: flex;
+                flex-flow: column wrap;
+                margin: 20px auto;
+                font-size: 1.5rem;
+                width: 50%;
+            "
+        >
+            <label for="equation1">Enter an equation:</label>
+            <input
+                type="text"
+                id="equation1"
+                class="equation-input"
+                name="equation1"
+                required
+            />
+
+            <label for="equation2" style="margin-top: 20px"
+                >Enter another equation:</label
+            >
+            <input
+                type="text"
+                id="equation2"
+                class="equation-input"
+                name="equation2"
+            />
+
+            <input
+                type="submit"
+                value="Submit"
+                style="margin-top: 20px; font-size: 1.5rem"
+            />
+            <strong style="margin-top: 20px">You entered:</strong>
+            <table style="margin-top: 20px">
+                <tr>
+                    <td>Equation 1</td>
+                    <td
+                        id="equation-plain-1"
+                        style="font-family: monospace; padding: 10px"
+                    ></td>
+                    <td id="equation-rendered-1"></td>
+                </tr>
+                <tr>
+                    <td>Equation 2</td>
+                    <td
+                        id="equation-plain-2"
+                        style="font-family: monospace; padding: 10px"
+                    ></td>
+                    <td id="equation-rendered-2"></td>
+                </tr>
+            </table>
+        </form>
+        <script>
+            MJXGUI.createEquationInput('#equation');
+        </script>
+        <script>
+            function findGetParameter(parameterName) {
+                let result = null,
+                    tmp = [];
+                location.search
+                    .slice(1)
+                    .split('&')
+                    .forEach(function (item) {
+                        tmp = item.split('=');
+                        tmp[1] = tmp[1].replaceAll('+', ' ');
+                        if (tmp[0] === parameterName)
+                            result = decodeURIComponent(tmp[1]);
+                    });
+                return result;
+            }
+
+            let equation1 = findGetParameter('equation1');
+            if (equation1) {
+                document.querySelector('#equation-plain-1').innerHTML =
+                    equation1;
+                const _ = document.querySelector('#equation-rendered-1');
+                _.innerHTML = `$$ ${equation1} $$`;
+            }
+            let equation2 = findGetParameter('equation2');
+            if (equation2) {
+                document.querySelector('#equation-plain-2').innerHTML =
+                    equation2;
+                const _ = document.querySelector('#equation-rendered-2');
+                _.innerHTML = `$$ ${equation2} $$`;
+            }
+        </script>
+    </body>
+</html>
