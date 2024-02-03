@@ -117,9 +117,10 @@
                     .split('&')
                     .forEach(function (item) {
                         tmp = item.split('=');
-                        tmp[1] = tmp[1].replaceAll('+', ' ');
-                        if (tmp[0] === parameterName)
+                        if (tmp[0] === parameterName) {
+                            tmp[1] = tmp[1].replaceAll('+', ' ');
                             result = decodeURIComponent(tmp[1]);
+                        }
                     });
                 return result;
             }
