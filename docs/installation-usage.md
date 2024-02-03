@@ -33,6 +33,19 @@ An example config could be -
 ## Usage
 
 ### Using The Form Input
+You can use MJXGUI to convert an `<input>` element into an equation input using the editor widget.
+
+The behaviour is straightforward. MJXGUI will hide the actual `<input>` element and show users a button asking them to enter an equation. Once they are done entering the equation, it will generate the LaTeX for the created equation and set the value of the original input to the generated LaTeX.
+
+Once your input element(s) have been loaded into the DOM, call the `MJXGUI.createEquationInput()` static method.
+
+```javascript
+MJXGUI.createEquationInput('.my-equation-input');
+```
+
+`MJXGUI.createEquationInput()` takes a CSS selector as an input. It converts all elements that match that selector into equation inputs. Make sure that the selector you pass only selects `<input>` elements.
+
+For customizing the appearance of the equation input element, see [form input HTML structure]({% link customizing/ui.md %}#form-input-html-structure).
 
 ### Using The Editor Widget
 MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
