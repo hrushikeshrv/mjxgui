@@ -119,11 +119,14 @@
         </div>
         <script>
             const equationTable = document.querySelector('#equation-table');
-            const mjxgui = new MJXGUI('#mjxgui-button', function () {
+            const mjxgui = new MJXGUI('#mjxgui-button', function (
+                latex,
+                instance,
+            ) {
                 let tr = document.createElement('tr');
                 tr.innerHTML += `
-                <td>$$ ${mjxgui.getLatex()} $$</td>
-                <td class="latex-cell">${mjxgui.getLatex()}</td>
+                <td>$$ ${latex} $$</td>
+                <td class="latex-cell">${latex}</td>
             `;
                 equationTable.appendChild(tr);
 

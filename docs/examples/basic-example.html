@@ -68,10 +68,13 @@
         </div>
         <script>
             const eqnOutput = document.querySelector('#equation-output');
-            const mjxgui = new MJXGUI('#mjxgui-button', function () {
+            const mjxgui = new MJXGUI('#mjxgui-button', function (
+                latex,
+                instance,
+            ) {
                 MathJax.typesetClear([eqnOutput]);
 
-                eqnOutput.innerHTML += '$$' + mjxgui.getLatex() + '$$' + '<br>';
+                eqnOutput.innerHTML += '$$' + latex + '$$' + '<br>';
 
                 MathJax.typesetPromise([eqnOutput]).then(() => {});
             });
