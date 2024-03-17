@@ -15,7 +15,7 @@ nav_order: 1
 The MJXGUI constructor takes 1 required and 2 optional arguments -
 
 1. `selector` - A CSS selector string that can select the elements MJXGUI should be attached to. MJXGUI attached event listeners to all elements selected by this string and shows the editor widget when these elements are clicked.
-2. `successCallback` - A callback function that will be run when the user is done entering the equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the equation. For more information on how you should write a callback function, see [writing a success callback](#writing-a-success-callback). This argument is optional, and it is recommended to supply this function after creating an MJXGUI instance instead of passing it to the constructor.
+2. `successCallback` - A callback function that will be run when the user is done entering the equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the equation. For more information on how you should write a callback function, see [writing a success callback](#writing-a-success-callback). This argument is optional, and the success callback can also be set after the MJXGUI instance has been created, instead of setting it in the constructor. 
 3. `options` - An Object that configures the editor's behaviour. See [supported options](#options). This argument is optional.
 
 ## Options
@@ -29,12 +29,16 @@ Currently, the following options are supported -
 ## Writing A Success Callback
 The success callback you supply is run when the user is done entering an equation and clicks on the “✔” button. This is where you will be able to access the LaTeX for the entered equation, and handle it however you want. It is recommended to supply this function after creating an MJXGUI instance instead of passing it to the constructor, just because supplying it later lets you use both regular functions and arrow functions as the callback without having to worry about `this` in context.
 
-In the callback, you have access to all the methods and attributes provided by the MJXGUI instance. Out of these, the most used is probably the `toLatex()` method. It simply generates LaTeX for the entered equation. You can then render it on the page using MathJax, store it on your server, or handle it any other way you want.
+The success callback is passed two arguments - 
+
+1. `latex` - The generated LaTeX for the expression created by the user at the time the success callback is called
+2. `instance` - The MJXGUI instance that was generating the equation.
+
+You can then render the generated equation on the page using MathJax, store it on your server, or handle it any other way you want.
 
 ```javascript
 const mjxgui = new MJXGUI('.selector', options={ theme: 'dark' });
-mjxgui.successCallback = function() {
-    const latex = mjxgui.getLatex();
+mjxgui.successCallback = function(latex, instance) {
     // Process generated LaTeX as you need
 }
 ```

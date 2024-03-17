@@ -90,6 +90,9 @@ const symbolLatexMap = {
     perp: '\\perp',
     angle: '\\angle',
     angmsd: '\\measuredangle',
+    Leftarrow: '\\Leftarrow',
+    Rightarrow: '\\Rightarrow',
+    Leftrightarrow: '\\Leftrightarrow',
     rightarrow: '\\to',
     leftarrow: '\\gets',
     leftrightarrow: '\\leftrightarrow',
@@ -119,7 +122,7 @@ const functionComponentMap = {
 class MJXGUI {
     constructor(
         elementSelector,
-        successCallback = function () {},
+        successCallback = function (latex, instance) {},
         options = {},
     ) {
         this.selector = elementSelector;
@@ -283,7 +286,7 @@ class MJXGUI {
             '._mjxgui_save_equation',
         );
         saveEquationButton.addEventListener('click', () => {
-            this.successCallback();
+            this.successCallback(this.getLatex(), this);
             this.hideUI();
             this.clearEquation();
         });
@@ -415,8 +418,7 @@ class MJXGUI {
                 function () {},
                 options,
             );
-            widget.successCallback = function () {
-                const latex = widget.getLatex();
+            widget.successCallback = function (latex, instance) {
                 if (latex.length > 0) {
                     // Set input value and show equation preview
                     inp.value = latex;

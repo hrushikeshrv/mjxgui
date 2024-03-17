@@ -55,7 +55,7 @@ Once the user is done entering the equation/expression, the editor UI disappears
 Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a callback function, and an options object.
 
 ```javascript
-const mjxgui = new MJXGUI('selector', function() {}, options={});
+const mjxgui = new MJXGUI('selector', function(latex, instance) {}, options={});
 ```
 
 The selector is a CSS selector that should be able to select the elements you want users to click on to start entering an equation. MJXGUI attaches click event listeners to all selected elements and shows the editor UI whenever they are clicked.
@@ -72,9 +72,9 @@ You would build a minimal example as shown below. This example takes the LaTeX f
     
     const mjxgui = new MJXGUI('#mjxgui-button');
     
-    mjxgui.successCallback = function () {
+    mjxgui.successCallback = function (latex, instance) {
         MathJax.typesetClear([eqnOutput]);
-        eqnOutput.innerHTML += '$$' + mjxgui.getLatex() + '$$' + '<br>';
+        eqnOutput.innerHTML += '$$' + latex + '$$' + '<br>';
         MathJax.typesetPromise([eqnOutput]).then(() => {});
     }
 </script>

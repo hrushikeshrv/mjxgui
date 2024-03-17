@@ -32,7 +32,7 @@ For example, lets say you want to add the ∴ symbol to the editor widget. In La
 
 ```javascript
 const mjxgui = new MJXGUI('#mjxgui-button');
-mjxgui.successCallback = function () {
+mjxgui.successCallback = function (latex, instance) {
     // Handle user input here 
 }
 
@@ -70,7 +70,7 @@ class SinSquaredComponent extends OneBlockComponent {
 
 // Create an MJXGUI instance
 const mjxgui = new MJXGUI('#mjxgui-button');
-mjxgui.successCallback = function () {
+mjxgui.successCallback = function (latex, instance) {
     // Handle user input here 
 };
 
