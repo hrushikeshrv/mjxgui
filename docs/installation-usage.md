@@ -21,7 +21,7 @@ Then include the MJXGUI javascript file and stylesheet. You can get both the scr
 
 You can include MJXGUI's stylesheet before your site's stylesheet, to allow your CSS to override MJXGUI's CSS.
 
-An example config could be -
+An example config is shown below -
 
 ```html
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -33,7 +33,7 @@ An example config could be -
 ## Usage
 
 ### Using The Form Input
-You can use MJXGUI to convert an `<input>` element into an equation input using the editor widget.
+You can use MJXGUI to convert an `<input type="text">` element into an equation input using the editor widget.
 
 The behaviour is straightforward. MJXGUI will hide the actual `<input>` element and show users a button asking them to enter an equation. Once they are done entering the equation, it will generate the LaTeX for the created equation and set the value of the original input to the generated LaTeX.
 
@@ -43,14 +43,18 @@ Once your input element(s) have been loaded into the DOM, call the `MJXGUI.creat
 MJXGUI.createEquationInput('.my-equation-input');
 ```
 
-`MJXGUI.createEquationInput()` takes a CSS selector as an input. It converts all elements that match that selector into equation inputs. Make sure that the selector you pass only selects `<input>` elements.
+`MJXGUI.createEquationInput()` takes a CSS selector as an argument. It converts all elements that match that selector into equation inputs. Make sure that the selector you pass only selects `<input type="text">` elements.
 
 For customizing the appearance of the equation input element, see [form input HTML structure]({% link customizing/ui.md %}#form-input-html-structure).
 
-### Using The Editor Widget
-MJXGUI works by showing your users a button/element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
+See an example of using the MJXGUI form input [here]({% link examples.md %}).
 
-Once the user is done entering the equation/expression, the editor UI disappears and a callback function that you supply is run. This callback function is where you can access the generated LaTeX for the expression the user just entered and handle however you need. The most common use case is to store it as LaTeX and/or render it on your page using MathJax.
+### Using The Editor Widget
+To get started quickly, check one of the [examples]({% link examples.md %}).
+
+MJXGUI works by showing your users a button/clickable element prompting them to insert an equation. MJXGUI attaches event listeners to these elements and shows the editor UI when they are clicked.
+
+Once the user is done entering the equation, the editor UI disappears and a callback function that you supply is run. This callback function is where you can access the generated LaTeX for the expression the user just entered and handle however you need. The most common use case is to store it as LaTeX and/or render it on your page using MathJax.
 
 Initialize MJXGUI by creating a new MJXGUI instance, which takes 3 parameters - a CSS selector, a callback function, and an options object.
 
