@@ -851,6 +851,7 @@ class MJXGUI {
         this.elements = document.querySelectorAll(elementSelector);
         this.options = options;
         this.mathDelimiter = this.options.mathDelimiter || '$$';
+        this.isPersistent = options.isPersistent || false;
         this.successCallback = successCallback;
         this.eqnHistory = [];
         this.expression = new Expression();
@@ -1010,7 +1011,7 @@ class MJXGUI {
         saveEquationButton.addEventListener('click', () => {
             this.successCallback(this.getLatex(), this);
             this.hideUI();
-            this.clearEquation();
+            if (!this.isPersistent) this.clearEquation();
         });
 
         document.body.appendChild(editorDiv);
@@ -1031,7 +1032,11 @@ class MJXGUI {
         this.cursor.updateDisplay();
     }
 
-    // Getter method that just returns the cursor's LaTeX.
+    /**
+     * Getter method that returns the LaTeX for the currently built
+     * equation.
+     * @returns String - The generated LaTeX.
+     */
     getLatex() {
         return this.cursor.toLatex();
     }
@@ -1113,6 +1118,7 @@ class MJXGUI {
      * @param options An object of options for configuring the MJXGUI widget
      */
     static createEquationInput(selector, options = {}) {
+        if (options.isPersistent === undefined) options.isPersistent = true;
         const inputs = document.querySelectorAll(selector);
         const formInputHTML =
             '<div class="_mjxgui_equation_input"><button type="button" class="_mjxgui_insert_equation_button">Add Equation</button><div class="_mjxgui_equation_input_preview"></div></div>';
